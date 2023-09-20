@@ -262,7 +262,7 @@ public class RobotHardware_TT {
     }*/
     }
     public void mecanumDrive (double x, double y, double rx){
-        leftFrontDrive.setPower(y + x + rx);
+        leftFrontDrive.setPower(y*0.95 + x*0.95 + rx*0.95);
         rightFrontDrive.setPower(y + x - rx);
         leftBackDrive.setPower(y - x + rx);
         rightBackDrive.setPower(y - x - rx);
