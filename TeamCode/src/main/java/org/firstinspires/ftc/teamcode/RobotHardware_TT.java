@@ -81,6 +81,7 @@ public class RobotHardware_TT {
     // private DcMotor leftDrive;
     // private DcMotor rightDrive;
     // private DcMotor armMotor;
+    private  IMU scootImu;
     private DcMotor leftFrontDrive;
     private DcMotor rightFrontDrive;
     private DcMotor leftBackDrive;
@@ -126,12 +127,12 @@ public class RobotHardware_TT {
         // Define and Initialize Motors (note: need to use reference to actual OpMode).
         //leftDrive  = myOpMode.hardwareMap.get(DcMotor.class, "motorLeft");
         //rightDrive = myOpMode.hardwareMap.get(DcMotor.class, "motorRight");
+
         leftFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftFrontDrive");
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
-        //imu = myOpMode.hardwareMap.get(IMU.class, "imu");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
@@ -143,8 +144,9 @@ public class RobotHardware_TT {
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-/*
-       // leftDrive.setDirection(DcMotor.Direction.REVERSE);
+
+
+        //leftDrive.setDirection(DcMotor.Direction.REVERSE);
         //rightDrive.setDirection(DcMotor.Direction.FORWARD);
         //armMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         //armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -153,12 +155,6 @@ public class RobotHardware_TT {
         //leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
-        RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
-        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
-        //imu.initialize(new IMU.Parameters(orientationOnRobot));
-
         // If there are encoders connected, switch to RUN_USING_ENCODER mode for greater accuracy
         // leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         // rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -168,10 +164,23 @@ public class RobotHardware_TT {
         //claw2 = myOpMode.hardwareMap.get(Servo.class, "claw2");
 
 
+        scootImu = myOpMode.hardwareMap.get(IMU.class, "imu");
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
+        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
+        scootImu.initialize(new IMU.Parameters(orientationOnRobot));
+        scootImu.resetYaw();
+        //RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
+        //RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
+        //RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
+        //imu.initialize(new IMU.Parameters(orientationOnRobot));
+
+
+
         //touchSensor = myOpMode.hardwareMap.get(DigitalChannel.class,"touchSensor");
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
-        myOpMode.telemetry.update();*/
+        myOpMode.telemetry.update();
     }
 
     public void initAuto() {
@@ -261,10 +270,21 @@ public class RobotHardware_TT {
         //rightDrive.setPower(-rightWheel);
     }*/
     }
+
+
     public void mecanumDrive (double x, double y, double rx){
-        leftFrontDrive.setPower(y*0.95 + x*0.95 + rx*0.95);
+
+        //Take an IMU reading
+        YawPitchRollAngles orientation = scootImu.getRobotYawPitchRollAngles();
+        double yawDegrees = orientation.getYaw(AngleUnit.DEGREES);
+        // Adjust the rx value by that result * -1
+        double correctionYawDegrees = yawDegrees * -1;
+        // if correctionYawDegrees < 0 then turn left.
+        // if correctionYawDegrees > 0 then turn right.
+        // else, do nothing.
+        leftFrontDrive.setPower(y + x + rx);
         rightFrontDrive.setPower(y + x - rx);
-        leftBackDrive.setPower(y*0.9 - x*0.9 + rx*0.9);
+        leftBackDrive.setPower(y - x + rx);
         rightBackDrive.setPower(y - x - rx);
     }
 }

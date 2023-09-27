@@ -10,6 +10,7 @@ public class DriveWithSticksMecanum extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init();
+
         waitForStart();
         boolean ToggleSpeed = false;
         boolean PreviousToggleReading = gamepad1.left_bumper;

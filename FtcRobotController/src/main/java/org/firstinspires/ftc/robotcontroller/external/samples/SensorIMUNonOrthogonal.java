@@ -84,26 +84,26 @@ public class SensorIMUNonOrthogonal extends LinearOpMode
 
         // Retrieve and initialize the IMU.
         // This sample expects the IMU to be in a REV Hub and named "imu".
-        imu = hardwareMap.get(IMU.class, "imu");
+       imu = hardwareMap.get(IMU.class, "imu");
 
-        /* Define how the hub is mounted to the robot to get the correct Yaw, Pitch and Roll values.
-         *
-         * You can apply up to three axis rotations to orient your Hub according to how it's mounted on the robot.
-         *
-         * The starting point for these rotations is the "Default" Hub orientation, which is:
-         * 1) Hub laying flat on a horizontal surface, with the Printed Logo facing UP
-         * 2) Rotated such that the USB ports are facing forward on the robot.
-         *
-         * The order that the rotations are performed matters, so this sample shows doing them in the order X, Y, then Z.
-         * For specifying non-orthogonal hub mounting orientations, we must temporarily use axes
-         * defined relative to the Hub itself, instead of the usual Robot Coordinate System axes
-         * used for the results the IMU gives us. In the starting orientation, the Hub axes are
-         * aligned with the Robot Coordinate System:
-         *
-         * X Axis:  Starting at Center of Hub, pointing out towards I2C connectors
-         * Y Axis:  Starting at Center of Hub, pointing out towards USB connectors
-         * Z Axis:  Starting at Center of Hub, pointing Up through LOGO
-         *
+       /* Define how the hub is mounted to the robot to get the correct Yaw, Pitch and Roll values.
+        *
+        * You can apply up to three axis rotations to orient your Hub according to how it's mounted on the robot.
+        *
+        * The starting point for these rotations is the "Default" Hub orientation, which is:
+        * 1) Hub laying flat on a horizontal surface, with the Printed Logo facing UP
+        * 2) Rotated such that the USB ports are facing forward on the robot.
+        *
+        * The order that the rotations are performed matters, so this sample shows doing them in the order X, Y, then Z.
+        * For specifying non-orthogonal hub mounting orientations, we must temporarily use axes
+        * defined relative to the Hub itself, instead of the usual Robot Coordinate System axes
+        * used for the results the IMU gives us. In the starting orientation, the Hub axes are
+        * aligned with the Robot Coordinate System:
+        *
+        * X Axis:  Starting at Center of Hub, pointing out towards I2C connectors
+        * Y Axis:  Starting at Center of Hub, pointing out towards USB connectors
+        * Z Axis:  Starting at Center of Hub, pointing Up through LOGO
+        *
          * Positive rotation is defined by right-hand rule with thumb pointing in +ve direction on axis.
          *
          * Some examples.
