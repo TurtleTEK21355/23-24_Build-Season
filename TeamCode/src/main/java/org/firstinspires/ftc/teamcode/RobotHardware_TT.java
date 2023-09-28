@@ -271,22 +271,32 @@ public class RobotHardware_TT {
     }*/
     }
 
-
     public void mecanumDrive (double x, double y, double rx){
-
-        //Take an IMU reading
+        double newRx;
+        newRx = rx+turnCorrection();
+        leftFrontDrive.setPower(y + x + newRx);
+        rightFrontDrive.setPower(y + x - newRx);
+        leftBackDrive.setPower(y - x + newRx);
+        rightBackDrive.setPower(y - x - newRx);
+    }
+    public double turnCorrection (){
+        double correctionRx;
+        correctionRx = 0;
+        //Taking an IMU reading
         YawPitchRollAngles orientation = scootImu.getRobotYawPitchRollAngles();
         double yawDegrees = orientation.getYaw(AngleUnit.DEGREES);
-        // Adjust the rx value by that result * -1
+        // Adjust the correctionRx value by that result * -1
         double correctionYawDegrees = yawDegrees * -1;
         // if correctionYawDegrees < 0 then turn left.
+
+            correctionRx = correctionYawDegrees/180;
+            return correctionRx;
+
         // if correctionYawDegrees > 0 then turn right.
         // else, do nothing.
-        leftFrontDrive.setPower(y + x + rx);
-        rightFrontDrive.setPower(y + x - rx);
-        leftBackDrive.setPower(y - x + rx);
-        rightBackDrive.setPower(y - x - rx);
     }
+
+
 }
 /*
 
