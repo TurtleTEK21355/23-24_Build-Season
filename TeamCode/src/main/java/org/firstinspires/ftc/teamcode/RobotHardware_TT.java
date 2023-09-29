@@ -274,10 +274,14 @@ public class RobotHardware_TT {
     public void mecanumDrive (double x, double y, double rx){
         double newRx;
         newRx = rx+turnCorrection();
-        leftFrontDrive.setPower(y + x + newRx);
-        rightFrontDrive.setPower(y + x - newRx);
-        leftBackDrive.setPower(y - x + newRx);
-        rightBackDrive.setPower(y - x - newRx);
+//        leftFrontDrive.setPower(y + x + newRx);
+//        rightFrontDrive.setPower(y + x - newRx);
+//        leftBackDrive.setPower(y - x + newRx);
+//        rightBackDrive.setPower(y - x - newRx);
+        leftFrontDrive.setPower(newRx + x + y);
+        rightFrontDrive.setPower(newRx + x - y);
+        leftBackDrive.setPower(newRx - x + y);
+        rightBackDrive.setPower(newRx - x - y);
     }
     public double turnCorrection (){
         double correctionRx;
