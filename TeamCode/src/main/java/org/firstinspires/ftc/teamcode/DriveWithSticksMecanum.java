@@ -35,6 +35,8 @@ public class DriveWithSticksMecanum extends LinearOpMode {
                 Turn = Math.pow(-gamepad1.right_stick_x, 2);
             }
 
+            robot.imuTurn(gamepad1.right_stick_x * 180);
+
             if (gamepad1.left_stick_y < 0) {
                 Drive = -Math.pow(gamepad1.left_stick_y, 2);
             } else {

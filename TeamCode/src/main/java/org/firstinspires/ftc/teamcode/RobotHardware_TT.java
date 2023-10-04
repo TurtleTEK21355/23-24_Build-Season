@@ -33,24 +33,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.ReadWriteFile;
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
@@ -273,7 +259,8 @@ public class RobotHardware_TT {
 
     public void mecanumDrive (double x, double y, double rx){
         double newRx;
-        newRx = rx+turnCorrection();
+        newRx = rx+ imuTurn(0);
+
 //        leftFrontDrive.setPower(y + x + newRx);
 //        rightFrontDrive.setPower(y + x - newRx);
 //        leftBackDrive.setPower(y - x + newRx);
@@ -283,18 +270,28 @@ public class RobotHardware_TT {
         leftBackDrive.setPower(newRx - x + y);
         rightBackDrive.setPower(newRx - x - y);
     }
-    public double turnCorrection (){
+    public double imuTurn(double turnToAngle){
         double correctionRx;
-        correctionRx = 0;
+        double toleranceValue = 3;
         //Taking an IMU reading
         YawPitchRollAngles orientation = scootImu.getRobotYawPitchRollAngles();
         double yawDegrees = orientation.getYaw(AngleUnit.DEGREES);
         // Adjust the correctionRx value by that result * -1
         double correctionYawDegrees = yawDegrees * -1;
         // if correctionYawDegrees < 0 then turn left.
+        if (correctionYawDegrees > turnToAngle + 1){
+            correctionRx = 0.1;
+        }
+        else if (correctionYawDegrees < turnToAngle - toleranceValue){
+            correctionRx = -0.1;
+        }
+        else{
+            correctionRx = 0;
+        }
 
-            correctionRx = correctionYawDegrees/180;
-            return correctionRx;
+        return correctionRx;
+            //correctionRx = correctionYawDegrees/180;
+           // return correctionRx;
 
         // if correctionYawDegrees > 0 then turn right.
         // else, do nothing.
