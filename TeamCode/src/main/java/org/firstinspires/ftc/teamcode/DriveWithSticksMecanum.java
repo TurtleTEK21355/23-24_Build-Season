@@ -14,10 +14,11 @@ public class DriveWithSticksMecanum extends LinearOpMode {
         waitForStart();
         boolean ToggleSpeed = false;
         boolean PreviousToggleReading = gamepad1.left_bumper;
+        double Turn = 0;
+
         while (opModeIsActive()) {
 
             double Strafe = 0;
-            double Turn = 0;
             double Drive = 0;
 
 
@@ -29,13 +30,20 @@ public class DriveWithSticksMecanum extends LinearOpMode {
                 Strafe = Math.pow(-gamepad1.left_stick_x, 2);
             }
 
-            if (-gamepad1.right_stick_x < 0) {
-                Turn = -Math.pow(-gamepad1.right_stick_x, 2);
-            } else {
-                Turn = Math.pow(-gamepad1.right_stick_x, 2);
-            }
+//            if (-gamepad1.right_stick_x < 0) {
+//                Turn = -Math.pow(-gamepad1.right_stick_x, 2);
+//            } else {
+//                Turn = Math.pow(-gamepad1.right_stick_x, 2);
+//            }
 
-            robot.imuTurn(gamepad1.right_stick_x * 180);
+            if(gamepad1.right_stick_x < 0){
+                Turn = Turn + 1;
+            }
+            else if(gamepad1.right_stick_x > 0){
+                Turn = Turn - 1;
+            }
+            telemetry.addData("Turn Value that is equal at the present moment:", Turn);
+            telemetry.addData("turning stick value", gamepad1.right_stick_x);
 
             if (gamepad1.left_stick_y < 0) {
                 Drive = -Math.pow(gamepad1.left_stick_y, 2);
@@ -51,14 +59,14 @@ public class DriveWithSticksMecanum extends LinearOpMode {
             PreviousToggleReading = gamepad1.left_bumper;
 
 
-
-
             if (ToggleSpeed == true) {
-                robot.mecanumDrive(Strafe * 0.6, Drive * 0.6, Turn * 0.6);
+                robot.mecanumDrive(Strafe * 0.6, Drive * 0.6, Turn);
             }
             else {
-                robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn * 0.3);
+                robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
+
             }
+            telemetry.update();
         }
     }
 }
