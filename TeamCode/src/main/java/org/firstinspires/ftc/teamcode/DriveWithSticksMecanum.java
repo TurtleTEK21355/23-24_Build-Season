@@ -42,7 +42,15 @@ public class DriveWithSticksMecanum extends LinearOpMode {
             else if(gamepad1.right_stick_x > 0){
                 Turn = Turn - 1;
             }
-            telemetry.addData("Turn Value that is equal at the present moment:", Turn);
+            if(Turn > 180){
+                Turn = Turn - 360;
+            }
+
+            if(Turn < -180){
+                Turn = Turn + 360;
+            }
+
+            telemetry.addData("Turn Value that is equal at the present moment to:", Turn);
             telemetry.addData("turning stick value", gamepad1.right_stick_x);
 
             if (gamepad1.left_stick_y < 0) {
