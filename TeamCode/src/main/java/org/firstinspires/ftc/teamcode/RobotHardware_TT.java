@@ -34,6 +34,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
@@ -72,22 +73,16 @@ public class RobotHardware_TT {
     private DcMotor rightFrontDrive;
     private DcMotor leftBackDrive;
     private DcMotor rightBackDrive;
-    //  private Servo claw1;
+    private Servo claw1;
+    private Servo wrist;
+    private DcMotor Arm;
     //private Servo claw2;
     // private DigitalChannel touchSensor;
     // private double pastEncoder = Double.NEGATIVE_INFINITY;
     //private static final String VUFORIA_KEY = LicenseKey.key;
 //    private VuforiaLocalizer vuforia;
 
-
-  /*  public TFObjectDetector tfod;
-    private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
-    public static final String[] LABELS = {
-            "1 Bolt",
-            "2 Bulb",
-            "3 Panel"
-    };
-    */
+    
 
 
     /*  IMU imu;
@@ -118,6 +113,7 @@ public class RobotHardware_TT {
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
+        Arm = myOpMode.hardwareMap.get(DcMotor.class, "Arm");
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -130,6 +126,7 @@ public class RobotHardware_TT {
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //leftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -147,7 +144,8 @@ public class RobotHardware_TT {
 
         // Define and initialize ALL installed servos.
         //claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
-        //claw2 = myOpMode.hardwareMap.get(Servo.class, "claw2");
+        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+
 
 
         scootImu = myOpMode.hardwareMap.get(IMU.class, "imu");
@@ -296,6 +294,21 @@ public class RobotHardware_TT {
 
         // if correctionYawDegrees > 0 then turn right.
         // else, do nothing.
+    }
+
+    public void setClaw1(double claw) {
+        if (claw > 0.20){
+            claw1.setPosition(22);
+        }
+        else {
+            claw1.setPosition(claw);
+        }
+    }
+    public void setWrist(double wrist1) {
+        wrist.setPosition(wrist1);
+    }
+    public void setArm(double arm) {
+        Arm.setPower(arm);
     }
 
 
