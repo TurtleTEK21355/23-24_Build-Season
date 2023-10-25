@@ -46,10 +46,12 @@ public class AprilTagTest extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
+    private int DESIRED_TAG_ID = -1;    // Choose the tag you want to approach or set to -1 for ANY tag.
+    private AprilTagDetection desiredTag = null;
 
     @Override
     public void runOpMode() {
-
+        boolean targetFound = false;
         initAprilTag();
 
         // Wait for the DS start button to be touched.
@@ -60,28 +62,48 @@ public class AprilTagTest extends LinearOpMode {
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
+                targetFound = false;
+                desiredTag = null;
 
                 telemetryAprilTag();
+
 
                 // Push telemetry to the Driver Station.
                 telemetry.update();
 
-                // Save CPU resources; can resume streaming when needed.
-                if (gamepad1.dpad_down) {
-                    visionPortal.stopStreaming();
-                } else if (gamepad1.dpad_up) {
-                    visionPortal.resumeStreaming();
+                List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+                for (AprilTagDetection detection : currentDetections) {
+                    // Look to see if we have size info on this tag.
+                    if (detection.metadata != null) {
+                        //  Check to see if we want to track towards this tag.
+                        if ((DESIRED_TAG_ID < 0) || (detection.id == DESIRED_TAG_ID)) {
+                            // Yes, we want to use this tag.
+                            targetFound = true;
+                            desiredTag = detection;
+                            break;  // don't look any further.
+                        } else {
+                            // This tag is in the library, but we do not want to track it right now.
+                            telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
+                        }
+                    }
+
+                    // Save CPU resources; can resume streaming when needed.
+                    if (gamepad1.dpad_down) {
+                        visionPortal.stopStreaming();
+                    } else if (gamepad1.dpad_up) {
+                        visionPortal.resumeStreaming();
+                    }
+
+                    // Share the CPU.
+                    sleep(20);
                 }
-
-                // Share the CPU.
-                sleep(20);
             }
-        }
 
-        // Save more CPU resources when camera is no longer needed.
-        visionPortal.close();
+            // Save more CPU resources when camera is no longer needed.
+            visionPortal.close();
 
-    }   // end method runOpMode()
+        }   // end method runOpMode()
+    }
 
     /**
      * Initialize the AprilTag processor.
