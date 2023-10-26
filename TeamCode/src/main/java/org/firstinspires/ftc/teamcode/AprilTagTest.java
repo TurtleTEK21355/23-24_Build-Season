@@ -67,9 +67,6 @@ public class AprilTagTest extends LinearOpMode {
                 targetFound = false;
                 desiredTag = null;
 
-                telemetryAprilTag();
-
-
                 // Push telemetry to the Driver Station.
 
                 List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -90,14 +87,16 @@ public class AprilTagTest extends LinearOpMode {
                 }
 
                 if (targetFound) {
-                    telemetry.addLine("Found!");
+                    telemetry.addLine("\nFound!");
                     robot.mecanumDrive(0,1,0);
                     sleep(50);
                     robot.mecanumDrive(0,0,0);
                 } else {
-                    telemetry.addLine("Not found.");
+                    telemetry.addLine("\nNot found.");
                 }
 
+                telemetryAprilTag();
+                
                 // Save CPU resources; can resume streaming when needed.
                 // if (gamepad1.dpad_down) {
                 //    visionPortal.stopStreaming();
