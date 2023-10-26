@@ -46,7 +46,7 @@ public class AprilTagTest extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-    private int DESIRED_TAG_ID = -1;    // Choose the tag you want to approach or set to -1 for ANY tag.
+    private int DESIRED_TAG_ID = 004;    // Choose the tag you want to approach or set to -1 for ANY tag.
     private AprilTagDetection desiredTag = null;
 
     @Override
@@ -65,11 +65,10 @@ public class AprilTagTest extends LinearOpMode {
                 targetFound = false;
                 desiredTag = null;
 
-                telemetryAprilTag();
+
 
 
                 // Push telemetry to the Driver Station.
-                telemetry.update();
 
                 List<AprilTagDetection> currentDetections = aprilTag.getDetections();
                 for (AprilTagDetection detection : currentDetections) {
@@ -87,13 +86,20 @@ public class AprilTagTest extends LinearOpMode {
                         }
                     }
 
-                    // Save CPU resources; can resume streaming when needed.
-                    if (gamepad1.dpad_down) {
-                        visionPortal.stopStreaming();
-                    } else if (gamepad1.dpad_up) {
-                        visionPortal.resumeStreaming();
+                    if (targetFound) {
+                        telemetry.addLine("Found!");
+                    } else {
+                        telemetry.addLine("Not found.");
                     }
 
+                    // Save CPU resources; can resume streaming when needed.
+                   // if (gamepad1.dpad_down) {
+                    //    visionPortal.stopStreaming();
+                  ///  } else if (gamepad1.dpad_up) {
+                     //   visionPortal.resumeStreaming();
+              //      }
+
+                    telemetry.update();
                     // Share the CPU.
                     sleep(20);
                 }
