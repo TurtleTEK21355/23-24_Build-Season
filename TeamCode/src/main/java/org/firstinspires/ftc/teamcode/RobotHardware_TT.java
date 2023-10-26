@@ -390,110 +390,15 @@ public class RobotHardware_TT {
     }
 *//*
 
-    */
-/* public void setHandPositions(double offset) {
-         offset = Range.clip(offset, -0.5, 0.5);
-         claw1.setPosition(MID_SERVO + offset);
-         claw2.setPosition(MID_SERVO - offset);
-     }*//*
 
-    public void setHandPosition(double leftWheel, double rightWheel) {
-        // Output the values to the motor drives.
-        if (leftWheel > 0.25 ) {
-  //          claw1.setPosition(0.35);
-        }
-        else {
-    //        claw1.setPosition(leftWheel);
-        }
 
-        if (rightWheel < 0.75) {
-      //      claw2.setPosition(0.65);
-        }
-        else {
-        //    claw2.setPosition(rightWheel);
-        }
-
-    }
     public boolean touchSensorNotPressed(){
        // return touchSensor.getState();
     //}
     //public boolean touchSensorIsPressed(){
        // return !touchSensor.getState();
     //}
-  //  public void initCamera() {
-       // initVuforia();
-       // initTfod();
-    //}
- //   private void initVuforia() {
-        */
-/*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         *//*
 
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-       // parameters.vuforiaLicenseKey = VUFORIA_KEY;
-       // parameters.cameraName = myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1");
-
-        //  Instantiate the Vuforia engine
-       // vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-
-      //  ExposureControl exposureControl = vuforia.getCamera().getControl(ExposureControl.class);
-       // exposureControl.setMode(ExposureControl.Mode.Manual);
-        // max exposure:1000
-        // min exposure:0
-       // exposureControl.setExposure(15, TimeUnit.MILLISECONDS);
-      //  myOpMode.telemetry.update();
-
-
-    //}
-
-    */
-/**
-     * Initialize the TensorFlow Object Detection engine.
-     *//*
-
-    //private void initTfod() {
-        int tfodMonitorViewId = myOpMode.hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", myOpMode.hardwareMap.appContext.getPackageName());
-       */
-/* TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.75f;
-        tfodParameters.isModelTensorFlow2 = true;
-        tfodParameters.inputSize = 300;
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-*//*
-
-        // Use loadModelFromAsset() if the TF Model is built in as an asset by Android Studio
-        // Use loadModelFromFile() if you have downloaded a custom team model to the Robot Controller's FLASH.
-  //      tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
-        // tfod.loadModelFromFile(TFOD_MODEL_FILE, LABELS);
-    //    if (tfod != null) {
-      //      tfod.activate();
-
-            // The TensorFlow software will scale the input images from the camera to a lower resolution.
-            // This can result in lower detection accuracy at longer distances (> 55cm or 22").
-            // If your target is at distance greater than 50 cm (20") you can increase the magnification value
-            // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
-            // should be set to the value of the images used to create the TensorFlow Object Detection model
-            // (typically 16/9).
-        //    tfod.setZoom(1.0, 16.0/9.0);
-        //}
-    //}
-  //  public List<Recognition> recognition() {
-        List<Recognition> updatedRecognitions = new ArrayList() {};
-       // if (tfod != null) {
-            // getUpdatedRecognitions() will return null if no new information is available since
-            // the last time that call was made.
-         //   updatedRecognitions = tfod.getUpdatedRecognitions();
-
-            //if (updatedRecognitions != null) {
-              //  myOpMode.telemetry.addData("# Objects Detected", updatedRecognitions.size());
-            //}
-    //    }
-        //return updatedRecognitions;
- //   }
     //public double getAngle() {
         //YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
        // double angle = orientation.getYaw(AngleUnit.DEGREES);
@@ -501,18 +406,18 @@ public class RobotHardware_TT {
  //   }
     //public void TurnLeft() {
         //imu.resetYaw();
-        tankDrive(-0.75, 0.75);
+        //tankDrive(-0.75, 0.75);
        // while (getAngle() < 85 && myOpMode.opModeIsActive()) {
-            tankDrive(-0.75, 0.75);
+           // tankDrive(-0.75, 0.75);
           //  armHeight(2);
         //    myOpMode.telemetry.addData("", getAngle());
-            myOpMode.telemetry.update();
+           // myOpMode.telemetry.update();
         //}
       //  tankDrive(0,0);
    // }
     //public void TurnRight() {
        // imu.resetYaw();
-        tankDrive(0.75, -0.75);
+     //   tankDrive(0.75, -0.75);
       //  while (getAngle() > -85 && myOpMode.opModeIsActive()) {
             tankDrive(0.75, -0.75);
          //   armHeight(2);
