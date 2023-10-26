@@ -34,6 +34,7 @@ import java.util.List;
 
 @TeleOp(name = "AprilTags", group = "CamTests")
 public class AprilTagTest extends LinearOpMode {
+    RobotHardware_TT robot = new RobotHardware_TT(this);
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -46,11 +47,12 @@ public class AprilTagTest extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-    private int DESIRED_TAG_ID = 004;    // Choose the tag you want to approach or set to -1 for ANY tag.
+    private int DESIRED_TAG_ID = 4;    // Choose the tag you want to approach or set to -1 for ANY tag.
     private AprilTagDetection desiredTag = null;
 
     @Override
     public void runOpMode() {
+        robot.init();
         boolean targetFound = false;
         initAprilTag();
 
@@ -65,7 +67,7 @@ public class AprilTagTest extends LinearOpMode {
                 targetFound = false;
                 desiredTag = null;
 
-
+                telemetryAprilTag();
 
 
                 // Push telemetry to the Driver Station.
@@ -85,31 +87,38 @@ public class AprilTagTest extends LinearOpMode {
                             telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
                         }
                     }
-
-                    if (targetFound) {
-                        telemetry.addLine("Found!");
-                    } else {
-                        telemetry.addLine("Not found.");
-                    }
-
-                    // Save CPU resources; can resume streaming when needed.
-                   // if (gamepad1.dpad_down) {
-                    //    visionPortal.stopStreaming();
-                  ///  } else if (gamepad1.dpad_up) {
-                     //   visionPortal.resumeStreaming();
-              //      }
-
-                    telemetry.update();
-                    // Share the CPU.
-                    sleep(20);
                 }
+
+                if (targetFound) {
+                    telemetry.addLine("Found!");
+                    robot.mecanumDrive(0,1,0);
+                    sleep(50);
+                    robot.mecanumDrive(0,0,0);
+                } else {
+                    telemetry.addLine("Not found.");
+                }
+
+                // Save CPU resources; can resume streaming when needed.
+                // if (gamepad1.dpad_down) {
+                //    visionPortal.stopStreaming();
+                ///  } else if (gamepad1.dpad_up) {
+                //   visionPortal.resumeStreaming();
+                //      }
+
+                telemetry.update();
+                // Share the CPU.
+                sleep(20);
             }
+        }
 
-            // Save more CPU resources when camera is no longer needed.
-            visionPortal.close();
+        // Save more CPU resources when camera is no longer needed.
+        visionPortal.close();
 
-        }   // end method runOpMode()
-    }
+    }   // end method runOpMode()
+
+
+
+
 
     /**
      * Initialize the AprilTag processor.
