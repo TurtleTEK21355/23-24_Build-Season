@@ -67,7 +67,7 @@ public class RobotHardware_TT {
     // private DcMotor leftDrive;
     // private DcMotor rightDrive;
     // private DcMotor armMotor;
-    private  IMU scootImu;
+    private IMU scootImu;
     private DcMotor leftFrontDrive;
     private DcMotor rightFrontDrive;
     private DcMotor leftBackDrive;
@@ -152,7 +152,7 @@ public class RobotHardware_TT {
 
         scootImu = myOpMode.hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
-        RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         scootImu.initialize(new IMU.Parameters(orientationOnRobot));
         scootImu.resetYaw();
@@ -160,7 +160,6 @@ public class RobotHardware_TT {
         //RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
         //RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         //imu.initialize(new IMU.Parameters(orientationOnRobot));
-
 
 
         //touchSensor = myOpMode.hardwareMap.get(DigitalChannel.class,"touchSensor");
@@ -257,7 +256,7 @@ public class RobotHardware_TT {
     }*/
     }
 
-    public void mecanumDrive (double x, double y, double heading){
+    public void mecanumDrive(double x, double y, double heading) {
         double newRx;
         newRx = turnValue(heading);
 
@@ -271,7 +270,8 @@ public class RobotHardware_TT {
         leftBackDrive.setPower(newRx - x + y);
         rightBackDrive.setPower(newRx - x - y);
     }
-    public double imuTurn(double turnToAngle){
+
+    public double imuTurn(double turnToAngle) {
         double correctionRx;
         double toleranceValue = 7.5;
         //Taking an IMU reading
@@ -280,56 +280,62 @@ public class RobotHardware_TT {
         // Adjust the correctionRx value by that result * -1
         double correctionYawDegrees = yawDegrees * -1;
         // if correctionYawDegrees < 0 then turn left.
-        if (correctionYawDegrees > turnToAngle + 1){
+        if (correctionYawDegrees > turnToAngle + 1) {
             correctionRx = 1;
-        }
-        else if (correctionYawDegrees < turnToAngle - toleranceValue){
+        } else if (correctionYawDegrees < turnToAngle - toleranceValue) {
             correctionRx = -1;
-        }
-        else{
+        } else {
             correctionRx = 0;
         }
 
         return correctionRx;
-            //correctionRx = correctionYawDegrees/180;
-           // return correctionRx;
+        //correctionRx = correctionYawDegrees/180;
+        // return correctionRx;
 
         // if correctionYawDegrees > 0 then turn right.
         // else, do nothing.
     }
 
-        double turnValue(double desiredAngle){
-            YawPitchRollAngles orientation = scootImu.getRobotYawPitchRollAngles();
-            double currentAngle = orientation.getYaw(AngleUnit.DEGREES);
-            //The angle based on where you where facing when you started.
-            double correctionAngle = desiredAngle -  currentAngle;
-            double tValue = 0;
-            //When I want to turn right, tValue should be positive.
-            // When I want to turn left, tValue should be negative.
-            if (correctionAngle > 180){
-                //turn left
-                tValue = -0.6;
-            }
-
-            else if (correctionAngle > 4){
-                //turn right
-                tValue = 0.6;
-            }
-
-            if (correctionAngle < -180) {
-                //turn right
-                tValue = 0.6;
-            }
-
-            else if (correctionAngle < -4) {
-                //turn left
-                tValue = -0.6;
-            }
-            return tValue;
+    double turnValue(double desiredAngle) {
+        YawPitchRollAngles orientation = scootImu.getRobotYawPitchRollAngles();
+        double currentAngle = orientation.getYaw(AngleUnit.DEGREES);
+        //The angle based on where you where facing when you started.
+        double correctionAngle = desiredAngle - currentAngle;
+        double tValue = 0;
+        //When I want to turn right, tValue should be positive.
+        // When I want to turn left, tValue should be negative.
+        if (correctionAngle > 180) {
+            //turn left
+            tValue = -0.6;
+        } else if (correctionAngle > 4) {
+            //turn right
+            tValue = 0.6;
         }
+
+        if (correctionAngle < -180) {
+            //turn right
+            tValue = 0.6;
+        } else if (correctionAngle < -4) {
+            //turn left
+            tValue = -0.6;
+        }
+        return tValue;
+    }
+
+
+    double pValue = -1;
+    double elevatorPValue = -1;
+    double porportionalController(double input, double goalReading) {
+        double arbitraryValue = (goalReading - input) * pValue;
+        return arbitraryValue;
+    }
+
+
+    double porportionalElevatorControl(double goalHeight, double encoderPosition) {
+        double motorPosition = (goalHeight - encoderPosition) * elevatorPValue;
+        return motorPosition;
+    }
 }
-
-
 /*
 
 
