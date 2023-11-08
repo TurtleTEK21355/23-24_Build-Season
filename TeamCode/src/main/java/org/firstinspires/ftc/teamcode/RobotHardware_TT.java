@@ -75,7 +75,8 @@ public class RobotHardware_TT {
     private DcMotor rightBackDrive;
     private Servo claw1;
     private Servo wrist;
-    private DcMotor Arm;
+    private DcMotor left;
+    private DcMotor right;
     //private Servo claw2;
     // private DigitalChannel touchSensor;
     // private double pastEncoder = Double.NEGATIVE_INFINITY;
@@ -113,7 +114,9 @@ public class RobotHardware_TT {
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
-        Arm = myOpMode.hardwareMap.get(DcMotor.class, "Arm");
+        right = myOpMode.hardwareMap.get(DcMotor.class, "right");
+        left = myOpMode.hardwareMap.get(DcMotor.class, "left");
+        //Arm = myOpMode.hardwareMap.get(DcMotor.class, "Arm");
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -126,7 +129,7 @@ public class RobotHardware_TT {
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //leftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -144,7 +147,7 @@ public class RobotHardware_TT {
 
         // Define and initialize ALL installed servos.
         //claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
-        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+       // wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
 
 
 
@@ -305,10 +308,15 @@ public class RobotHardware_TT {
         }
     }
     public void setWrist(double wrist1) {
-        wrist.setPosition(wrist1);
+       // wrist.setPosition(wrist1);
     }
     public void setArm(double arm) {
-        Arm.setPower(arm);
+        //Arm.setPower(arm);
+    }
+
+    public void intake1(double offset) {
+        left.setPower(offset);
+        right.setPower(0-offset);
     }
 
 

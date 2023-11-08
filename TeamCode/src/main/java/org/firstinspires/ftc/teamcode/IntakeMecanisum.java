@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-//@TeleOp(name = "Intakes", group = "Test")
+@TeleOp(name = "Intakes", group = "Test")
 public class IntakeMecanisum extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
     @Override
     public void runOpMode(){
-        double claw1Position = 0;
+        //double claw1Position = 0;
         robot.init();
         waitForStart();
         while (opModeIsActive()) {
@@ -39,6 +39,8 @@ public class IntakeMecanisum extends LinearOpMode {
 
             telemetry.addData("Claw1", claw1Position);
             telemetry.update();*/
+
+            robot.intake1(gamepad2.right_stick_y);
 
         }
     }
