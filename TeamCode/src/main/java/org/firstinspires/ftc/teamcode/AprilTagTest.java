@@ -9,6 +9,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
+import java.util.Random;
 
 /*
  * This OpMode illustrates the basics of AprilTag recognition and pose estimation, using
@@ -47,7 +48,7 @@ public class AprilTagTest extends LinearOpMode {
      * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
-    private int DESIRED_TAG_ID = 4;    // Choose the tag you want to approach or set to -1 for ANY tag.
+    private int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
     private AprilTagDetection desiredTag = null;
 
     @Override
@@ -73,12 +74,49 @@ public class AprilTagTest extends LinearOpMode {
                 for (AprilTagDetection detection : currentDetections) {
                     // Look to see if we have size info on this tag.
                     if (detection.metadata != null) {
+                        robot.mecanumDrive(0,0,0);
                         //  Check to see if we want to track towards this tag.
                         if ((DESIRED_TAG_ID < 0) || (detection.id == DESIRED_TAG_ID)) {
                             // Yes, we want to use this tag.
                             targetFound = true;
                             desiredTag = detection;
                             break;  // don't look any further.
+                        } /*else if ((DESIRED_TAG_ID < 0 || detection.id == 1)) {
+                            if (DESIRED_TAG_ID > 1) {
+                                robot.mecanumDrive(-0.5,0,0);
+                            } else if (DESIRED_TAG_ID < 1) {
+                                robot.mecanumDrive(0,0,0);
+                            }
+                        } else if ((DESIRED_TAG_ID < 0 || detection.id == 2)) {
+                            if (DESIRED_TAG_ID > 2) {
+                                    robot.mecanumDrive(-0.5,0,0);
+                            } else if (DESIRED_TAG_ID < 2) {
+                                    robot.mecanumDrive(0.5,0,0);
+                            }
+                        } else if ((DESIRED_TAG_ID < 0 || detection.id == 3)) {
+                            if (DESIRED_TAG_ID > 3) {
+                                    robot.mecanumDrive(-0.5,0,0);
+                            } else if (DESIRED_TAG_ID < 3) {
+                                    robot.mecanumDrive(0.5,0,0);
+                            }
+                        } */else if ((DESIRED_TAG_ID < 0 || detection.id == 4)) {
+                            if (DESIRED_TAG_ID > 4) {
+                                    robot.mecanumDrive(-0.5,0,0);
+                            } else if (DESIRED_TAG_ID < 4) {
+                                    robot.mecanumDrive(0.5,0,0);
+                            }
+                        } else if ((DESIRED_TAG_ID < 0 || detection.id == 5)) {
+                            if (DESIRED_TAG_ID > 5) {
+                                    robot.mecanumDrive(-0.5,0,0);
+                            } else if (DESIRED_TAG_ID < 5) {
+                                    robot.mecanumDrive(0.5,0,0);
+                            }
+                        } else if ((DESIRED_TAG_ID < 0 || detection.id == 6)) {
+                            if (DESIRED_TAG_ID > 6) {
+                                robot.mecanumDrive(0,0,0);
+                            } else if (DESIRED_TAG_ID < 6) {
+                                    robot.mecanumDrive(0.5,0,0);
+                            }
                         } else {
                             // This tag is in the library, but we do not want to track it right now.
                             telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
@@ -88,8 +126,8 @@ public class AprilTagTest extends LinearOpMode {
 
                 if (targetFound) {
                     telemetry.addLine("\nFound!");
-                    robot.mecanumDrive(0,1,0);
-                    sleep(50);
+                    telemetry.addData("\n", DESIRED_TAG_ID);
+
                     robot.mecanumDrive(0,0,0);
                 } else {
                     telemetry.addLine("\nNot found.");

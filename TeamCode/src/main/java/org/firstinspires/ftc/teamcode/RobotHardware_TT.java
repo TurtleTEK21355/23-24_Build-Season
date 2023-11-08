@@ -69,7 +69,7 @@ public class RobotHardware_TT {
     // private DcMotor leftDrive;
     // private DcMotor rightDrive;
     // private DcMotor armMotor;
-    I2cDeviceSynch pixyCam;
+    //I2cDeviceSynch pixyCam;
     private  IMU scootImu;
     private DcMotor leftFrontDrive;
     private DcMotor rightFrontDrive;
@@ -121,8 +121,8 @@ public class RobotHardware_TT {
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
-        pixyCam = myOpMode.hardwareMap.i2cDeviceSynch.get("Pixie");
-        pixyCam.read(0x51, 5);
+        //pixyCam = myOpMode.hardwareMap.i2cDeviceSynch.get("Pixie");
+        //pixyCam.read(0x51, 5);
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
