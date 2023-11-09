@@ -38,6 +38,9 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
  * Please read the explanations in that Sample about how to use this class definition.
@@ -269,6 +272,14 @@ public class RobotHardware_TT {
         rightFrontDrive.setPower(newRx + x - y);
         leftBackDrive.setPower(newRx - x + y);
         rightBackDrive.setPower(newRx - x - y);
+    }
+
+    public List<Integer> getEncoders(){
+        List<Integer> encoderValues = new ArrayList<Integer>();
+        encoderValues.add(leftFrontDrive.getCurrentPosition());
+        encoderValues.add(rightFrontDrive.getCurrentPosition());
+        encoderValues.add(leftBackDrive.getCurrentPosition());
+        encoderValues.add(rightBackDrive.getCurrentPosition());
     }
 
     public double imuTurn(double turnToAngle) {

@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name="MecanumTest", group="Turtle Group")
 public class DriveWithSticksMecanum extends LinearOpMode {
     RobotHardware_TT   robot       = new RobotHardware_TT(this);
-    PorportionalController    p    = new PorportionalController();
-    PorportionalController   elevatorP = new PorportionalController();
+    PorportionalController    p    = new PorportionalController(1);
+    PorportionalController   elevatorP = new PorportionalController(1);
     @Override
     public void runOpMode() {
         robot.init();
