@@ -143,6 +143,7 @@ public class SensorHuskyLens extends LinearOpMode {
                 telemetry.addData("Block", blocks[i].toString());
             }
 
+
             telemetry.update();
         }
     }

@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -70,11 +71,13 @@ public class RobotHardware_TT {
     // private DcMotor rightDrive;
     // private DcMotor armMotor;
     //I2cDeviceSynch pixyCam;
+    public final int READ_PERIOD = 1;
     private  IMU scootImu;
     private DcMotor leftFrontDrive;
     private DcMotor rightFrontDrive;
     private DcMotor leftBackDrive;
     private DcMotor rightBackDrive;
+    public HuskyLens huskyLens;
     //  private Servo claw1;
     //private Servo claw2;
     // private DigitalChannel touchSensor;
@@ -121,6 +124,7 @@ public class RobotHardware_TT {
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
+        huskyLens = myOpMode.hardwareMap.get(HuskyLens.class, "huskylens");
         //pixyCam = myOpMode.hardwareMap.i2cDeviceSynch.get("Pixie");
         //pixyCam.read(0x51, 5);
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
@@ -135,6 +139,7 @@ public class RobotHardware_TT {
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
         //leftDrive.setDirection(DcMotor.Direction.REVERSE);
