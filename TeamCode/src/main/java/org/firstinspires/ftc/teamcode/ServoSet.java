@@ -12,6 +12,7 @@ public class ServoSet extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()){
             robot.setClaw1(0);
+            robot.setWrist(0);
         }
     }
 }

@@ -146,8 +146,8 @@ public class RobotHardware_TT {
         // rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
-        //claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
-       // wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+        claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
+        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
 
 
 
@@ -308,10 +308,10 @@ public class RobotHardware_TT {
         }
     }
     public void setWrist(double wrist1) {
-       // wrist.setPosition(wrist1);
+        wrist.setPosition(wrist1);
     }
     public void setArm(double arm) {
-        //Arm.setPower(arm);
+       // Arm.setPower(arm);
     }
 
     public void intake1(double offset) {
