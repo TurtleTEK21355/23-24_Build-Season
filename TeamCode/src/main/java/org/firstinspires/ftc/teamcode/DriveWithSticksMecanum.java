@@ -60,10 +60,10 @@ public class DriveWithSticksMecanum extends LinearOpMode {
 
 
             if (ToggleSpeed == true) {
-                robot.mecanumDrive(Strafe * 0.6, Drive * 0.6, Turn);
+              //  robot.mecanumDrive(Strafe * 0.6, Drive * 0.6, Turn);
             }
             else {
-                robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
+               // robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
 
             }
             telemetry.update();
