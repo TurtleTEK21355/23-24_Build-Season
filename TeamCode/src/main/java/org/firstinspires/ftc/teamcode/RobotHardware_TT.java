@@ -34,6 +34,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
@@ -66,7 +67,11 @@ public class RobotHardware_TT {
     // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
     // private DcMotor leftDrive;
     // private DcMotor rightDrive;
-    // private DcMotor armMotor;
+    private Servo claw1;
+    private Servo wrist;
+    private DcMotor launch;
+    private DcMotor intakeMotor;
+    private DcMotor armMotor;
     private IMU scootImu;
     private DcMotor leftFrontDrive;
     private DcMotor rightFrontDrive;
@@ -118,6 +123,9 @@ public class RobotHardware_TT {
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
+        launch = myOpMode.hardwareMap.get(DcMotor.class, "launch");
+        armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
+        intakeMotor   = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -125,11 +133,13 @@ public class RobotHardware_TT {
 
         //leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        launch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //leftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -334,6 +344,27 @@ public class RobotHardware_TT {
     double porportionalElevatorControl(double goalHeight, double encoderPosition) {
         double motorPosition = (goalHeight - encoderPosition) * elevatorPValue;
         return motorPosition;
+    }
+
+    public void setClaw1(double claw) {
+        if (claw > 0.20){
+            claw1.setPosition(22);
+        }
+        else {
+            claw1.setPosition(claw);
+        }
+    }
+    public void setWrist(double wrist1) {
+        wrist.setPosition(wrist1);
+    }
+    public void setLaunch(double power) {
+        launch.setPower(power);
+    }
+    public void setArm (double arm) {
+        armMotor.setPower(arm);
+    }
+    public void setIntake (double speed) {
+        intakeMotor.setPower(speed);
     }
 }
 /*
