@@ -17,6 +17,7 @@ public class TeleOp_23_24 extends LinearOpMode {
         double Strafe = 0;
         double Drive = 0;
         double speed = 0.32;
+        double intake;
 
         while (opModeIsActive()) {
             if (gamepad2.x) {
@@ -24,6 +25,7 @@ public class TeleOp_23_24 extends LinearOpMode {
                 sleep(30);
             }
 
+            robot.capturePixel();
             if (gamepad2.right_bumper && gamepad2.left_bumper) {
             } else if (gamepad2.left_bumper) {
                 robot.setWrist(0.25);
@@ -36,8 +38,8 @@ public class TeleOp_23_24 extends LinearOpMode {
             } else if (gamepad2.dpad_down) {
                 robot.setClaw1(0.05);
             }
-            robot.setArm(-gamepad2.right_stick_y);
-            robot.setIntake(-gamepad2.left_stick_y);
+            intake = -gamepad2.left_stick_y;
+
 
 
 
@@ -52,8 +54,8 @@ public class TeleOp_23_24 extends LinearOpMode {
             else if(gamepad1.right_stick_x > 0){
                 Turn = Turn - 1;
             }
-            telemetry.addData("Turn Value that is equal at the present moment:", Turn);
-            telemetry.addData("turning stick value", gamepad1.right_stick_x);
+            telemetry.addData("\nTurn Value that is equal at the present moment:", Turn);
+            telemetry.addData("\nturning stick value", gamepad1.right_stick_x);
             if (gamepad1.left_stick_y < 0) {
                 Drive = -Math.pow(gamepad1.left_stick_y, 2);
             } else {
@@ -72,7 +74,8 @@ public class TeleOp_23_24 extends LinearOpMode {
                 robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
             }
             robot.setArm(-gamepad2.right_stick_y);
-            robot.setIntake(-gamepad2.left_stick_y);
+            robot.setIntake(intake);
+            telemetry.addData("\nIntake Speed: ", intake);
             telemetry.update();
 
 

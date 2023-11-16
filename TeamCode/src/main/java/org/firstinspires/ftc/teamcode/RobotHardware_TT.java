@@ -33,6 +33,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -79,7 +80,7 @@ public class RobotHardware_TT {
     private DcMotor rightBackDrive;
     //  private Servo claw1;
     //private Servo claw2;
-    // private DigitalChannel touchSensor;
+    private DigitalChannel touchSensor;
     // private double pastEncoder = Double.NEGATIVE_INFINITY;
     //private static final String VUFORIA_KEY = LicenseKey.key;
 //    private VuforiaLocalizer vuforia;
@@ -172,7 +173,7 @@ public class RobotHardware_TT {
         //imu.initialize(new IMU.Parameters(orientationOnRobot));
 
 
-        //touchSensor = myOpMode.hardwareMap.get(DigitalChannel.class,"touchSensor");
+        touchSensor = myOpMode.hardwareMap.get(DigitalChannel.class,"touchSensor");
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
@@ -365,6 +366,19 @@ public class RobotHardware_TT {
     }
     public void setIntake (double speed) {
         intakeMotor.setPower(speed);
+    }
+      public boolean touchSensorNotPressed(){
+          return touchSensor.getState();
+      }
+       public boolean touchSensorIsPressed(){
+         return !touchSensor.getState();
+      }
+    public void capturePixel () {
+        if (touchSensorIsPressed()) {
+            claw1.setPosition(22);
+        } else if (touchSensorNotPressed()) {
+            myOpMode.telemetry.addLine("\nTouch Sensor not detecting Pixel.");
+        }
     }
 }
 /*
