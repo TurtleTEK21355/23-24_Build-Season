@@ -17,7 +17,6 @@ public class TeleOp_23_24 extends LinearOpMode {
         double Strafe = 0;
         double Drive = 0;
         double speed = 0.32;
-        double intake;
 
         while (opModeIsActive()) {
             if (gamepad2.x) {
@@ -26,20 +25,31 @@ public class TeleOp_23_24 extends LinearOpMode {
             }
 
             robot.capturePixel();
+
             if (gamepad2.right_bumper && gamepad2.left_bumper) {
             } else if (gamepad2.left_bumper) {
                 robot.setWrist(0.25);
             } else if (gamepad2.right_bumper) {
                 robot.setWrist(0);
             }
-            if (gamepad2.dpad_down && gamepad2.dpad_up) {
-            } else if (gamepad2.dpad_up) {
+
+            if (gamepad2.dpad_left && gamepad2.dpad_right) {
+            } else if (gamepad2.dpad_right) {
                 robot.setClaw1(0.19);
-            } else if (gamepad2.dpad_down) {
+            } else if (gamepad2.dpad_left) {
                 robot.setClaw1(0.05);
             }
-            intake = -gamepad2.left_stick_y;
 
+            if ((gamepad2.y && gamepad2.a) || (gamepad2.y && gamepad2.b) || (gamepad2.a && gamepad2.b)) {
+            } else if (gamepad2.a) {
+                robot.setIntake(0.5);
+            } else if (gamepad2.b) {
+                robot.setIntake(-0.5);
+            } else if (gamepad2.y) {
+                robot.setIntake(0);
+            }
+
+            robot.setArm(-gamepad2.right_stick_y);
 
 
 
@@ -48,19 +58,23 @@ public class TeleOp_23_24 extends LinearOpMode {
             } else {
                 Strafe = Math.pow(-gamepad1.left_stick_x, 2);
             }
+
             if(gamepad1.right_stick_x < 0){
                 Turn = Turn + 1;
             }
             else if(gamepad1.right_stick_x > 0){
                 Turn = Turn - 1;
             }
+
             telemetry.addData("\nTurn Value that is equal at the present moment:", Turn);
             telemetry.addData("\nturning stick value", gamepad1.right_stick_x);
+
             if (gamepad1.left_stick_y < 0) {
                 Drive = -Math.pow(gamepad1.left_stick_y, 2);
             } else {
                 Drive = Math.pow(gamepad1.left_stick_y, 2);
             }
+
             if (!PreviousToggleReading && gamepad1.left_bumper) {
                 ToggleSpeed = !ToggleSpeed;
             }
@@ -73,9 +87,8 @@ public class TeleOp_23_24 extends LinearOpMode {
             else {
                 robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
             }
-            robot.setArm(-gamepad2.right_stick_y);
-            robot.setIntake(intake);
-            telemetry.addData("\nIntake Speed: ", intake);
+
+
             telemetry.update();
 
 
