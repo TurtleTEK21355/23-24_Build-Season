@@ -23,8 +23,9 @@ public class DriveWithSticksMecanum extends LinearOpMode {
             double Strafe = 0;
             double Drive = 0;
 
+            if (gamepad1.y) {
 
-
+            }
 
             if (-gamepad1.left_stick_x < 0) {
                 Strafe = -Math.pow(-gamepad1.left_stick_x, 2);

@@ -78,6 +78,8 @@ public class RobotHardware_TT {
     private DcMotor rightFrontDrive;
     private DcMotor leftBackDrive;
     private DcMotor rightBackDrive;
+
+    private DcMotor pixelMotor;
     //  private Servo claw1;
     //private Servo claw2;
     private DigitalChannel touchSensor;
@@ -281,6 +283,7 @@ public class RobotHardware_TT {
         leftBackDrive.setPower(newRx - x + y);
         rightBackDrive.setPower(newRx - x - y);
     }
+
 
     public double imuTurn(double turnToAngle) {
         double correctionRx;
