@@ -19,19 +19,14 @@ public class TeleOp_23_24 extends LinearOpMode {
         double speed = 0.32;
 
         while (opModeIsActive()) {
-            if (gamepad2.x) {
+            if (gamepad2.x && gamepad2.back) {
                 robot.setLaunch(speed);
                 sleep(30);
             }
 
             robot.capturePixel();
 
-            if (gamepad2.right_bumper && gamepad2.left_bumper) {
-            } else if (gamepad2.left_bumper) {
-                robot.setWrist(0.25);
-            } else if (gamepad2.right_bumper) {
-                robot.setWrist(0);
-            }
+            robot.setWrist(Math.abs(gamepad2.right_stick_y));
 
             if (gamepad2.dpad_left && gamepad2.dpad_right) {
             } else if (gamepad2.dpad_right) {
@@ -74,6 +69,13 @@ public class TeleOp_23_24 extends LinearOpMode {
             } else {
                 Drive = Math.pow(gamepad1.left_stick_y, 2);
             }
+
+            /* Jordan Mode:
+            if (gamepad1.left_trigger) {
+                Drive = -Math.pow(gamepad1.left_trigger, 2);
+            } else {
+                Drive = Math.pow(gamepad1.right_trigger, 2);
+            }*/
 
             if (!PreviousToggleReading && gamepad1.left_bumper) {
                 ToggleSpeed = !ToggleSpeed;
