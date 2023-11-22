@@ -11,6 +11,9 @@ import java.util.concurrent.TimeUnit;
 @TeleOp(name="HuskyTest", group="Turtle Group")
 public class HuskeyLensTest extends LinearOpMode {
     RobotHardware_TT   robot       = new RobotHardware_TT(this);
+    double y;
+    double x;
+    double Tag;
     @Override
     public void runOpMode() {
         robot.init();
@@ -38,9 +41,25 @@ public class HuskeyLensTest extends LinearOpMode {
             HuskyLens.Block[] blocks = robot.huskyLens.blocks();
             telemetry.addData("Block count", blocks.length);
             for (int i = 0; i < blocks.length; i++) {
-                telemetry.addData("Block", blocks[i].toString());
+                y = blocks[i].y;
+                x = blocks[i].x;
+                telemetry.addData("\nX:", blocks[i].x);
+                telemetry.addData("\nY:", blocks[i].y);
+                telemetry.addData("Blocks: ", blocks[i].toString());
             }
 
+            if (x >= 270 && x <= 280) {
+                if (y >= 60 && y <= 70) {
+                    Tag = 6;
+                }
+            } else if (x >= 170 && x <= 270) {
+                if (y >= 60 && y <= 70) {
+                    Tag = 5;
+                }
+            } else {
+                Tag = 4;
+            }
+            telemetry.addData("\nTag: ", Tag);
 
 
             telemetry.update();
