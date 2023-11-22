@@ -24,7 +24,7 @@ public class TeleOp_23_24 extends LinearOpMode {
                 sleep(30);
             }
 
-            robot.capturePixel();
+            //robot.capturePixel();
 
             robot.setWrist(Math.abs(gamepad2.right_stick_y));
 
