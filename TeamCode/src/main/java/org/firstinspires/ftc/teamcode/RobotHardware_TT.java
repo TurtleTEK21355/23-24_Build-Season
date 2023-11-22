@@ -40,6 +40,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
  * Please read the explanations in that Sample about how to use this class definition.
@@ -143,6 +146,8 @@ public class RobotHardware_TT {
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         launch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
 
 
         //leftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -283,6 +288,27 @@ public class RobotHardware_TT {
         leftBackDrive.setPower(newRx - x + y);
         rightBackDrive.setPower(newRx - x - y);
     }
+
+    public List<Integer> getEncoders(){
+        List<Integer> encoderValues = new ArrayList<Integer>();
+        encoderValues.add(leftFrontDrive.getCurrentPosition());
+        encoderValues.add(rightFrontDrive.getCurrentPosition());
+        encoderValues.add(leftBackDrive.getCurrentPosition());
+        encoderValues.add(rightBackDrive.getCurrentPosition());
+        return encoderValues;
+    }
+
+    public void resetEncoders(){
+        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+    }
     
 
     public double imuTurn(double turnToAngle) {
@@ -383,6 +409,10 @@ public class RobotHardware_TT {
             myOpMode.telemetry.addLine("\nTouch Sensor not detecting Pixel.");
         }
     }
+    public void driveMecanum();
+
+    }
+
 }
 /*
 
