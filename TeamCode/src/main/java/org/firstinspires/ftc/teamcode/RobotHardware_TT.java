@@ -410,8 +410,17 @@ public class RobotHardware_TT {
             myOpMode.telemetry.addLine("\nTouch Sensor not detecting Pixel.");
         }
     }
-    public void driveMecanum();
 
+    /**This is for
+     * @param   movementSpeed a variable betwwen 0.0 and +1.0
+     * @param   strafeDistance inches, lateral movement
+     * @param   driveDistance inches, standard forward/reverse movement
+     */
+    public void driveMecanum(double driveDistance, double strafeDistance, double movementSpeed){
+        /*Reads all of the encoder values, and causes the motors to run, whether in a strafing or
+        standard movement, as long as the encoder value is less than the desired distance value.
+
+         */
     }
 
 }
