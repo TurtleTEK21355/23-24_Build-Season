@@ -73,6 +73,7 @@ public class RobotHardware_TT {
     // private DcMotor rightDrive;
     private Servo claw1;
     private Servo wrist;
+    private Servo flick;
     private DcMotor launch;
     private DcMotor intakeMotor;
     private DcMotor armMotor;
@@ -164,8 +165,9 @@ public class RobotHardware_TT {
         // rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
-        //claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
-        //claw2 = myOpMode.hardwareMap.get(Servo.class, "claw2");
+        claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
+        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+        flick = myOpMode.hardwareMap.get(Servo.class, "flick");
 
 
         scootImu = myOpMode.hardwareMap.get(IMU.class, "imu");
@@ -387,6 +389,9 @@ public class RobotHardware_TT {
     }
     public void setWrist(double wrist1) {
         wrist.setPosition(wrist1);
+    }
+    public void beginFlick(double flick1) {
+        flick.setPosition(flick1);
     }
     public void setLaunch(double power) {
         launch.setPower(power);
