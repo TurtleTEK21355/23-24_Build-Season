@@ -117,7 +117,7 @@ public class RobotHardware_TT {
         //rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
         //right = myOpMode.hardwareMap.get(DcMotor.class, "right");
         //left = myOpMode.hardwareMap.get(DcMotor.class, "left");
-        //Arm = myOpMode.hardwareMap.get(DcMotor.class, "Arm");
+        Arm = myOpMode.hardwareMap.get(DcMotor.class, "Arm");
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.

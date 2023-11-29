@@ -40,7 +40,9 @@ public class MotorTestSpace extends LinearOpMode {
             telemetry.addData("Claw1", claw1Position);
             telemetry.update();*/
 
-            robot.setArm(gamepad2.right_stick_y);
+            robot.setArm(gamepad2.right_stick_y * 0.5);
+            telemetry.addData("Speed", gamepad2.right_stick_y * 0.5);
+            telemetry.update();
 
         }
     }
