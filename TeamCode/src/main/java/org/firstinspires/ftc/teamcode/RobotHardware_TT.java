@@ -77,7 +77,7 @@ public class RobotHardware_TT {
     private Servo wrist;
     //private DcMotor left;
     //private DcMotor right;
-    //private DcMotor Arm;
+    private DcMotor Arm;
     //private Servo claw2;
     // private DigitalChannel touchSensor;
     // private double pastEncoder = Double.NEGATIVE_INFINITY;
@@ -130,7 +130,7 @@ public class RobotHardware_TT {
         //rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //leftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -147,7 +147,7 @@ public class RobotHardware_TT {
         // rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
-        claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
+        //claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
         //wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
 
 
@@ -312,7 +312,7 @@ public class RobotHardware_TT {
         wrist.setPosition(wrist1);
     }
     public void setArm(double arm) {
-       // Arm.setPower(arm);
+        Arm.setPower(arm);
     }
 
     public void intake1(double offset) {

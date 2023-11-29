@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "Intakes", group = "Test")
-public class IntakeMecanisum extends LinearOpMode {
+@TeleOp(name = "MotorTestSpace", group = "Test")
+public class MotorTestSpace extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
     @Override
     public void runOpMode(){
@@ -40,7 +40,7 @@ public class IntakeMecanisum extends LinearOpMode {
             telemetry.addData("Claw1", claw1Position);
             telemetry.update();*/
 
-            robot.intake1(gamepad2.right_stick_y);
+            robot.setArm(gamepad2.right_stick_y);
 
         }
     }
