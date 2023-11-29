@@ -11,18 +11,8 @@ public class Scorers extends LinearOpMode {
         robot.init();
         waitForStart();
         while (opModeIsActive()) {
-            if (gamepad1.right_bumper && gamepad1.left_bumper) {
-            } else if (gamepad1.left_bumper) {
-                robot.setWrist(0.25);
-            } else if (gamepad1.right_bumper) {
-                robot.setWrist(0);
-            }
-            if (gamepad1.dpad_down && gamepad1.dpad_up) {
-            } else if (gamepad1.dpad_up) {
-                robot.setClaw1(0.19);
-            } else if (gamepad1.dpad_down) {
-                robot.setClaw1(0.05);
-            }
+
+            robot.setWrist(gamepad1.left_stick_y);
         }
     }
 }
