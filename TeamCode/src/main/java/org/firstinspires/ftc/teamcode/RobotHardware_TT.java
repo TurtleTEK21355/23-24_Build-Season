@@ -156,6 +156,7 @@ public class RobotHardware_TT {
         claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
         flick = myOpMode.hardwareMap.get(Servo.class, "flick");
+        flick.setPosition(0.8);
 
 
         scootImu = myOpMode.hardwareMap.get(IMU.class, "imu");
@@ -217,7 +218,7 @@ public class RobotHardware_TT {
         //claw1.setPosition(0);
         //claw2.setPosition(1);
 
-        
+
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
@@ -366,7 +367,8 @@ public class RobotHardware_TT {
     }
 
     /**
-     * @param claw sets claw position. be careful with the number restraints*/
+     * @param claw sets claw position. Be careful with the number restraints
+     */
     public void setClaw1(double claw) {
         if (claw > 0.20){
             claw1.setPosition(22);
@@ -376,27 +378,32 @@ public class RobotHardware_TT {
         }
     }
     /**
-     * @param wrist1 sets wrist position*/
+     * @param wrist1 sets wrist position
+     */
     public void setWrist(double wrist1) {
         wrist.setPosition(wrist1);
     }
     /**
-     * @param flick1 linear Servo; max: 0.8 min: 0.2*/
+     * @param flick1 linear Servo; max: 0.8 min: 0.2
+     */
     public void beginFlick(double flick1) {
         flick.setPosition(flick1);
     }
     /**
-     * @param power spins wheel for Drone launch. Do NOT go over 0.8*/
+     * @param power spins wheel for Drone launch. Do NOT go over 0.8
+     */
     public void setLaunch(double power) {
         launch.setPower(power);
     }
     /**
-     * @param arm sends arm up and down*/
+     * @param arm sends arm up and down
+     */
     public void setArm (double arm) {
         armMotor.setPower(arm);
     }
     /**
-     * @param speed Sets 3D printed intake speed. Do NOT go over 0.7*/
+     * @param speed Sets 3D printed intake speed. Do NOT go over 0.7
+     */
     public void setIntake (double speed) {
         intakeMotor.setPower(speed);
     }
