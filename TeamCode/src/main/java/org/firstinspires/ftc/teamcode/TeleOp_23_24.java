@@ -22,7 +22,7 @@ public class TeleOp_23_24 extends LinearOpMode {
             if (gamepad2.x && gamepad2.back) {
                 robot.setLaunch(speed);
                 sleep(30);
-                robot.beginFlick(0.5);
+                robot.beginFlick(0.2);
             }
 
 
