@@ -87,18 +87,7 @@ public class RobotHardware_TT {
     //  private Servo claw1;
     //private Servo claw2;
     // private double pastEncoder = Double.NEGATIVE_INFINITY;
-    //private static final String VUFORIA_KEY = LicenseKey.key;
-//    private VuforiaLocalizer vuforia;
 
-
-  /*  public TFObjectDetector tfod;
-    private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
-    public static final String[] LABELS = {
-            "1 Bolt",
-            "2 Bulb",
-            "3 Panel"
-    };
-    */
 
 
     /*  IMU imu;
@@ -228,7 +217,7 @@ public class RobotHardware_TT {
         //claw1.setPosition(0);
         //claw2.setPosition(1);
 
-        //touchSensor = myOpMode.hardwareMap.get(DigitalChannel.class,"touchSensor");
+        
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
