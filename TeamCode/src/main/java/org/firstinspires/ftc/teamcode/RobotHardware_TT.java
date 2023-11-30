@@ -86,7 +86,6 @@ public class RobotHardware_TT {
     private DcMotor pixelMotor;
     //  private Servo claw1;
     //private Servo claw2;
-    private DigitalChannel touchSensor;
     // private double pastEncoder = Double.NEGATIVE_INFINITY;
     //private static final String VUFORIA_KEY = LicenseKey.key;
 //    private VuforiaLocalizer vuforia;
@@ -181,8 +180,6 @@ public class RobotHardware_TT {
         //RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         //imu.initialize(new IMU.Parameters(orientationOnRobot));
 
-
-        touchSensor = myOpMode.hardwareMap.get(DigitalChannel.class,"touchSensor");
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
@@ -379,6 +376,8 @@ public class RobotHardware_TT {
         return motorPosition;
     }
 
+    /**
+     * @param claw sets claw position. be careful with the number restraints*/
     public void setClaw1(double claw) {
         if (claw > 0.20){
             claw1.setPosition(22);
@@ -387,34 +386,32 @@ public class RobotHardware_TT {
             claw1.setPosition(claw);
         }
     }
+    /**
+     * @param wrist1 sets wrist position*/
     public void setWrist(double wrist1) {
         wrist.setPosition(wrist1);
     }
+    /**
+     * @param flick1 linear Servo; max: 0.8 min: 0.2*/
     public void beginFlick(double flick1) {
         flick.setPosition(flick1);
     }
+    /**
+     * @param power spins wheel for Drone launch. Do NOT go over 0.8*/
     public void setLaunch(double power) {
         launch.setPower(power);
     }
+    /**
+     * @param arm sends arm up and down*/
     public void setArm (double arm) {
         armMotor.setPower(arm);
     }
+    /**
+     * @param speed Sets 3D printed intake speed. Do NOT go over 0.7*/
     public void setIntake (double speed) {
         intakeMotor.setPower(speed);
     }
-      public boolean touchSensorNotPressed(){
-          return touchSensor.getState();
-      }
-       public boolean touchSensorIsPressed(){
-         return !touchSensor.getState();
-      }
-    public void capturePixel () {
-        if (touchSensorIsPressed()) {
-            claw1.setPosition(22);
-        } else if (touchSensorNotPressed()) {
-            myOpMode.telemetry.addLine("\nTouch Sensor not detecting Pixel.");
-        }
-    }
+
 
     /**This is for
      * @param   movementSpeed a variable betwwen 0.0 and +1.0

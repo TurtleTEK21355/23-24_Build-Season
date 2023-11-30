@@ -22,20 +22,19 @@ public class TeleOp_23_24 extends LinearOpMode {
             if (gamepad2.x && gamepad2.back) {
                 robot.setLaunch(speed);
                 sleep(30);
-                robot.beginFlick(0);
+                robot.beginFlick(0.5);
             }
 
-            //robot.capturePixel();
 
             robot.setWrist(Math.abs(gamepad2.right_stick_y));
 
             //for finger-claw
-           /* if (gamepad2.dpad_left && gamepad2.dpad_right) {
+            if (gamepad2.dpad_left && gamepad2.dpad_right) {
             } else if (gamepad2.dpad_right) {
                 robot.setClaw1(0.19);
             } else if (gamepad2.dpad_left) {
                 robot.setClaw1(0.05);
-            }*/
+            }
 
             if ((gamepad2.y && gamepad2.a) || (gamepad2.y && gamepad2.b) || (gamepad2.a && gamepad2.b)) {
             } else if (gamepad2.a) {
