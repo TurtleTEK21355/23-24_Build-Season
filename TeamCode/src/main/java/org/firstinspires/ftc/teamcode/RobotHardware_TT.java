@@ -71,7 +71,7 @@ public class RobotHardware_TT {
     // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
     // private DcMotor leftDrive;
     // private DcMotor rightDrive;
-    private Servo claw1;
+    public Servo claw1;
     private Servo wrist;
     private Servo flick;
     private DcMotor launch;

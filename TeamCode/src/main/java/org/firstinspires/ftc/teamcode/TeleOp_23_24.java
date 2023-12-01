@@ -26,15 +26,18 @@ public class TeleOp_23_24 extends LinearOpMode {
             }
 
 
-            robot.setWrist(Math.abs(gamepad2.right_stick_y));
+            robot.setWrist(Math.abs(gamepad2.left_stick_y));
+
+            robot.setClaw1(Math.abs(gamepad2.left_trigger));
+            telemetry.addData("Claw Servo Position: ", robot.claw1.getPosition());
 
             //for finger-claw
-            if (gamepad2.dpad_left && gamepad2.dpad_right) {
+           /* if (gamepad2.dpad_left && gamepad2.dpad_right) {
             } else if (gamepad2.dpad_right) {
                 robot.setClaw1(0.19);
             } else if (gamepad2.dpad_left) {
                 robot.setClaw1(0.05);
-            }
+            }*/
 
             if ((gamepad2.y && gamepad2.a) || (gamepad2.y && gamepad2.b) || (gamepad2.a && gamepad2.b)) {
             } else if (gamepad2.a) {
