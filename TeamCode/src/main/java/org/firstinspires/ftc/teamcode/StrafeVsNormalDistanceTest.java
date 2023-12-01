@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.List;
 
-@Autonomous(name="RedBackAuto", group="Turtle Group")
+@Autonomous(name="Rthing", group="Turtle Group")
 public class StrafeVsNormalDistanceTest extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
 
