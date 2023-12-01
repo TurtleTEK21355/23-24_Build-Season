@@ -265,7 +265,7 @@ public class RobotHardware_TT {
 
     public void mecanumDrive(double x, double y, double heading) {
         double newRx;
-        newRx = turnValue(heading * heading);
+        newRx = turnValue(-heading * heading);
 
 
 //        leftFrontDrive.setPower(y + x + newRx);
@@ -324,6 +324,11 @@ public class RobotHardware_TT {
 
         // if correctionYawDegrees > 0 then turn right.
         // else, do nothing.
+    }
+
+    double getYawAngles() {
+        double yawAngle = scootImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        return yawAngle;
     }
 
     double turnValue(double desiredAngle) {

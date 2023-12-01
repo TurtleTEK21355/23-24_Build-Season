@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.List;
 
@@ -32,7 +33,8 @@ public class StrafeVsNormalDistanceTest extends LinearOpMode {
         while (opModeIsActive() && distance < 1000) {
             robotHardware.mecanumDrive(1, 0, 0);
             encoderList = robotHardware.getEncoders();
-            distance = (encoderList.get(0) - startEncoderValue) * tickToMMRatio;
+            distance = (encoderList.get(0) - startEncoderValue);
+
         }
 
     }
