@@ -20,6 +20,7 @@ public class TeleOp_23_24 extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (gamepad2.x && gamepad2.back) {
+
                 robot.setLaunch(speed);
                 sleep(30);
                 robot.beginFlick(0.2);
@@ -38,6 +39,28 @@ public class TeleOp_23_24 extends LinearOpMode {
             } else if (gamepad2.dpad_left) {
                 robot.setClaw1(0.05);
             }*/
+            if (gamepad1.x) {
+                robot.planeLoader.setPosition(0.8);
+            }
+            if (gamepad1.a) {
+                robot.planeLoader.setPosition(0.2);
+            }
+//
+//            robot.capturePixel();
+//            if (gamepad2.right_bumper && gamepad2.left_bumper) {
+//            } else if (gamepad2.left_bumper) {
+//                robot.setWrist(0.25);
+//            } else if (gamepad2.right_bumper) {
+//                robot.setWrist(0);
+//            }
+//            if (gamepad2.dpad_down && gamepad2.dpad_up) {
+//            } else if (gamepad2.dpad_up) {
+//                robot.setClaw1(0.19);
+//            } else if (gamepad2.dpad_down) {
+//                robot.setClaw1(0.05);
+//            }
+//            intake = -gamepad2.left_stick_y;
+
 
             if ((gamepad2.y && gamepad2.a) || (gamepad2.y && gamepad2.b) || (gamepad2.a && gamepad2.b)) {
             } else if (gamepad2.a) {
@@ -52,50 +75,41 @@ public class TeleOp_23_24 extends LinearOpMode {
 
 
 
-            if (-gamepad1.left_stick_x < 0) {
-                Strafe = -Math.pow(-gamepad1.left_stick_x, 2);
-            } else {
-                Strafe = Math.pow(-gamepad1.left_stick_x, 2);
-            }
+//            if (-gamepad1.left_stick_x < 0) {
+//                Strafe = -Math.pow(-gamepad1.left_stick_x, 2);
+//            } else {
+//                Strafe = Math.pow(-gamepad1.left_stick_x, 2);
+//            }
+//            if(gamepad1.right_stick_x < 0){
+//                Turn = Turn + 1;
+//            }
+//            else if(gamepad1.right_stick_x > 0){
+//                Turn = Turn - 1;
+//            }
+//            telemetry.addData("\nTurn Value that is equal at the present moment:", Turn);
+//            telemetry.addData("\nturning stick value", gamepad1.right_stick_x);
+//            if (gamepad1.left_stick_y < 0) {
+//                Drive = -Math.pow(gamepad1.left_stick_y, 2);
+//            } else {
+//                Drive = Math.pow(gamepad1.left_stick_y, 2);
+//            }
+//            if (!PreviousToggleReading && gamepad1.left_bumper) {
+//                ToggleSpeed = !ToggleSpeed;
+//            }
+//            PreviousToggleReading = gamepad1.left_bumper;
+//
+//
+//            if (ToggleSpeed == true) {
+//                robot.mecanumDrive(Strafe * 0.6, Drive * 0.6, Turn);
+//            }
+//            else {
+//                robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
+//            }
+//            robot.setArm(-gamepad2.right_stick_y);
+//            robot.setIntake(intake);
+//            telemetry.addData("\nIntake Speed: ", intake);
+//            telemetry.update();
 
-            if(gamepad1.right_stick_x < 0){
-                Turn = Turn + 1;
-            }
-            else if(gamepad1.right_stick_x > 0){
-                Turn = Turn - 1;
-            }
-
-            telemetry.addData("\nTurn Value that is equal at the present moment:", Turn);
-            telemetry.addData("\nturning stick value", gamepad1.right_stick_x);
-
-            if (gamepad1.left_stick_y < 0) {
-                Drive = -Math.pow(gamepad1.left_stick_y, 2);
-            } else {
-                Drive = Math.pow(gamepad1.left_stick_y, 2);
-            }
-
-            /* Jordan Mode:
-            if (gamepad1.left_trigger) {
-                Drive = -Math.pow(gamepad1.left_trigger, 2);
-            } else {
-                Drive = Math.pow(gamepad1.right_trigger, 2);
-            }*/
-
-            if (!PreviousToggleReading && gamepad1.left_bumper) {
-                ToggleSpeed = !ToggleSpeed;
-            }
-            PreviousToggleReading = gamepad1.left_bumper;
-
-
-            if (ToggleSpeed == true) {
-                robot.mecanumDrive(Strafe * 0.6, Drive * 0.6, Turn);
-            }
-            else {
-                robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
-            }
-
-
-            telemetry.update();
 
 
         }

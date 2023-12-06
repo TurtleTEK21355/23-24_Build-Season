@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.SerialNumber;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
@@ -71,7 +72,10 @@ public class RobotHardware_TT {
     // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
     // private DcMotor leftDrive;
     // private DcMotor rightDrive;
+
     public Servo claw1;
+
+    public Servo planeLoader;
     private Servo wrist;
     private Servo flick;
     private DcMotor launch;
@@ -86,8 +90,9 @@ public class RobotHardware_TT {
     private DcMotor pixelMotor;
     //  private Servo claw1;
     //private Servo claw2;
-    // private double pastEncoder = Double.NEGATIVE_INFINITY;
+//    private DigitalChannel touchSensor;
 
+    // private double pastEncoder = Double.NEGATIVE_INFINITY;
 
 
     /*  IMU imu;
@@ -119,8 +124,9 @@ public class RobotHardware_TT {
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
         launch = myOpMode.hardwareMap.get(DcMotor.class, "launch");
-        armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
-        intakeMotor   = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
+        armMotor = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
+        intakeMotor = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
+        planeLoader = myOpMode.hardwareMap.get(Servo.class, "planeLoader");
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -135,9 +141,6 @@ public class RobotHardware_TT {
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         launch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
-
 
         //leftDrive.setDirection(DcMotor.Direction.REVERSE);
         //rightDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -170,6 +173,8 @@ public class RobotHardware_TT {
         //RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         //imu.initialize(new IMU.Parameters(orientationOnRobot));
 
+
+        //     touchSensor = myOpMode.hardwareMap.get(DigitalChannel.class,"touchSensor");
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
@@ -278,7 +283,7 @@ public class RobotHardware_TT {
         rightBackDrive.setPower(newRx - x - y);
     }
 
-    public List<Integer> getEncoders(){
+    public List<Integer> getEncoders() {
         List<Integer> encoderValues = new ArrayList<Integer>();
         encoderValues.add(leftFrontDrive.getCurrentPosition());
         encoderValues.add(rightFrontDrive.getCurrentPosition());
@@ -288,7 +293,7 @@ public class RobotHardware_TT {
     }
 
 
-    public void resetEncoders(){
+    public void resetEncoders() {
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -299,7 +304,7 @@ public class RobotHardware_TT {
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
-    
+
 
     public double imuTurn(double turnToAngle) {
         double correctionRx;
@@ -360,6 +365,7 @@ public class RobotHardware_TT {
 
     double pValue = -1;
     double elevatorPValue = -1;
+
     double porportionalController(double input, double goalReading) {
         double arbitraryValue = (goalReading - input) * pValue;
         return arbitraryValue;
@@ -375,58 +381,87 @@ public class RobotHardware_TT {
      * @param claw sets claw position. Be careful with the number restraints
      */
     public void setClaw1(double claw) {
-        if (claw > 0.20){
+        if (claw > 0.20) {
             claw1.setPosition(22);
-        }
-        else {
+        } else {
             claw1.setPosition(claw);
         }
     }
+
     /**
      * @param wrist1 sets wrist position
      */
     public void setWrist(double wrist1) {
         wrist.setPosition(wrist1);
     }
+
     /**
      * @param flick1 linear Servo; max: 0.8 min: 0.2
      */
     public void beginFlick(double flick1) {
         flick.setPosition(flick1);
     }
+
     /**
      * @param power spins wheel for Drone launch. Do NOT go over 0.8
      */
     public void setLaunch(double power) {
         launch.setPower(power);
     }
+
     /**
      * @param arm sends arm up and down
      */
-    public void setArm (double arm) {
+    public void setArm(double arm) {
         armMotor.setPower(arm);
     }
+
     /**
      * @param speed Sets 3D printed intake speed. Do NOT go over 0.7
      */
-    public void setIntake (double speed) {
+    public void setIntake(double speed) {
         intakeMotor.setPower(speed);
     }
 
 
-    /**This is for
-     * @param   movementSpeed a variable betwwen 0.0 and +1.0
-     * @param   strafeDistance inches, lateral movement
-     * @param   driveDistance inches, standard forward/reverse movement
+    /**
+     * This is for
+     *
+     * @param movementSpeed  a variable betwwen 0.0 and +1.0
+     * @param strafeDistance inches, lateral movement
+     * @param driveDistance  inches, standard forward/reverse movement
      */
-    public void driveMecanum(double driveDistance, double strafeDistance, double movementSpeed){
+    public void driveMecanum(double driveDistance, double strafeDistance, double movementSpeed) {
         /*Reads all of the encoder values, and causes the motors to run, whether in a strafing or
         standard movement, as long as the encoder value is less than the desired distance value.
-
          */
     }
 
-}
+//      public boolean touchSensorNotPressed(){
+//          return touchSensor.getState();
+//      }
+//       public boolean touchSensorIsPressed(){
+//         return !touchSensor.getState();
+//      }
+//    public void capturePixel () {
+//        if (touchSensorIsPressed()) {
+//            claw1.setPosition(22);
+//        } else if (touchSensorNotPressed()) {
+//            myOpMode.telemetry.addLine("\nTouch Sensor not detecting Pixel.");
+//        }
+//    }
+
+        public void loadPlane() {
+            if (myOpMode.gamepad1.x) {
+                planeLoader.setPosition(0.8);
+            }
+            if (myOpMode.gamepad1.a) {
+                planeLoader.setPosition(0.2);
+            }
+
+        }
+
+    }
 /*
 
 
@@ -515,7 +550,7 @@ public class RobotHardware_TT {
         return touchSensor.getState();
     //}
     //public boolean touchSensorIsPressed(){
-       // return !touchSensor.getState();
+       // return !w.getState();
     //}
 
 /*
