@@ -38,8 +38,13 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.SerialNumber;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +91,10 @@ public class RobotHardware_TT {
     private DcMotor rightFrontDrive;
     private DcMotor leftBackDrive;
     private DcMotor rightBackDrive;
-
+    private AprilTagProcessor aprilTag;
+    private VisionPortal visionPortal;
+    private int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
+    private AprilTagDetection desiredTag = null;
     private DcMotor pixelMotor;
     //  private Servo claw1;
     //private Servo claw2;
@@ -127,6 +135,8 @@ public class RobotHardware_TT {
         armMotor = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         intakeMotor = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
         planeLoader = myOpMode.hardwareMap.get(Servo.class, "planeLoader");
+        visionPortal = VisionPortal.easyCreateWithDefaults(
+                myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -455,7 +465,48 @@ public class RobotHardware_TT {
 
 
 
-    }
+
+        private void initAprilTag() {
+
+            // Create the AprilTag processor the easy way.
+            aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+
+            // Create the vision portal the easy way.
+
+
+        } 
+
+        /**
+         * Add telemetry about AprilTag detections.
+         */
+        private void telemetryAprilTag() {
+
+            List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+            myOpMode.telemetry.addData("# AprilTags Detected", currentDetections.size());
+
+            // Step through the list of detections and display info for each one.
+            for (AprilTagDetection detection : currentDetections) {
+                if (detection.metadata != null) {
+                    myOpMode.telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+                    myOpMode.telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
+                    myOpMode.telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
+                    myOpMode.telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
+                } else {
+                    myOpMode.telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+                    myOpMode.telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+                }
+            }   // end for() loop
+
+            // Add "key" information to telemetry
+            myOpMode.telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+            myOpMode.telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
+            myOpMode.telemetry.addLine("RBE = Range, Bearing & Elevation");
+
+        }
+
+
+
+}
 /*
 
 
