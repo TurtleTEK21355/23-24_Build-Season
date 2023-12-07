@@ -398,7 +398,7 @@ public class RobotHardware_TT {
     /**
      * @param flick1 linear Servo; max: 0.8 min: 0.2
      */
-    public void beginFlick(double flick1) {
+    public void linearServoGo(double flick1) {
         flick.setPosition(flick1);
     }
 

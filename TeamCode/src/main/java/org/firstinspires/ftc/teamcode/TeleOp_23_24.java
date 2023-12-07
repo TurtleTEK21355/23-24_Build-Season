@@ -23,7 +23,7 @@ public class TeleOp_23_24 extends LinearOpMode {
 
                 robot.setLaunch(speed);
                 sleep(30);
-                robot.beginFlick(0.2);
+                robot.linearServoGo(0.2);
             }
 
 
