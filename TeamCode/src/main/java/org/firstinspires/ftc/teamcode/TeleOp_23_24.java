@@ -99,9 +99,7 @@ public class TeleOp_23_24 extends LinearOpMode {
 //            else {
 //                robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
 //            }
-//            robot.setArm(-gamepad2.right_stick_y);
-//            robot.setIntake(intake);
-//            telemetry.addData("\nIntake Speed: ", intake);
+            robot.setArm(-gamepad2.right_stick_y);
 //            telemetry.update();
 
 
