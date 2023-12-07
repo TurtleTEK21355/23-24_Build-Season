@@ -93,7 +93,7 @@ public class RobotHardware_TT {
     private DcMotor rightBackDrive;
     private AprilTagProcessor aprilTag;
     private VisionPortal visionPortal;
-    private int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
+    public int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
     private AprilTagDetection desiredTag = null;
     private DcMotor pixelMotor;
     //  private Servo claw1;
@@ -474,7 +474,7 @@ public class RobotHardware_TT {
             // Create the vision portal the easy way.
 
 
-        } 
+        }
 
         /**
          * Add telemetry about AprilTag detections.
