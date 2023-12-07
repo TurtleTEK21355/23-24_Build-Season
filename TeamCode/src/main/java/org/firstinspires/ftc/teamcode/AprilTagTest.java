@@ -81,25 +81,8 @@ public class AprilTagTest extends LinearOpMode {
                             targetFound = true;
                             desiredTag = detection;
                             break;  // don't look any further.
-                        } /*else if ((DESIRED_TAG_ID < 0 || detection.id == 1)) {
-                            if (DESIRED_TAG_ID > 1) {
-                                robot.mecanumDrive(-0.5,0,0);
-                            } else if (DESIRED_TAG_ID < 1) {
-                                robot.mecanumDrive(0,0,0);
-                            }
-                        } else if ((DESIRED_TAG_ID < 0 || detection.id == 2)) {
-                            if (DESIRED_TAG_ID > 2) {
-                                    robot.mecanumDrive(-0.5,0,0);
-                            } else if (DESIRED_TAG_ID < 2) {
-                                    robot.mecanumDrive(0.5,0,0);
-                            }
-                        } else if ((DESIRED_TAG_ID < 0 || detection.id == 3)) {
-                            if (DESIRED_TAG_ID > 3) {
-                                    robot.mecanumDrive(-0.5,0,0);
-                            } else if (DESIRED_TAG_ID < 3) {
-                                    robot.mecanumDrive(0.5,0,0);
-                            }
-                        } */else if ((DESIRED_TAG_ID < 0 || detection.id == 4)) {
+                        }
+                        if ((DESIRED_TAG_ID < 0 || detection.id == 4)) {
                             if (DESIRED_TAG_ID > 4) {
                                     robot.mecanumDrive(-0.5,0,0);
                             } else if (DESIRED_TAG_ID < 4) {
