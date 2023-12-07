@@ -39,12 +39,6 @@ public class TeleOp_23_24 extends LinearOpMode {
             } else if (gamepad2.dpad_left) {
                 robot.setClaw1(0.05);
             }*/
-            if (gamepad1.x) {
-                robot.planeLoader.setPosition(0.8);
-            }
-            if (gamepad1.a) {
-                robot.planeLoader.setPosition(0.2);
-            }
 //
 //            robot.capturePixel();
 //            if (gamepad2.right_bumper && gamepad2.left_bumper) {

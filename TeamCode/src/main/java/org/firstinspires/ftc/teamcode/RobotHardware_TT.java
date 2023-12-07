@@ -451,15 +451,9 @@ public class RobotHardware_TT {
 //        }
 //    }
 
-        public void loadPlane() {
-            if (myOpMode.gamepad1.x) {
-                planeLoader.setPosition(0.8);
-            }
-            if (myOpMode.gamepad1.a) {
-                planeLoader.setPosition(0.2);
-            }
 
-        }
+
+        
 
     }
 /*
