@@ -91,10 +91,10 @@ public class RobotHardware_TT {
     private DcMotor rightFrontDrive;
     private DcMotor leftBackDrive;
     private DcMotor rightBackDrive;
-    private AprilTagProcessor aprilTag;
-    private VisionPortal visionPortal;
-    private int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
-    private AprilTagDetection desiredTag = null;
+    public AprilTagProcessor aprilTag;
+    public VisionPortal visionPortal;
+    public int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
+    public AprilTagDetection desiredTag = null;
     private DcMotor pixelMotor;
     //  private Servo claw1;
     //private Servo claw2;
@@ -466,7 +466,7 @@ public class RobotHardware_TT {
 
 
 
-        private void initAprilTag() {
+    public void initAprilTag() {
 
             // Create the AprilTag processor the easy way.
             aprilTag = AprilTagProcessor.easyCreateWithDefaults();
@@ -479,7 +479,7 @@ public class RobotHardware_TT {
         /**
          * Add telemetry about AprilTag detections.
          */
-        private void telemetryAprilTag() {
+        public void telemetryAprilTag() {
 
             List<AprilTagDetection> currentDetections = aprilTag.getDetections();
             myOpMode.telemetry.addData("# AprilTags Detected", currentDetections.size());

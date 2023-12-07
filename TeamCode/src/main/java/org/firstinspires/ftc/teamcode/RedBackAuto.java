@@ -4,8 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.io.File;
 import java.util.List;
@@ -30,73 +35,83 @@ public class RedBackAuto extends LinearOpMode {
         List<Integer> encoderList = robotHardware.getEncoders();
         startEncoderValue = encoderList.get(0);
 
-        //if it reads Spike Mark in the left position
-        while (opModeIsActive() && distance < 12) {
-            robotHardware.mecanumDrive(0, 1, 0);
-            encoderList = robotHardware.getEncoders();
-            distance = (encoderList.get(0) - startEncoderValue) * tickToMMRatio;
-        }
-        robot.resetEncoders();
-        robot.imuTurn(-30);
-        //place pixel
-        robot.imuTurn(60);
-        while (opModeIsActive() && distance < 45) {
-            robotHardware.mecanumDrive(0.25, 1, 0);
-            encoderList = robotHardware.getEncoders();
-            distance = (encoderList.get(0) - startEncoderValue) * tickToMMRatio;
-        }
-        robot.resetEncoders();
-        //place pixel
-        while (opModeIsActive() && distance < 12) {
-            robotHardware.mecanumDrive(1, 0, 0);
-            encoderList = robotHardware.getEncoders();
-            distance = (encoderList.get(0) - startEncoderValue) * tickToMMRatio;
-        }
 
-        //if it reads Spike Mark in the center position
-        while (opModeIsActive() && distance < 12) {
-            robotHardware.mecanumDrive(0, 1, 0);
-            encoderList = robotHardware.getEncoders();
-            distance = (encoderList.get(0) - startEncoderValue) * tickToMMRatio;
-        }
-        robot.resetEncoders();
-        //place pixel
-        robot.imuTurn(90);
-        while (opModeIsActive() && distance < 45) {
-            robotHardware.mecanumDrive(0, 1, 0);
-            encoderList = robotHardware.getEncoders();
-            distance = (encoderList.get(0) - startEncoderValue) * tickToMMRatio;
-        }
-        robot.resetEncoders();
-        //place pixel
-        while (opModeIsActive() && distance < 12) {
-            robotHardware.mecanumDrive(1, 0, 0);
-            encoderList = robotHardware.getEncoders();
-            distance = (encoderList.get(0) - startEncoderValue) * tickToMMRatio;
-        }
-        //if it reads Spike Mark in the right position
-        while (opModeIsActive() && distance < 12) {
-            robotHardware.mecanumDrive(0, 1, 0);
-            encoderList = robotHardware.getEncoders();
-            distance = (encoderList.get(0) - startEncoderValue) * tickToMMRatio;
-        }
-        robot.resetEncoders();
-        robot.imuTurn(30);
-        //place pixel
-        robot.imuTurn(-120);
-        while (opModeIsActive() && distance < 45) {
-            robotHardware.mecanumDrive(0.25, 1, 0);
-            encoderList = robotHardware.getEncoders();
-            distance = (encoderList.get(0) - startEncoderValue) * tickToMMRatio;
-        }
-        robot.resetEncoders();
-        //place pixel
-        while (opModeIsActive() && distance < 12) {
-            robotHardware.mecanumDrive(1, 0, 0);
-            encoderList = robotHardware.getEncoders();
-            distance = (encoderList.get(0) - startEncoderValue) * tickToMMRatio;
-
-
+/**
+ * The variable to store our instance of the vision portal.
+ */
+        VisionPortal visionPortal;
+        AprilTagDetection desiredTag = null;
+       runOpMode(); {
+            robot.init();
+            boolean targetFound = false;
+            robot.initAprilTag();
+            // Wait for the DS start button to be touched.
+            telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
+            telemetry.addData(">", "Touch Play to start OpMode");
+            telemetry.update();
+            waitForStart();
+            if (opModeIsActive()) {
+                while (opModeIsActive()) {
+                    targetFound = false;
+                    desiredTag = null;
+                    // Push telemetry to the Driver Station.
+                    List<AprilTagDetection> currentDetections = robot.aprilTag.getDetections();
+                    for (AprilTagDetection detection : currentDetections) {
+                        // Look to see if we have size info on this tag.
+                        if (detection.metadata != null) {
+                            robot.mecanumDrive(0, 0, 0);
+                            //  Check to see if we want to track towards this tag.
+                            if ((robot.DESIRED_TAG_ID < 0) || (detection.id == robot.DESIRED_TAG_ID)) {
+                                // Yes, we want to use this tag.
+                                targetFound = true;
+                                desiredTag = detection;
+                                break;  // don't look any further.
+                            }
+                            if ((robot.DESIRED_TAG_ID < 0 || detection.id == 4)) {
+                                if (robot.DESIRED_TAG_ID > 4) {
+                                    robot.mecanumDrive(-0.5, 0, 0);
+                                } else if (robot.DESIRED_TAG_ID < 4) {
+                                    robot.mecanumDrive(0.5, 0, 0);
+                                }
+                            } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 5)) {
+                                if (robot.DESIRED_TAG_ID > 5) {
+                                    robot.mecanumDrive(-0.5, 0, 0);
+                                } else if (robot.DESIRED_TAG_ID < 5) {
+                                    robot.mecanumDrive(0.5, 0, 0);
+                                }
+                            } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 6)) {
+                                if (robot.DESIRED_TAG_ID > 6) {
+                                    robot.mecanumDrive(0, 0, 0);
+                                } else if (robot.DESIRED_TAG_ID < 6) {
+                                    robot.mecanumDrive(0.5, 0, 0);
+                                }
+                            } else {
+                                // This tag is in the library, but we do not want to track it right now.
+                                telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
+                            }
+                        }
+                    }
+                    if (targetFound) {
+                        telemetry.addLine("\nFound!");
+                        telemetry.addData("\n", robot.DESIRED_TAG_ID);
+                        robot.mecanumDrive(0, 0, 0);
+                    } else {
+                        telemetry.addLine("\nNot found.");
+                    }
+                    robot.telemetryAprilTag();
+                    // Save CPU resources; can resume streaming when needed.
+                    // if (gamepad1.dpad_down) {
+                    //    visionPortal.stopStreaming();
+                    ///  } else if (gamepad1.dpad_up) {
+                    //   visionPortal.resumeStreaming();
+                    //      }
+                    telemetry.update();
+                    // Share the CPU.
+                    sleep(20);
+                }
+            }
+            // Save more CPU resources when camera is no longer needed.
+            robot.visionPortal.close();
         }
     }
 }
