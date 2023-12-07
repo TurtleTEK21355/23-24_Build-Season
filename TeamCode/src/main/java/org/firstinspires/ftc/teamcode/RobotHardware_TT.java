@@ -91,7 +91,6 @@ public class RobotHardware_TT {
     private DcMotor rightFrontDrive;
     private DcMotor leftBackDrive;
     private DcMotor rightBackDrive;
-<<<<<<< HEAD
     public AprilTagProcessor aprilTag;
     public VisionPortal visionPortal;
     public int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
