@@ -52,6 +52,22 @@ public class RedFrontAuto extends LinearOpMode {
             waitForStart();
             if (opModeIsActive()) {
                 while (opModeIsActive()) {
+//                    huskylens lol{
+//                       if it sees in position 1 {
+//                            while (opModeIsActive() && distance < 1000) {
+//                                robotHardware.mecanumDrive(1.0,0,0);
+//                                encoderList = robotHardware.getEncoders();
+//                                distance = (encoderList.get(0) - startEncoderValue);
+//                            robot.mecanumDrive(0,0,0.25);
+//                        }
+//                       else if it sees in position 2 {
+//
+//                        }
+//                       else if it sees in position 3 {
+//
+//                        }
+//                    }
+
                     targetFound = false;
                     desiredTag = null;
                     // Push telemetry to the Driver Station.
