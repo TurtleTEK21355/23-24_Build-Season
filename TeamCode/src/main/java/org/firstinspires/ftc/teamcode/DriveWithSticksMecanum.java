@@ -9,9 +9,11 @@ public class DriveWithSticksMecanum extends LinearOpMode {
     RobotHardware_TT   robot       = new RobotHardware_TT(this);
     PorportionalController    p    = new PorportionalController(1);
     PorportionalController   elevatorP = new PorportionalController(1);
+
     @Override
     public void runOpMode() {
         robot.init();
+
 
         waitForStart();
         boolean ToggleSpeed = false;
@@ -23,8 +25,9 @@ public class DriveWithSticksMecanum extends LinearOpMode {
             double Strafe = 0;
             double Drive = 0;
 
+            if (gamepad1.y) {
 
-
+            }
 
             if (-gamepad1.left_stick_x < 0) {
                 Strafe = -Math.pow(-gamepad1.left_stick_x, 2);
@@ -78,5 +81,5 @@ public class DriveWithSticksMecanum extends LinearOpMode {
             }
             telemetry.update();
         }
-    }
-}
+        }
+        }

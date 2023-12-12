@@ -33,10 +33,21 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.SerialNumber;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,28 +80,30 @@ public class RobotHardware_TT {
     // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
     // private DcMotor leftDrive;
     // private DcMotor rightDrive;
-    // private DcMotor armMotor;
+
+    public Servo claw1;
+
+    public Servo planeLoader;
+    private Servo wrist;
+    private Servo flick;
+    private DcMotor launch;
+    private DcMotor intakeMotor;
+    private DcMotor armMotor;
     private IMU scootImu;
     private DcMotor leftFrontDrive;
     private DcMotor rightFrontDrive;
     private DcMotor leftBackDrive;
     private DcMotor rightBackDrive;
+    public AprilTagProcessor aprilTag;
+    public VisionPortal visionPortal;
+    public int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
+    public AprilTagDetection desiredTag = null;
+    private DcMotor pixelMotor;
     //  private Servo claw1;
     //private Servo claw2;
-    // private DigitalChannel touchSensor;
+//    private DigitalChannel touchSensor;
+
     // private double pastEncoder = Double.NEGATIVE_INFINITY;
-    //private static final String VUFORIA_KEY = LicenseKey.key;
-//    private VuforiaLocalizer vuforia;
-
-
-  /*  public TFObjectDetector tfod;
-    private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
-    public static final String[] LABELS = {
-            "1 Bolt",
-            "2 Bulb",
-            "3 Panel"
-    };
-    */
 
 
     /*  IMU imu;
@@ -121,6 +134,12 @@ public class RobotHardware_TT {
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
+        launch = myOpMode.hardwareMap.get(DcMotor.class, "launch");
+        armMotor = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
+        intakeMotor = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
+        planeLoader = myOpMode.hardwareMap.get(Servo.class, "planeLoader");
+        visionPortal = VisionPortal.easyCreateWithDefaults(
+                myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -128,12 +147,13 @@ public class RobotHardware_TT {
 
         //leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        launch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //leftDrive.setDirection(DcMotor.Direction.REVERSE);
         //rightDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -149,8 +169,10 @@ public class RobotHardware_TT {
         // rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
-        //claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
-        //claw2 = myOpMode.hardwareMap.get(Servo.class, "claw2");
+        claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
+        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+        flick = myOpMode.hardwareMap.get(Servo.class, "flick");
+        flick.setPosition(0.8);
 
 
         scootImu = myOpMode.hardwareMap.get(IMU.class, "imu");
@@ -165,7 +187,7 @@ public class RobotHardware_TT {
         //imu.initialize(new IMU.Parameters(orientationOnRobot));
 
 
-        //touchSensor = myOpMode.hardwareMap.get(DigitalChannel.class,"touchSensor");
+        //     touchSensor = myOpMode.hardwareMap.get(DigitalChannel.class,"touchSensor");
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
@@ -214,7 +236,7 @@ public class RobotHardware_TT {
         //claw1.setPosition(0);
         //claw2.setPosition(1);
 
-        //touchSensor = myOpMode.hardwareMap.get(DigitalChannel.class,"touchSensor");
+
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
@@ -261,7 +283,7 @@ public class RobotHardware_TT {
 
     public void mecanumDrive(double x, double y, double heading) {
         double newRx;
-        newRx = turnValue(heading);
+        newRx = turnValue(-heading * heading);
 
 
 //        leftFrontDrive.setPower(y + x + newRx);
@@ -273,14 +295,33 @@ public class RobotHardware_TT {
         leftBackDrive.setPower(newRx - x + y);
         rightBackDrive.setPower(newRx - x - y);
     }
-
     public List<Integer> getEncoders(){
+
+
+
+
         List<Integer> encoderValues = new ArrayList<Integer>();
         encoderValues.add(leftFrontDrive.getCurrentPosition());
         encoderValues.add(rightFrontDrive.getCurrentPosition());
         encoderValues.add(leftBackDrive.getCurrentPosition());
-        encoderValues.add(rightBackDrive.getCurrentPosition());
+        encoderValues.add(rightBackDrive.getCurrentPosition())
+        return encoderValues;
     }
+
+
+    public void resetEncoders() {
+        leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+    }
+
+
 
     public double imuTurn(double turnToAngle) {
         double correctionRx;
@@ -289,7 +330,7 @@ public class RobotHardware_TT {
         YawPitchRollAngles orientation = scootImu.getRobotYawPitchRollAngles();
         double yawDegrees = orientation.getYaw(AngleUnit.DEGREES);
         // Adjust the correctionRx value by that result * -1
-        double correctionYawDegrees = yawDegrees * -1;
+        double correctionYawDegrees = -yawDegrees * yawDegrees;
         // if correctionYawDegrees < 0 then turn left.
         if (correctionYawDegrees > turnToAngle + 1) {
             correctionRx = 1;
@@ -305,6 +346,11 @@ public class RobotHardware_TT {
 
         // if correctionYawDegrees > 0 then turn right.
         // else, do nothing.
+    }
+
+    double getYawAngles() {
+        double yawAngle = scootImu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        return yawAngle;
     }
 
     double turnValue(double desiredAngle) {
@@ -336,6 +382,7 @@ public class RobotHardware_TT {
 
     double pValue = -1;
     double elevatorPValue = -1;
+
     double porportionalController(double input, double goalReading) {
         double arbitraryValue = (goalReading - input) * pValue;
         return arbitraryValue;
@@ -346,6 +393,126 @@ public class RobotHardware_TT {
         double motorPosition = (goalHeight - encoderPosition) * elevatorPValue;
         return motorPosition;
     }
+
+    /**
+     * @param claw sets claw position. Be careful with the number restraints
+     */
+    public void setClaw1(double claw) {
+        if (claw > 0.20) {
+            claw1.setPosition(22);
+        } else {
+            claw1.setPosition(claw);
+        }
+    }
+
+    /**
+     * @param wrist1 sets wrist position
+     */
+    public void setWrist(double wrist1) {
+        wrist.setPosition(wrist1);
+    }
+
+    /**
+     * @param flick1 linear Servo; max: 0.8 min: 0.2
+     */
+    public void linearServoGo(double flick1) {
+        flick.setPosition(flick1);
+    }
+
+    /**
+     * @param power spins wheel for Drone launch. Do NOT go over 0.8
+     */
+    public void setLaunch(double power) {
+        launch.setPower(power);
+    }
+
+    /**
+     * @param arm sends arm up and down
+     */
+    public void setArm(double arm) {
+        armMotor.setPower(arm);
+    }
+
+    /**
+     * @param speed Sets 3D printed intake speed. Do NOT go over 0.7
+     */
+    public void setIntake(double speed) {
+        intakeMotor.setPower(speed);
+    }
+
+
+    /**
+     * This is for
+     *
+     * @param movementSpeed  a variable betwwen 0.0 and +1.0
+     * @param strafeDistance inches, lateral movement
+     * @param driveDistance  inches, standard forward/reverse movement
+     */
+    public void driveMecanum(double driveDistance, double strafeDistance, double movementSpeed) {
+        /*Reads all of the encoder values, and causes the motors to run, whether in a strafing or
+        standard movement, as long as the encoder value is less than the desired distance value.
+         */
+    }
+
+//      public boolean touchSensorNotPressed(){
+//          return touchSensor.getState();
+//      }
+//       public boolean touchSensorIsPressed(){
+//         return !touchSensor.getState();
+//      }
+//    public void capturePixel () {
+//        if (touchSensorIsPressed()) {
+//            claw1.setPosition(22);
+//        } else if (touchSensorNotPressed()) {
+//            myOpMode.telemetry.addLine("\nTouch Sensor not detecting Pixel.");
+//        }
+//    }
+
+
+
+
+
+
+    public void initAprilTag() {
+
+            // Create the AprilTag processor the easy way.
+            aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+
+            // Create the vision portal the easy way.
+
+
+        }
+
+        /**
+         * Add telemetry about AprilTag detections.
+         */
+        public void telemetryAprilTag() {
+
+            List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+            myOpMode.telemetry.addData("# AprilTags Detected", currentDetections.size());
+
+            // Step through the list of detections and display info for each one.
+            for (AprilTagDetection detection : currentDetections) {
+                if (detection.metadata != null) {
+                    myOpMode.telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+                    myOpMode.telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
+                    myOpMode.telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
+                    myOpMode.telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
+                } else {
+                    myOpMode.telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+                    myOpMode.telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+                }
+            }   // end for() loop
+
+            // Add "key" information to telemetry
+            myOpMode.telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+            myOpMode.telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
+            myOpMode.telemetry.addLine("RBE = Range, Bearing & Elevation");
+
+        }
+
+
+
 }
 /*
 
@@ -435,7 +602,7 @@ public class RobotHardware_TT {
         return touchSensor.getState();
     //}
     //public boolean touchSensorIsPressed(){
-       // return !touchSensor.getState();
+       // return !w.getState();
     //}
 
 /*
