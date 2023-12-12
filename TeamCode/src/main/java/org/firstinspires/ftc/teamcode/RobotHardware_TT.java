@@ -304,7 +304,7 @@ public class RobotHardware_TT {
         encoderValues.add(leftFrontDrive.getCurrentPosition());
         encoderValues.add(rightFrontDrive.getCurrentPosition());
         encoderValues.add(leftBackDrive.getCurrentPosition());
-        encoderValues.add(rightBackDrive.getCurrentPosition())
+        encoderValues.add(rightBackDrive.getCurrentPosition());
         return encoderValues;
     }
 
