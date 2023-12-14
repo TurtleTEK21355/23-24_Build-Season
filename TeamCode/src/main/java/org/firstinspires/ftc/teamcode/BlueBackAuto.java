@@ -56,6 +56,7 @@ public class BlueBackAuto extends LinearOpMode {
                     desiredTag = null;
                     // Push telemetry to the Driver Station.
                     List<AprilTagDetection> currentDetections = robot.aprilTag.getDetections();
+                    //Makes list of what it currently sees
                     for (AprilTagDetection detection : currentDetections) {
                         // Look to see if we have size info on this tag.
                         if (detection.metadata != null) {
@@ -67,23 +68,26 @@ public class BlueBackAuto extends LinearOpMode {
                                 desiredTag = detection;
                                 break;  // don't look any further.
                             }
-                            if ((robot.DESIRED_TAG_ID < 0 || detection.id == 4)) {
-                                if (robot.DESIRED_TAG_ID > 4) {
+                            if ((robot.DESIRED_TAG_ID < 0 || detection.id == 1)) {
+                                //If sees Blue Left
+                                if (robot.DESIRED_TAG_ID > 1) {
                                     robot.mecanumDrive(-0.5, 0, 0);
-                                } else if (robot.DESIRED_TAG_ID < 4) {
-                                    robot.mecanumDrive(0.5, 0, 0);
+                                    //if Spike indicated Ceter or Right
                                 }
-                            } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 5)) {
-                                if (robot.DESIRED_TAG_ID > 5) {
+                            } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 2)) {
+                                //If sees Blue Center
+                                if (robot.DESIRED_TAG_ID > 2) {
                                     robot.mecanumDrive(-0.5, 0, 0);
-                                } else if (robot.DESIRED_TAG_ID < 5) {
+                                    //If spike indicated Right
+                                } else if (robot.DESIRED_TAG_ID < 2) {
                                     robot.mecanumDrive(0.5, 0, 0);
+                                    //if spike indicated Left
                                 }
-                            } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 6)) {
-                                if (robot.DESIRED_TAG_ID > 6) {
-                                    robot.mecanumDrive(0, 0, 0);
-                                } else if (robot.DESIRED_TAG_ID < 6) {
+                            } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 3)) {
+                                //If sees Blue Right
+                                 if (robot.DESIRED_TAG_ID < 3) {
                                     robot.mecanumDrive(0.5, 0, 0);
+                                    //If spike indicated Center or Left
                                 }
                             } else {
                                 // This tag is in the library, but we do not want to track it right now.
@@ -95,6 +99,7 @@ public class BlueBackAuto extends LinearOpMode {
                         telemetry.addLine("\nFound!");
                         telemetry.addData("\n", robot.DESIRED_TAG_ID);
                         robot.mecanumDrive(0, 0, 0);
+                        //sends a the robot sees the correct tag
                     } else {
                         telemetry.addLine("\nNot found.");
                     }

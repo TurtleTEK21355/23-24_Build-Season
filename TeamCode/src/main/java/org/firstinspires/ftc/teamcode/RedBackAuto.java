@@ -53,6 +53,7 @@ public class RedBackAuto extends LinearOpMode {
                     desiredTag = null;
                     // Push telemetry to the Driver Station.
                     List<AprilTagDetection> currentDetections = robot.aprilTag.getDetections();
+                    //Makes list of what it currently sees
                     for (AprilTagDetection detection : currentDetections) {
                         // Look to see if we have size info on this tag.
                         if (detection.metadata != null) {
@@ -65,22 +66,25 @@ public class RedBackAuto extends LinearOpMode {
                                 break;  // don't look any further.
                             }
                             if ((robot.DESIRED_TAG_ID < 0 || detection.id == 4)) {
+                                //if sees Red Left
                                 if (robot.DESIRED_TAG_ID > 4) {
+                                    //If the spike indicated Center or Right
                                     robot.mecanumDrive(-0.5, 0, 0);
-                                } else if (robot.DESIRED_TAG_ID < 4) {
-                                    robot.mecanumDrive(0.5, 0, 0);
                                 }
                             } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 5)) {
+                                //if sees Red Center
                                 if (robot.DESIRED_TAG_ID > 5) {
                                     robot.mecanumDrive(-0.5, 0, 0);
+                                    // if the spike indicated Right
                                 } else if (robot.DESIRED_TAG_ID < 5) {
                                     robot.mecanumDrive(0.5, 0, 0);
+                                    //if Spike indicated Left
                                 }
                             } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 6)) {
-                                if (robot.DESIRED_TAG_ID > 6) {
-                                    robot.mecanumDrive(0, 0, 0);
-                                } else if (robot.DESIRED_TAG_ID < 6) {
+                                //if sees Red Right
+                                 if (robot.DESIRED_TAG_ID < 6) {
                                     robot.mecanumDrive(0.5, 0, 0);
+                                    //if Spike indicated Left or Center
                                 }
                             } else {
                                 // This tag is in the library, but we do not want to track it right now.
@@ -92,6 +96,7 @@ public class RedBackAuto extends LinearOpMode {
                         telemetry.addLine("\nFound!");
                         telemetry.addData("\n", robot.DESIRED_TAG_ID);
                         robot.mecanumDrive(0, 0, 0);
+                        //sends a the robot sees the correct tag
                     } else {
                         telemetry.addLine("\nNot found.");
                     }
