@@ -135,8 +135,8 @@ public class RobotHardware_TT {
         armMotor = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         intakeMotor = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
         planeLoader = myOpMode.hardwareMap.get(Servo.class, "planeLoader");
-        visionPortal = VisionPortal.easyCreateWithDefaults(
-                myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
+        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+        visionPortal = VisionPortal.easyCreateWithDefaults(myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -168,13 +168,12 @@ public class RobotHardware_TT {
         // Define and initialize ALL installed servos.
         claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
-        flick = myOpMode.hardwareMap.get(Servo.class, "flick");
-        flick.setPosition(0.8);
+
 
 
         scootImu = myOpMode.hardwareMap.get(IMU.class, "imu");
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
-        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         scootImu.initialize(new IMU.Parameters(orientationOnRobot));
         scootImu.resetYaw();
@@ -280,6 +279,7 @@ public class RobotHardware_TT {
 
     public void mecanumDrive(double x, double y, double heading) {
         double newRx;
+        y*=-1;
         newRx = turnValue(-heading * heading);
 
 

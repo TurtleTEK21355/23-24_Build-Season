@@ -56,6 +56,7 @@ public class DriveWithSticksMecanum extends LinearOpMode {
 
             telemetry.addData("Turn Value that is equal at the present moment to:", Turn);
             telemetry.addData("turning stick value", gamepad1.right_stick_x);
+            telemetry.addData("Gyro", robot.getYawAngles());
 
             if (gamepad1.left_stick_y < 0) {
                 Drive = -Math.pow(gamepad1.left_stick_y, 2);
@@ -80,5 +81,5 @@ public class DriveWithSticksMecanum extends LinearOpMode {
             }
             telemetry.update();
         }
-        }
-        }
+    }
+}
