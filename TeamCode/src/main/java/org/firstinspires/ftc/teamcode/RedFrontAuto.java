@@ -89,13 +89,13 @@ public class RedFrontAuto extends LinearOpMode {
                                     robot.mecanumDrive(0.5, 0, 0);
                                     //if Spike indicated Left or Center
                                 }
-                            while (robot.armMotorEncoders() < 100) {
+                                while (robot.armMotorEncoders() < 100) {
                                 //^^^Test Value for Encoders^^^
-                                    robotHardware.setArm(0.3333);
+                                robotHardware.setArm(0.3333);
+                                }
                             }
                             // Here goes the scoring mechanism. It is hard to code, given that we don't know what mechanism we use.
-
-                            else {
+                    else {
                                 // This tag is in the library, but we do not want to track it right now.
                                 telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
                             }
