@@ -35,13 +35,16 @@ public class RedBackAuto extends LinearOpMode {
         List<Integer> encoderList = robotHardware.getEncoders();
         startEncoderValue = encoderList.get(0);
 
+/**
+ * The variable to store our instance of the AprilTag processor.
+ */
 
 /**
  * The variable to store our instance of the vision portal.
  */
         VisionPortal visionPortal;
         AprilTagDetection desiredTag = null;
-       runOpMode(); {
+        runOpMode(); {
             robot.init();
             boolean targetFound = false;
             robot.initAprilTag();
@@ -68,8 +71,8 @@ public class RedBackAuto extends LinearOpMode {
                             if ((robot.DESIRED_TAG_ID < 0 || detection.id == 4)) {
                                 //if sees Red Left
                                 if (robot.DESIRED_TAG_ID > 4) {
-                                    //If the spike indicated Center or Right
                                     robot.mecanumDrive(-0.5, 0, 0);
+                                    //If the spike indicated Center or Right
                                 }
                             } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 5)) {
                                 //if sees Red Center
@@ -82,7 +85,7 @@ public class RedBackAuto extends LinearOpMode {
                                 }
                             } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 6)) {
                                 //if sees Red Right
-                                 if (robot.DESIRED_TAG_ID < 6) {
+                                if (robot.DESIRED_TAG_ID < 6) {
                                     robot.mecanumDrive(0.5, 0, 0);
                                     //if Spike indicated Left or Center
                                 }

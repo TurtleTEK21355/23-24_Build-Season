@@ -35,16 +35,16 @@ public class BlueBackAuto extends LinearOpMode {
         List<Integer> encoderList = robotHardware.getEncoders();
         startEncoderValue = encoderList.get(0);
 
-
 /**
  * The variable to store our instance of the AprilTag processor.
- *//**
+ */
+
+/**
  * The variable to store our instance of the vision portal.
  */
         VisionPortal visionPortal;
-
         AprilTagDetection desiredTag = null;
-            runOpMode (); {
+        runOpMode(); {
             robot.init();
             boolean targetFound = false;
             robot.initAprilTag();
@@ -68,26 +68,26 @@ public class BlueBackAuto extends LinearOpMode {
                                 desiredTag = detection;
                                 break;  // don't look any further.
                             }
-                            if ((robot.DESIRED_TAG_ID < 0 || detection.id == 1)) {
-                                //If sees Blue Left
-                                if (robot.DESIRED_TAG_ID > 1) {
+                            if ((robot.DESIRED_TAG_ID < 0 || detection.id == 4)) {
+                                //if sees Red Left
+                                if (robot.DESIRED_TAG_ID > 4) {
                                     robot.mecanumDrive(-0.5, 0, 0);
-                                    //if Spike indicated Ceter or Right
+                                    //If the spike indicated Center or Right
                                 }
-                            } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 2)) {
-                                //If sees Blue Center
-                                if (robot.DESIRED_TAG_ID > 2) {
+                            } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 5)) {
+                                //if sees Red Center
+                                if (robot.DESIRED_TAG_ID > 5) {
                                     robot.mecanumDrive(-0.5, 0, 0);
-                                    //If spike indicated Right
-                                } else if (robot.DESIRED_TAG_ID < 2) {
+                                    // if the spike indicated Right
+                                } else if (robot.DESIRED_TAG_ID < 5) {
                                     robot.mecanumDrive(0.5, 0, 0);
-                                    //if spike indicated Left
+                                    //if Spike indicated Left
                                 }
-                            } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 3)) {
-                                //If sees Blue Right
-                                 if (robot.DESIRED_TAG_ID < 3) {
+                            } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 6)) {
+                                //if sees Red Right
+                                if (robot.DESIRED_TAG_ID < 6) {
                                     robot.mecanumDrive(0.5, 0, 0);
-                                    //If spike indicated Center or Left
+                                    //if Spike indicated Left or Center
                                 }
                             } else {
                                 // This tag is in the library, but we do not want to track it right now.

@@ -308,11 +308,12 @@ public class RobotHardware_TT {
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 
@@ -385,6 +386,11 @@ public class RobotHardware_TT {
     double porportionalElevatorControl(double goalHeight, double encoderPosition) {
         double motorPosition = (goalHeight - encoderPosition) * elevatorPValue;
         return motorPosition;
+    }
+
+    double armMotorEncoders() {
+        double armMotorPosition = armMotor.getCurrentPosition();
+        return armMotorPosition;
     }
 
     /**
