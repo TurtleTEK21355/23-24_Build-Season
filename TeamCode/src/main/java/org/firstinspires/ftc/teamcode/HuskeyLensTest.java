@@ -13,7 +13,7 @@ public class HuskeyLensTest extends LinearOpMode {
     RobotHardware_TT   robot       = new RobotHardware_TT(this);
     double y;
     double x;
-    double Tag;
+    String Tag;
     @Override
     public void runOpMode() {
         robot.init();
@@ -47,24 +47,25 @@ public class HuskeyLensTest extends LinearOpMode {
                 telemetry.addData("\nY:", blocks[i].y);
                 telemetry.addData("Blocks: ", blocks[i].toString());
             }
+
             if (x != 0 && y != 0) {
                 robot.mecanumDrive(0,-1,0);
                 sleep(50);
                 robot.mecanumDrive(0,0,0);
             }
 
-            if (x >= 270 && x <= 280) {
+           /* if (x >= 270 && x <= 280) {
                 if (y >= 60 && y <= 70) {
-                    Tag = 6;
+                    Tag = "Right";
                 }
             } else if (x >= 170 && x <= 270) {
                 if (y >= 60 && y <= 70) {
-                    Tag = 5;
+                    Tag = "Center";
                 }
             } else {
-                Tag = 4;
+                Tag = "Left";
             }
-            telemetry.addData("\nTag: ", Tag);
+            telemetry.addData("\nTag: ", Tag);*/
 
 
             telemetry.update();
