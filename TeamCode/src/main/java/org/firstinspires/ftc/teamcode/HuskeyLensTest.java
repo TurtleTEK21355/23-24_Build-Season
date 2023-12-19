@@ -47,6 +47,11 @@ public class HuskeyLensTest extends LinearOpMode {
                 telemetry.addData("\nY:", blocks[i].y);
                 telemetry.addData("Blocks: ", blocks[i].toString());
             }
+            if (x != 0 && y != 0) {
+                robot.mecanumDrive(0,-1,0);
+                sleep(50);
+                robot.mecanumDrive(0,0,0);
+            }
 
             if (x >= 270 && x <= 280) {
                 if (y >= 60 && y <= 70) {
