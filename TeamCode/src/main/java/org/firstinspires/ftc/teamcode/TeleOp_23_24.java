@@ -29,7 +29,7 @@ public class TeleOp_23_24 extends LinearOpMode {
 
             robot.setWrist(Math.abs(gamepad2.left_stick_y));
 
-            robot.setClaw1(Math.abs(gamepad2.left_trigger));
+            robot.setClaw(Math.abs(gamepad2.left_trigger), 1 - Math.abs(gamepad2.left_trigger));
             telemetry.addData("Claw Servo Position: ", robot.claw1.getPosition());
 
             //for finger-claw
