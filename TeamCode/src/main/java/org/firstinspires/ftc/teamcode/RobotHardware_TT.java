@@ -120,10 +120,10 @@ public class RobotHardware_TT {
         //leftDrive  = myOpMode.hardwareMap.get(DcMotor.class, "motorLeft");
         //rightDrive = myOpMode.hardwareMap.get(DcMotor.class, "motorRight");
 
-        //leftFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftFrontDrive");
-        //rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
-        //leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
-        //rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
+        leftFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftFrontDrive");
+        rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
+        leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
+        rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
         huskyLens = myOpMode.hardwareMap.get(HuskyLens.class, "huskylens");
         //pixyCam = myOpMode.hardwareMap.i2cDeviceSynch.get("Pixie");
         //pixyCam.read(0x51, 5);
