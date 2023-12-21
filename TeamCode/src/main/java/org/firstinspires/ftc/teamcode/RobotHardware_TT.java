@@ -33,6 +33,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -147,6 +148,7 @@ public class RobotHardware_TT {
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         launch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -278,9 +280,10 @@ public class RobotHardware_TT {
     }
 
     public void mecanumDrive(double x, double y, double heading) {
-        double newRx;
-        y*=-1;
-        newRx = turnValue(-heading * heading);
+        double newRx = 0;
+        myOpMode.telemetry.addData("New RX value", newRx);
+//        y*=-1;
+//        newRx = turnValue(-heading);
 
 
 //        leftFrontDrive.setPower(y + x + newRx);
@@ -326,7 +329,7 @@ public class RobotHardware_TT {
         // Adjust the correctionRx value by that result * -1
         double correctionYawDegrees = -yawDegrees * yawDegrees;
         // if correctionYawDegrees < 0 then turn left.
-        if (correctionYawDegrees > turnToAngle + 1) {
+        if (correctionYawDegrees > turnToAngle + toleranceValue) {
             correctionRx = 1;
         } else if (correctionYawDegrees < turnToAngle - toleranceValue) {
             correctionRx = -1;
