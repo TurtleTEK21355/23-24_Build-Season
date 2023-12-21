@@ -26,10 +26,9 @@ public class RedFrontAuto extends LinearOpMode {
         startEncoderValue = encoderList.get(0);
         waitForStart();
 
-<<<<<<<HEAD
         while (opModeIsActive()) {
             robotHardware.resetEncoders();
-            while (encoderList.get(0) > 300 && opModeIsActive()) {
+            while (encoderList.get(1) < 300 && opModeIsActive()) {
                 robotHardware.mecanumDrive(0, -0.5, 0); //drive to the spike mark placing
                 telemetry.addData("ticks", encoderList.get(0));
                 telemetry.update();

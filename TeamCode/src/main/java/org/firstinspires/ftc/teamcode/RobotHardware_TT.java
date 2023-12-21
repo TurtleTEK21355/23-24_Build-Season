@@ -308,6 +308,7 @@ public class RobotHardware_TT {
 
 
     public void resetEncoders() {
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
