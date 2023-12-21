@@ -68,38 +68,38 @@ public class TeleOp_23_24 extends LinearOpMode {
 
 
 
-//            if (-gamepad1.left_stick_x < 0) {
-//                Strafe = -Math.pow(-gamepad1.left_stick_x, 2);
-//            } else {
-//                Strafe = Math.pow(-gamepad1.left_stick_x, 2);
-//            }
-//            if(gamepad1.right_stick_x < 0){
-//                Turn = Turn + 1;
-//            }
-//            else if(gamepad1.right_stick_x > 0){
-//                Turn = Turn - 1;
-//            }
-//            telemetry.addData("\nTurn Value that is equal at the present moment:", Turn);
-//            telemetry.addData("\nturning stick value", gamepad1.right_stick_x);
-//            if (gamepad1.left_stick_y < 0) {
-//                Drive = -Math.pow(gamepad1.left_stick_y, 2);
-//            } else {
-//                Drive = Math.pow(gamepad1.left_stick_y, 2);
-//            }
-//            if (!PreviousToggleReading && gamepad1.left_bumper) {
-//                ToggleSpeed = !ToggleSpeed;
-//            }
-//            PreviousToggleReading = gamepad1.left_bumper;
-//
-//
-//            if (ToggleSpeed == true) {
-//                robot.mecanumDrive(Strafe * 0.6, Drive * 0.6, Turn);
-//            }
-//            else {
-//                robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
-//            }
+            if (-gamepad1.left_stick_x < 0) {
+                Strafe = -Math.pow(-gamepad1.left_stick_x, 2);
+            } else {
+                Strafe = Math.pow(-gamepad1.left_stick_x, 2);
+            }
+            if(gamepad1.right_stick_x < 0){
+                Turn = Turn + 1;
+            }
+            else if(gamepad1.right_stick_x > 0){
+                Turn = Turn - 1;
+            }
+            telemetry.addData("\nTurn Value that is equal at the present moment:", Turn);
+            telemetry.addData("\nturning stick value", gamepad1.right_stick_x);
+            if (gamepad1.left_stick_y < 0) {
+                Drive = -Math.pow(gamepad1.left_stick_y, 2);
+            } else {
+                Drive = Math.pow(gamepad1.left_stick_y, 2);
+            }
+            if (!PreviousToggleReading && gamepad1.left_bumper) {
+                ToggleSpeed = !ToggleSpeed;
+            }
+            PreviousToggleReading = gamepad1.left_bumper;
+
+
+            if (ToggleSpeed == true) {
+                robot.mecanumDrive(Strafe * 0.6, Drive * 0.6, Turn);
+            }
+            else {
+                robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
+            }
             robot.setArm(-gamepad2.right_stick_y);
-//            telemetry.update();
+            telemetry.update();
 
 
 
