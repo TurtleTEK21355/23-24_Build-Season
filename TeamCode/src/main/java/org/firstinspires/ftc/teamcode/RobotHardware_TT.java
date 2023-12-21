@@ -34,12 +34,9 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.SerialNumber;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
@@ -400,14 +397,17 @@ public class RobotHardware_TT {
 
     /**
      * @param clawOne Sets left claw position. Be careful with the number restraints!
-     * @param clawTwo Sets right claw position. Be careful with the number restraints!
+     *
      */
-    public void setClaw(double clawOne, double clawTwo) {
+    public void setClaw(double clawOne) {
         //need to work on exact numbers
+        double clawTwo;
         if (clawOne > 0.20) {
             claw1.setPosition(22);
+            clawTwo = 1-clawOne;
         } else {
             claw1.setPosition(clawOne);
+            clawTwo = 1-clawOne;
         }
         if (clawTwo < 0.80) {
             claw2.setPosition(78);
