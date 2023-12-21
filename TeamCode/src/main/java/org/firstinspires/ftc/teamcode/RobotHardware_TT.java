@@ -73,8 +73,6 @@ public class RobotHardware_TT {
     private LinearOpMode myOpMode = null;   // gain access to methods in the calling OpMode.
 
     // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
-    // private DcMotor leftDrive;
-    // private DcMotor rightDrive;
 
     public Servo claw1;
     public Servo claw2;
@@ -93,8 +91,6 @@ public class RobotHardware_TT {
     public int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
     public AprilTagDetection desiredTag = null;
     private DcMotor pixelMotor;
-    //  private Servo claw1;
-    //private Servo claw2;
 //    private DigitalChannel touchSensor;
 
     // private double pastEncoder = Double.NEGATIVE_INFINITY;
