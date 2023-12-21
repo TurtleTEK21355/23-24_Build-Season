@@ -26,6 +26,7 @@ public class RedFrontAuto extends LinearOpMode {
         startEncoderValue = encoderList.get(0);
         waitForStart();
 
+<<<<<<<HEAD
         while (opModeIsActive()) {
             robotHardware.resetEncoders();
             while (encoderList.get(0) > 300 && opModeIsActive()) {
@@ -45,6 +46,6 @@ public class RedFrontAuto extends LinearOpMode {
 //                robotHardware.resetEncoders();
 //                robotHardware.mecanumDrive(0,0,0);
 //
-            }
         }
     }
+}

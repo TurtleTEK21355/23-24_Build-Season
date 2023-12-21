@@ -80,8 +80,7 @@ public class RobotHardware_TT {
     // private DcMotor rightDrive;
 
     public Servo claw1;
-
-    public Servo planeLoader;
+    public Servo claw2;
     private Servo wrist;
     private Servo flick;
     private DcMotor launch;
@@ -135,7 +134,6 @@ public class RobotHardware_TT {
         launch = myOpMode.hardwareMap.get(DcMotor.class, "launch");
         armMotor = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         intakeMotor = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
-        planeLoader = myOpMode.hardwareMap.get(Servo.class, "planeLoader");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
@@ -169,7 +167,10 @@ public class RobotHardware_TT {
 
         // Define and initialize ALL installed servos.
         claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
+        claw2 = myOpMode.hardwareMap.get(Servo.class, "claw2");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+        flick = myOpMode.hardwareMap.get(Servo.class, "linear");
+        flick.setPosition(0.8);
 
 
 
@@ -397,13 +398,20 @@ public class RobotHardware_TT {
     }
 
     /**
-     * @param claw sets claw position. Be careful with the number restraints
+     * @param clawOne Sets left claw position. Be careful with the number restraints!
+     * @param clawTwo Sets right claw position. Be careful with the number restraints!
      */
-    public void setClaw1(double claw) {
-        if (claw > 0.20) {
+    public void setClaw(double clawOne, double clawTwo) {
+        //need to work on exact numbers
+        if (clawOne > 0.20) {
             claw1.setPosition(22);
         } else {
-            claw1.setPosition(claw);
+            claw1.setPosition(clawOne);
+        }
+        if (clawTwo < 0.80) {
+            claw2.setPosition(78);
+        } else {
+            claw2.setPosition(clawTwo);
         }
     }
 
