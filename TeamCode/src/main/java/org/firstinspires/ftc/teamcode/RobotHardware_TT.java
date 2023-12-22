@@ -74,9 +74,10 @@ public class RobotHardware_TT {
     //private DcMotor leftBackDrive;
     //private DcMotor rightBackDrive;
     private Servo claw1;
+    private Servo claw2;
     private Servo wrist;
     //private DcMotor left;
-    //private DcMotor right;
+    private DcMotor intake;
     private DcMotor Arm;
     //private Servo claw2;
     // private DigitalChannel touchSensor;
@@ -116,7 +117,7 @@ public class RobotHardware_TT {
         //leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         //rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
         //right = myOpMode.hardwareMap.get(DcMotor.class, "right");
-        //left = myOpMode.hardwareMap.get(DcMotor.class, "left");
+        intake = myOpMode.hardwareMap.get(DcMotor.class, "intake");
         Arm = myOpMode.hardwareMap.get(DcMotor.class, "Arm");
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -147,8 +148,9 @@ public class RobotHardware_TT {
         // rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
-        //claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
-        //wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+        claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
+        claw2 = myOpMode.hardwareMap.get(Servo.class, "claw2");
+        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
 
 
 
@@ -300,12 +302,21 @@ public class RobotHardware_TT {
         // else, do nothing.
     }*/
 
-    public void setClaw1(double claw) {
-        if (claw > 0.20){
+    public void setClaw(double clawOne) {
+        double clawTwo;
+        if (clawOne < 0.20){
             claw1.setPosition(22);
+            clawTwo = 1-clawOne;
         }
         else {
-            claw1.setPosition(claw);
+            claw1.setPosition(clawOne);
+            clawTwo = 1-clawOne;
+        }
+        if (clawOne > 0.80){
+            claw2.setPosition(78);
+        }
+        else {
+            claw2.setPosition(clawTwo);
         }
     }
     public void setWrist(double wrist1) {
@@ -315,9 +326,8 @@ public class RobotHardware_TT {
         Arm.setPower(arm);
     }
 
-    public void intake1(double offset) {
-        //left.setPower(offset);
-        //right.setPower(0-offset);
+    public void intake(double powerIntake) {
+        intake.setPower(powerIntake);
     }
 
 
