@@ -276,8 +276,8 @@ public class RobotHardware_TT {
     public void mecanumDrive(double x, double y, double heading) {
         double newRx = 0;
         myOpMode.telemetry.addData("New RX value", newRx);
-//        y*=-1;
-//        newRx = turnValue(-heading);
+          y*=-1;
+          newRx = turnValue(-heading);
 
 
 //        leftFrontDrive.setPower(y + x + newRx);
@@ -345,8 +345,8 @@ public class RobotHardware_TT {
         }
 
         return correctionRx;
-        //correctionRx = correctionYawDegrees/180;
-        // return correctionRx;
+//            correctionRx = correctionYawDegrees/180;
+//            //return correctionRx;
 
         // if correctionYawDegrees > 0 then turn right.
         // else, do nothing.

@@ -28,13 +28,21 @@ public class RedFrontAuto extends LinearOpMode {
 
         while (opModeIsActive()) {
             robotHardware.resetEncoders();
-            while (encoderList.get(0) > -730 && opModeIsActive()) {
+            while (encoderList.get(0) > -830 && opModeIsActive()) {
                 encoderList = robotHardware.getEncoders();
-                robotHardware.mecanumDrive(0, -0.5, 0); //drive to the spike mark placing
+                robotHardware.mecanumDrive(0, 0.5, 0); //drive to the spike mark placing
                 telemetry.addData("ticks", encoderList.get(0));
                 telemetry.update();
             }
             robotHardware.mecanumDrive(0,0,0);
+            robotHardware.imuTurn(90);
+            robotHardware.resetEncoders();
+            while (encoderList.get(0) > -1700 && opModeIsActive()) {
+                encoderList = robotHardware.getEncoders();
+                robotHardware.mecanumDrive(0, 0.5, 0); //drive to backdrop
+                telemetry.addData("ticks", encoderList.get(0));
+                telemetry.update();
+            }
 //                robotHardware.resetEncoders();
 //                robotHardware.mecanumDrive(0,0,30);// filler value, need to have vision to determine how much to turn.
 //                //places pixel
