@@ -143,10 +143,10 @@ public class RobotHardware_TT {
 
         //leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFrontDrive.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         launch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -308,7 +308,6 @@ public class RobotHardware_TT {
 
 
     public void resetEncoders() {
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -319,6 +318,19 @@ public class RobotHardware_TT {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void runLeftFrontMotor(){
+        leftFrontDrive.setPower(0.2);
+    }
+    public void runRightBackMotor(){
+        rightBackDrive.setPower(0.2);
+    }
+    public void runRightFrontMotor(){
+        rightFrontDrive.setPower(0.2);
+    }
+    public void runLeftBackMotor(){
+        leftBackDrive.setPower(0.2);
     }
 
 
