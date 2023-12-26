@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -40,12 +41,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
@@ -91,6 +94,8 @@ public class RobotHardware_TT {
     public int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
     public AprilTagDetection desiredTag = null;
     private DcMotor pixelMotor;
+    public final int READ_PERIOD = 1;
+    private HuskyLens huskyLens;
 //    private DigitalChannel touchSensor;
 
     // private double pastEncoder = Double.NEGATIVE_INFINITY;
@@ -129,6 +134,7 @@ public class RobotHardware_TT {
         intakeMotor = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
+        huskyLens = myOpMode.hardwareMap.get(HuskyLens.class, "huskylens");
         //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -457,6 +463,37 @@ public class RobotHardware_TT {
      */
     public void setIntake(double speed) {
         intakeMotor.setPower(speed);
+    }
+
+    public void initLens() {
+        Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
+        rateLimit.expire();
+
+        if (!huskyLens.knock()) {
+            myOpMode.telemetry.addData(">>", "Problem communicating with " + huskyLens.getDeviceName());
+        } else {
+            myOpMode.telemetry.addData(">>", "Press start to continue");
+        }
+
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.OBJECT_TRACKING);
+
+        myOpMode.telemetry.update();
+    }
+
+    public int blockLens() {
+        HuskyLens.Block[] blocks = huskyLens.blocks();
+        myOpMode.telemetry.addData("Block count", blocks.length);
+        int y = 0;
+        int x = 0;
+        for (int i = 0; i < blocks.length; i++) {
+            y = blocks[i].y;
+            x = blocks[i].x;
+            myOpMode.telemetry.addData("\nX:", blocks[i].x);
+            myOpMode.telemetry.addData("\nY:", blocks[i].y);
+            myOpMode.telemetry.addData("Blocks: ", blocks[i].toString());
+        }
+        myOpMode.telemetry.update();
+        return y & x;
     }
 
 
