@@ -19,27 +19,27 @@ public class RedFrontAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        RobotHardware_TT robotHardware = new RobotHardware_TT(this);
-        robotHardware.init();
-        robotHardware.getEncoders();
-        List<Integer> encoderList = robotHardware.getEncoders();
+
+        robot.init();
+        robot.getEncoders();
+        List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
         waitForStart();
 
         while (opModeIsActive()) {
-            robotHardware.resetEncoders();
+            robot.resetEncoders();
             while (encoderList.get(0) > -830 && opModeIsActive()) {
-                encoderList = robotHardware.getEncoders();
-                robotHardware.mecanumDrive(0, 0.5, 0); //drive to the spike mark placing
+                encoderList = robot.getEncoders();
+                robot.mecanumDrive(0, 0.5, 0); //drive to the spike mark placing
                 telemetry.addData("ticks", encoderList.get(0));
                 telemetry.update();
             }
-            robotHardware.mecanumDrive(0,0,0);
-            robotHardware.imuTurn(90);
-            robotHardware.resetEncoders();
+            robot.mecanumDrive(0,0,0);
+            robot.imuTurn(90);
+            robot.resetEncoders();
             while (encoderList.get(0) > -1700 && opModeIsActive()) {
-                encoderList = robotHardware.getEncoders();
-                robotHardware.mecanumDrive(0, 0.5, 0); //drive to backdrop
+                encoderList = robot.getEncoders();
+                robot.mecanumDrive(0, 0.5, 0); //drive to backdrop
                 telemetry.addData("ticks", encoderList.get(0));
                 telemetry.update();
             }
