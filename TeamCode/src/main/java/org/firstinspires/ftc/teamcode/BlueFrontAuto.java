@@ -29,10 +29,9 @@ public class BlueFrontAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        RobotHardware_TT robotHardware = new RobotHardware_TT(this);
-        robotHardware.init();
-        robotHardware.getEncoders();
-        List<Integer> encoderList = robotHardware.getEncoders();
+        robot.init();
+        robot.getEncoders();
+        List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
 
     }
