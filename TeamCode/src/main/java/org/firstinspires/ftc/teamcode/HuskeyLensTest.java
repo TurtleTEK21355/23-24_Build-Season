@@ -49,7 +49,7 @@ public class HuskeyLensTest extends LinearOpMode {
                 telemetry.addData("Blocks: ", blocks[i].toString());
             }
 
-           /* if (x >= 270 && x <= 280) {
+            if (x >= 270 && x <= 280) {
                 if (y >= 60 && y <= 70) {
                     Tag = "Right";
                 }
@@ -60,8 +60,8 @@ public class HuskeyLensTest extends LinearOpMode {
             } else {
                 Tag = "Left";
             }
-            telemetry.addData("\nTag: ", Tag);*/
-
+            telemetry.addData("\nTag: ", Tag);
+            
 
             telemetry.update();
         }
