@@ -78,7 +78,7 @@ import java.util.List;
                                 }
                             } else if ((robot.DESIRED_TAG_ID < 0 || detection.id == 6)) {
                                 //if sees Red Right
-                                if (robot.DESIRED_TAG_ID < 6) {
+                                if (6 > robot.DESIRED_TAG_ID) {
                                     robot.mecanumDrive(0.5, 0, 0);
                                     //if Spike indicated Left or Center
                                 }
