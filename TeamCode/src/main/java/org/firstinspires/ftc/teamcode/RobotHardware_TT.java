@@ -46,6 +46,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -480,21 +481,34 @@ public class RobotHardware_TT {
         myOpMode.telemetry.update();
     }
 
-    public int blockLens() {
+    public int blockLensX() {
+        HuskyLens.Block[] blocks = huskyLens.blocks();
+        myOpMode.telemetry.addData("Block count", blocks.length);
+        int x = 0;
+        for (int i = 0; i < blocks.length; i++) {
+            x = blocks[i].x;
+            myOpMode.telemetry.addData("\nX:", blocks[i].x);
+            myOpMode.telemetry.addData("Blocks: ", blocks[i].toString());
+        }
+
+        myOpMode.telemetry.update();
+        return x;
+    }
+
+    public int blockLensY() {
         HuskyLens.Block[] blocks = huskyLens.blocks();
         myOpMode.telemetry.addData("Block count", blocks.length);
         int y = 0;
-        int x = 0;
         for (int i = 0; i < blocks.length; i++) {
             y = blocks[i].y;
-            x = blocks[i].x;
-            myOpMode.telemetry.addData("\nX:", blocks[i].x);
             myOpMode.telemetry.addData("\nY:", blocks[i].y);
             myOpMode.telemetry.addData("Blocks: ", blocks[i].toString());
         }
+
         myOpMode.telemetry.update();
-        return y & x;
+        return y;
     }
+
 
 
     /**
