@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.io.File;
 import java.util.List;
 
-@Autonomous(name="RedBackAuto", group="Turtle Group")
+@Autonomous(name="RedBackAuto", group="Red Team")
 public class RedBackAuto extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
 

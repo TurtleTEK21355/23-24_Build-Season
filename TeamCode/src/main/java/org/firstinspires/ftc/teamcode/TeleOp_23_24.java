@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="TeleOp", group="Turtle Group")
+@TeleOp(name="TeleOp", group="TeleOp")
 public class TeleOp_23_24 extends LinearOpMode {
     RobotHardware_TT   robot       = new RobotHardware_TT(this);
     @Override
