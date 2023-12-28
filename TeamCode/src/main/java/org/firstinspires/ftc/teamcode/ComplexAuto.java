@@ -54,6 +54,7 @@ import java.util.List;
             telemetry.update();
         }
 
+        // Here is where you would put code to place the pixel on the spike mark
 /**
  * The variable to store our instance of the AprilTag processor.
  */
@@ -125,6 +126,7 @@ import java.util.List;
                         telemetry.addData("\n", robot.DESIRED_TAG_ID);
                         robot.mecanumDrive(0, 0, 0);
                         //sends a the robot sees the correct tag
+                        //Put code here to place pixel on backdrop
                     } else {
                         telemetry.addLine("\nNot found.");
                     }
