@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.io.File;
 import java.util.List;
 
-@Autonomous(name="BlueFrontAuto", group="Turtle Group")
+@Autonomous(name="BlueFrontAuto", group="Blue Team")
 public class BlueFrontAuto extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
 

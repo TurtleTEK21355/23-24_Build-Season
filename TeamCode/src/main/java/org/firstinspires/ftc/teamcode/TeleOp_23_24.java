@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="TeleOp", group="Turtle Group")
+@TeleOp(name="TeleOp", group="TeleOp")
 public class TeleOp_23_24 extends LinearOpMode {
     RobotHardware_TT   robot       = new RobotHardware_TT(this);
     @Override
@@ -30,15 +30,9 @@ public class TeleOp_23_24 extends LinearOpMode {
             robot.setWrist(Math.abs(gamepad2.left_stick_y));
 
             robot.setClaw(Math.abs(gamepad2.left_trigger));
-            telemetry.addData("Claw Servo Position: ", robot.claw1.getPosition());
+            telemetry.addData("Claw 1 Servo Position: ", robot.claw1.getPosition());
+            telemetry.addData("Claw 2 Servo Position: ", robot.claw2.getPosition());
 
-            //for finger-claw
-           /* if (gamepad2.dpad_left && gamepad2.dpad_right) {
-            } else if (gamepad2.dpad_right) {
-                robot.setClaw1(0.19);
-            } else if (gamepad2.dpad_left) {
-                robot.setClaw1(0.05);
-            }*/
 //
 //            if (gamepad2.right_bumper && gamepad2.left_bumper) {
 //            } else if (gamepad2.left_bumper) {

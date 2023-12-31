@@ -28,40 +28,10 @@ import java.util.List;
         robotHardware.getEncoders();
         List<Integer> encoderList = robotHardware.getEncoders();
         startEncoderValue = encoderList.get(0);
-        //HuskyLens stuff (Don't move before this block of code)
-        if (robot.blockLensX() >= 270 && robot.blockLensX() <= 280) {
-            if (robot.blockLensY() >= 60 && robot.blockLensY() <= 70) {
-                Tag = "Right";
-            }
-        } else if (robot.blockLensX() >= 170 && robot.blockLensX() <= 270) {
-            if (robot.blockLensY() >= 60 && robot.blockLensY() <= 70) {
-                Tag = "Center";
-            }
-        } else {
-            Tag = "Left";
-        }
-        telemetry.addData("\nTag: ", Tag);
-        telemetry.update();
-        //Desired Tag (Don't Move Before this code!)
-        if (Tag.equals("Left")) {
-            robot.DESIRED_TAG_ID = 4;
-        } else if (Tag.equals("Center")) {
-            robot.DESIRED_TAG_ID = 5;
-        } else if (Tag.equals("Right")) {
-            robot.DESIRED_TAG_ID = 6;
-        } else {
-            telemetry.addLine("Tag not found.");
-            telemetry.update();
-        }
 
-        // Here is where you would put code to place the pixel on the spike mark
-/**
- * The variable to store our instance of the AprilTag processor.
- */
 
-/**
- * The variable to store our instance of the vision portal.
- */
+
+        robot.initLens();
         VisionPortal visionPortal;
         AprilTagDetection desiredTag = null;
         runOpMode(); {
@@ -72,6 +42,34 @@ import java.util.List;
             waitForStart();
             if (opModeIsActive()) {
                 while (opModeIsActive()) {
+                    //HuskyLens stuff (Don't move before this block of code)
+                    if (robot.blockLensX() >= 270 && robot.blockLensX() <= 280) {
+                        if (robot.blockLensY() >= 60 && robot.blockLensY() <= 70) {
+                            Tag = "Right";
+                        }
+                    } else if (robot.blockLensX() >= 170 && robot.blockLensX() <= 270) {
+                        if (robot.blockLensY() >= 60 && robot.blockLensY() <= 70) {
+                            Tag = "Center";
+                        }
+                    } else {
+                        Tag = "Left";
+                    }
+                    telemetry.addData("\nTag: ", Tag);
+                    telemetry.update();
+                    //Desired Tag (Don't Move Before this code!)
+                    if (Tag.equals("Left")) {
+                        robot.DESIRED_TAG_ID = 4;
+                    } else if (Tag.equals("Center")) {
+                        robot.DESIRED_TAG_ID = 5;
+                    } else if (Tag.equals("Right")) {
+                        robot.DESIRED_TAG_ID = 6;
+                    } else {
+                        telemetry.addLine("Tag not found.");
+                        telemetry.update();
+                    }
+
+                    // Here is where you would put code to place the pixel on the spike mark
+
                     targetFound = false;
                     desiredTag = null;
                     // Push telemetry to the Driver Station.

@@ -34,7 +34,6 @@ import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -46,7 +45,6 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -97,10 +95,6 @@ public class RobotHardware_TT {
     private DcMotor pixelMotor;
     public final int READ_PERIOD = 1;
     private HuskyLens huskyLens;
-//    private DigitalChannel touchSensor;
-
-    // private double pastEncoder = Double.NEGATIVE_INFINITY;
-
 
     /*  IMU imu;
       // Define Drive constants.  Make them public so they CAN be used by the calling OpMode
@@ -113,19 +107,15 @@ public class RobotHardware_TT {
     public RobotHardware_TT(LinearOpMode opmode) {
         myOpMode = opmode;
     }
-/*
+
     /**
      * Initialize all the robot's hardware.
      * This method must be called ONCE when the OpMode is initialized.
      *left
      * All of the hardware devices are accessed via the hardware map, and initialized.
      */
-
     public void init() {
         // Define and Initialize Motors (note: need to use reference to actual OpMode).
-        //leftDrive  = myOpMode.hardwareMap.get(DcMotor.class, "motorLeft");
-        //rightDrive = myOpMode.hardwareMap.get(DcMotor.class, "motorRight");
-
         leftFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftFrontDrive");
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
@@ -136,13 +126,10 @@ public class RobotHardware_TT {
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
         huskyLens = myOpMode.hardwareMap.get(HuskyLens.class, "huskylens");
-        //armMotor   = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
 
-        //leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -152,18 +139,6 @@ public class RobotHardware_TT {
         launch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //leftDrive.setDirection(DcMotor.Direction.REVERSE);
-        //rightDrive.setDirection(DcMotor.Direction.FORWARD);
-        //armMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        //armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        // If there are encoders connected, switch to RUN_USING_ENCODER mode for greater accuracy
-        // leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        // rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
         claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
@@ -180,13 +155,8 @@ public class RobotHardware_TT {
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         scootImu.initialize(new IMU.Parameters(orientationOnRobot));
         scootImu.resetYaw();
-        //RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
-        //RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
-        //RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
-        //imu.initialize(new IMU.Parameters(orientationOnRobot));
 
 
-        //     touchSensor = myOpMode.hardwareMap.get(DigitalChannel.class,"touchSensor");
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
@@ -194,8 +164,6 @@ public class RobotHardware_TT {
 
     public void initAuto() {
         // Define and Initialize Motors (note: need to use reference to actual OpMode).
-        // leftDrive  = myOpMode.hardwareMap.get(DcMotor.class, "motorLeft");
-        //rightDrive = myOpMode.hardwareMap.get(DcMotor.class, "motorRight");
         leftFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftFrontDrive");
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
@@ -206,19 +174,7 @@ public class RobotHardware_TT {
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
 
-        //leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-//        leftDrive.setDirection(DcMotor.Direction.REVERSE);
- //       rightDrive.setDirection(DcMotor.Direction.FORWARD);
-   //     armMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-     //   armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       // armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
@@ -232,53 +188,13 @@ public class RobotHardware_TT {
         // Define and initialize ALL installed servos.
         //claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
         //claw2 = myOpMode.hardwareMap.get(Servo.class, "claw2");
-        //claw1.setPosition(0);
-        //claw2.setPosition(1);
 
 
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
-        myOpMode.telemetry.update();
+        myOpMode.telemetry.update();*/
     }
 
-
-    *//**
-         * Calculates the left/right motor powers required to achieve the requested
-         * robot motions: Drive (Axial motion) and Turn (Yaw motion).
-         * Then sends these power levels to the motors.
-         *
-         * @param Drive     Fwd/Rev driving power (-1.0 to 1.0) +ve is forward
-         * @param Turn      Right/Left turning power (-1.0 to 1.0) +ve is CW
-         *//*
-    public void arcadeDrive(double Drive, double Turn) {
-        // Combine drive and turn for blended motion.
-        double left  = Drive - Turn;
-        double right = Drive + Turn;
-
-        // Scale the values so neither exceed +/- 1.0
-        double max = Math.max(Math.abs(left), Math.abs(right));
-        if (max > 1.0)
-        {
-            left /= max;
-            right /= max;
-        }
-
-        // Use existing function to drive both wheels.
-        tankDrive(left, right);
-    }
-
-    *//**
-         * Pass the requested wheel motor powers to the appropriate hardware drive motors.
-         *
-         * @param leftWheel     Fwd/Rev driving power (-1.0 to 1.0) +ve is forward
-         * @param rightWheel    Fwd/Rev driving power (-1.0 to 1.0) +ve is forward
-         *//*
-    public void tankDrive(double leftWheel, double rightWheel) {
-        // Output the values to the motor drives.
-        //leftDrive.setPower(-leftWheel);
-        //rightDrive.setPower(-rightWheel);
-    }*/
-    }
 
     public void mecanumDrive(double x, double y, double heading) {
         double newRx = 0;
@@ -468,8 +384,10 @@ public class RobotHardware_TT {
         launch.setPower(power);
     }
 
-    /**
-     * @param arm sends arm up and down
+/**
+     * Pass the requested arm power to the appropriate hardware drive motor
+     *
+     * @param arm driving power (-1.0 to 1.0)
      */
     public void setArm(double arm) {
         armMotor.setPower(arm);
@@ -496,7 +414,10 @@ public class RobotHardware_TT {
 
         myOpMode.telemetry.update();
     }
-
+    /**
+     * If you use this also use blockLensY.
+     * This is for the x-value with the HuskyLens.
+     * */
     public int blockLensX() {
         HuskyLens.Block[] blocks = huskyLens.blocks();
         myOpMode.telemetry.addData("Block count", blocks.length);
@@ -510,7 +431,10 @@ public class RobotHardware_TT {
         myOpMode.telemetry.update();
         return x;
     }
-
+    /**
+     * If you use this also use blockLensX.
+     * This is for the y-value with the HuskyLens.
+     * */
     public int blockLensY() {
         HuskyLens.Block[] blocks = huskyLens.blocks();
         myOpMode.telemetry.addData("Block count", blocks.length);
@@ -539,25 +463,6 @@ public class RobotHardware_TT {
         standard movement, as long as the encoder value is less than the desired distance value.
          */
     }
-
-//      public boolean touchSensorNotPressed(){
-//          return touchSensor.getState();
-//      }
-//       public boolean touchSensorIsPressed(){
-//         return !touchSensor.getState();
-//      }
-//    public void capturePixel () {
-//        if (touchSensorIsPressed()) {
-//            claw1.setPosition(22);
-//        } else if (touchSensorNotPressed()) {
-//            myOpMode.telemetry.addLine("\nTouch Sensor not detecting Pixel.");
-//        }
-//    }
-
-
-
-
-
 
     public void initAprilTag() {
 
@@ -600,127 +505,3 @@ public class RobotHardware_TT {
 
 
 }
-/*
-
-
-   */
-/* public void getAngle(){
-        Orientation heading = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-    }*//*
-
-    */
-/**
-     * The robot eats pizza. Not really. It drives for a distance of x feet.
-     *
-     *//*
-
-    public double getWheelEncoderValue() {
-       // return leftDrive.getCurrentPosition();
-    //}
-    //public double getWheelInches() {
-        return getWheelEncoderValue() * .0219;
-    }
-    public void driveDistance(double feet) {
-       // rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       // rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       // leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       // leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        myOpMode.sleep(100);
-        double inches = (feet * 12)*-1;
-        //myOpMode.telemetry.addData("inches : ", inches);
-        //myOpMode.telemetry.update();
-        myOpMode.sleep(100);
-        tankDrive(.35, .35);
-        //while (getWheelInches() > inches && myOpMode.opModeIsActive()) {
-            tankDrive(.35, .35);
-          //  armHeight(2);
-          //  setHandPosition(2.04,-1.04);
-        }
-     //   tankDrive(0,0);
-      //  myOpMode.sleep(100);
-   //}
-
-    //private double getPastEncoder() {
-        String Encoder;
-       // if (pastEncoder == Double.NEGATIVE_INFINITY){
-            String filename = "AutoEncoder.txt";
-            File file = AppUtil.getInstance().getSettingsFile(filename);
-           // Encoder = ReadWriteFile.readFile(file);
-         //   pastEncoder = Double.parseDouble(Encoder);
-           // myOpMode.telemetry.addData("Encoder value: ", Encoder);
-       // }
-       // return pastEncoder;
-    //}
-
-
-//    public double getArmEncoderValue() {
-      //  return armMotor.getCurrentPosition() + getPastEncoder();
-   // }
-   // public double getArmInches() {
-   //     return getArmEncoderValue() * .0082;
-    //}
-
-    */
-/**
-     * Pass the requested arm power to the appropriate hardware drive motor
-     *
-     * @param power driving power (-1.0 to 1.0)
-     *//*
-
-    public void setArmPower(double power) {
-    //    if (getArmEncoderValue() <=  10 && power < 0) {
-        //    armMotor.setPower(0);
-      //  } else{
-          //  armMotor.setPower(power);
-        }
-  //  }
-
-    */
-/*public void armHeight(double height) {
-        if (getArmInches()  < height) {
-            setArmPower(0.8);
-        } else {
-            setArmPower(0);
-        }
-    }
-*/
-/* //public boolean touchSensorNotPressed(){
-        return touchSensor.getState();
-    //}
-    //public boolean touchSensorIsPressed(){
-       // return !w.getState();
-    //}
-
-/*
-    //public void TurnLeft() {
-        //imu.resetYaw();
-   //     tankDrive(-0.75, 0.75);
-       // while (getAngle() < 85 && myOpMode.opModeIsActive()) {
-            tankDrive(-0.75, 0.75);
-          //  armHeight(2);
-        //    myOpMode.telemetry.addData("", getAngle());
-            myOpMode.telemetry.update();
-        //}
-      //  tankDrive(0,0);
-   // }
-    //public void TurnRight() {
-       // imu.resetYaw();
-        tankDrive(0.75, -0.75);
-      //  while (getAngle() > -85 && myOpMode.opModeIsActive()) {
-            tankDrive(0.75, -0.75);
-         //   armHeight(2);
-         //   myOpMode.telemetry.addData("", getAngle());
-            myOpMode.telemetry.update();
-        //}
-        //tankDrive(0,0);
-    //}
-
-    //public void wake(long milliseconds) {
-        ElapsedTime elapsedTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-     //   while (milliseconds > elapsedTime.time()) {
-           // armHeight(2);
-        }
-    }
-}
-
-*/
