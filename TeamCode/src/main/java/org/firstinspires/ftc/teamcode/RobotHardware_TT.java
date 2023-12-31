@@ -285,8 +285,6 @@ public class RobotHardware_TT {
         myOpMode.telemetry.addData("New RX value", newRx);
           y*=-1;
           newRx = turnValue(-heading);
-
-
 //        leftFrontDrive.setPower(y + x + newRx);
 //        rightFrontDrive.setPower(y + x - newRx);
 //        leftBackDrive.setPower(y - x + newRx);
@@ -313,11 +311,14 @@ public class RobotHardware_TT {
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public void resetImu(){
+        scootImu.resetYaw();
     }
 
     public void runLeftFrontMotor(){
@@ -336,12 +337,12 @@ public class RobotHardware_TT {
 
     public double imuTurn(double turnToAngle) {
         double correctionRx;
-        double toleranceValue = 7.5;
+        double toleranceValue = 5;
         //Taking an IMU reading
         YawPitchRollAngles orientation = scootImu.getRobotYawPitchRollAngles();
         double yawDegrees = orientation.getYaw(AngleUnit.DEGREES);
         // Adjust the correctionRx value by that result * -1
-        double correctionYawDegrees = -yawDegrees * yawDegrees;
+        double correctionYawDegrees = -yawDegrees;
         // if correctionYawDegrees < 0 then turn left.
         if (correctionYawDegrees > turnToAngle + toleranceValue) {
             correctionRx = 1;
@@ -390,6 +391,21 @@ public class RobotHardware_TT {
         return tValue;
     }
 
+    public void mecanumTurn(double desiredAngle, double speed) {
+        double tolerance = 0.5;
+        if (getYawAngles() < desiredAngle + tolerance) {
+            leftFrontDrive.setPower(speed);
+            rightFrontDrive.setPower(speed);
+            leftBackDrive.setPower(speed);
+            rightBackDrive.setPower(speed);
+        }
+        if (getYawAngles() > desiredAngle - tolerance) {
+            leftFrontDrive.setPower(-speed);
+            rightFrontDrive.setPower(-speed);
+            leftBackDrive.setPower(-speed);
+            rightBackDrive.setPower(-speed);
+        }
+    }
 
     double pValue = -1;
     double elevatorPValue = -1;
