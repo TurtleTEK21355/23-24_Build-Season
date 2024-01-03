@@ -148,8 +148,8 @@ public class RobotHardware_TT {
         // rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
-        claw1 = myOpMode.hardwareMap.get(Servo.class, "claw1");
-        claw2 = myOpMode.hardwareMap.get(Servo.class, "claw2");
+        claw1 = myOpMode.hardwareMap.get(Servo.class, "clawRight");
+        claw2 = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
 
 
