@@ -8,7 +8,7 @@ public class DroneLaunchers extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
     @Override
     public void runOpMode() {
-        double speed = 0.32;
+        double speed = -0.32;
         robot.init();
         waitForStart();
         while (opModeIsActive()) {
