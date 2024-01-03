@@ -29,11 +29,31 @@ public class RedBackAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         RobotHardware_TT robotHardware = new RobotHardware_TT(this);
         robotHardware.init();
         robotHardware.getEncoders();
         List<Integer> encoderList = robotHardware.getEncoders();
         startEncoderValue = encoderList.get(0);
+        while (opModeIsActive()) {
+            robot.resetEncoders();
+            while (encoderList.get(0) > -830 && opModeIsActive()) {
+                encoderList = robot.getEncoders();
+                robot.mecanumDrive(0, 0.5, 0); //drive to the spike mark placing
+                telemetry.addData("ticks", encoderList.get(0));
+                telemetry.update();
+            }
+            robot.mecanumDrive(0, 0, 0);
+            robot.resetEncoders();
+            sleep(1000);
+            while (encoderList.get(0) > -1200 && opModeIsActive()) {
+                encoderList = robot.getEncoders();
+                robot.mecanumDrive(0.5, 0, 0); //drive to backdrop
+                telemetry.addData("ticks", encoderList.get(0));
+                telemetry.update();
+            }
+            return;
 
+        }
     }
 }

@@ -43,7 +43,7 @@ public class RedFrontAuto extends LinearOpMode {
             while (encoderList.get(0) > -1600 && opModeIsActive()) {
                 encoderList = robot.getEncoders();
                 robot.mecanumDrive(0, 0.5, 0); //drive to backdrop
-                telemetry.addData("ticks", encoderList.get(0))
+                telemetry.addData("ticks", encoderList.get(0));
                 telemetry.update();
             }
             robot.mecanumDrive(0,0,0);
