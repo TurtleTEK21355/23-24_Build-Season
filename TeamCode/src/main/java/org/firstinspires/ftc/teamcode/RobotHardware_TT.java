@@ -304,6 +304,10 @@ public class RobotHardware_TT {
 
     public void setClaw(double clawOne) {
         double clawTwo;
+        if (clawOne == 0) {
+            claw1.setPosition(0);
+            claw2.setPosition(0);
+        }
         if (clawOne < 0.20){
             claw1.setPosition(22);
             clawTwo = 1-clawOne;
@@ -312,7 +316,7 @@ public class RobotHardware_TT {
             claw1.setPosition(clawOne);
             clawTwo = 1-clawOne;
         }
-        if (clawOne > 0.80){
+        if (clawTwo > 0.80){
             claw2.setPosition(78);
         }
         else {
