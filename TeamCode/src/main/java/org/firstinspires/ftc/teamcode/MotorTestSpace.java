@@ -43,6 +43,8 @@ public class MotorTestSpace extends LinearOpMode {
             }
             robot.setWrist(gamepad2.right_trigger);
             robot.setClaw(gamepad2.left_trigger);
+            telemetry.addData("Left Claw Position: ",robot.clawLeft.getPosition());
+            telemetry.addData("Right Claw Position: ",robot.clawRight.getPosition());
 
             robot.setArm(gamepad2.left_stick_y);
             robot.intake(speed);

@@ -36,9 +36,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-
 /**
  * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
  * Please read the explanations in that Sample about how to use this class definition.
@@ -73,8 +70,8 @@ public class RobotHardware_TT {
     //private DcMotor rightFrontDrive;
     //private DcMotor leftBackDrive;
     //private DcMotor rightBackDrive;
-    private Servo claw1;
-    private Servo claw2;
+    public Servo clawRight;
+    public Servo clawLeft;
     private Servo wrist;
     //private DcMotor left;
     private DcMotor intake;
@@ -148,8 +145,8 @@ public class RobotHardware_TT {
         // rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
-        claw1 = myOpMode.hardwareMap.get(Servo.class, "clawRight");
-        claw2 = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
+        clawRight = myOpMode.hardwareMap.get(Servo.class, "clawRight");
+        clawLeft = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
 
 
@@ -302,25 +299,31 @@ public class RobotHardware_TT {
         // else, do nothing.
     }*/
 
-    public void setClaw(double clawOne) {
-        double clawTwo;
-        if (clawOne == 0) {
-            claw1.setPosition(0);
-            claw2.setPosition(0);
+    /**
+     * @param clawRite Sets left claw position. Be careful with the number restraints!
+     *
+     */
+    public void setClaw(double clawRite) {
+        //need to work on exact numbers
+        double clawLet;
+        if (clawRite > 0.5) {
+            clawRight.setPosition(0.5);
+            clawRite = 0.5;
+            clawLet = 1-clawRite;
+        } else if (clawRite < 0.25) {
+            clawRight.setPosition(0.25);
+            clawRite = 0.5;
+            clawLet = 1-clawRite;
+        } else {
+            clawRight.setPosition(clawRite);
+            clawLet = 1-clawRite;
         }
-        if (clawOne < 0.20){
-            claw1.setPosition(22);
-            clawTwo = 1-clawOne;
-        }
-        else {
-            claw1.setPosition(clawOne);
-            clawTwo = 1-clawOne;
-        }
-        if (clawTwo > 0.80){
-            claw2.setPosition(78);
-        }
-        else {
-            claw2.setPosition(clawTwo);
+        if (clawLet < 0.5) {
+            clawLeft.setPosition(0.5);
+        } else if (clawLet > 0.75) {
+            clawLeft.setPosition(0.75);
+        } else {
+            clawLeft.setPosition(clawLet);
         }
     }
     public void setWrist(double wrist1) {
