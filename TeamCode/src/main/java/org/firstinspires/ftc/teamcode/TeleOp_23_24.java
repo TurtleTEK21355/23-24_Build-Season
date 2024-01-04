@@ -19,6 +19,7 @@ public class TeleOp_23_24 extends LinearOpMode {
         double speed = 0.32;
 
         while (opModeIsActive()) {
+
             if (gamepad2.x && gamepad2.back) {
 
                 robot.setLaunch(speed);
@@ -67,19 +68,39 @@ public class TeleOp_23_24 extends LinearOpMode {
             } else {
                 Strafe = Math.pow(-gamepad1.left_stick_x, 2);
             }
+
+//            if (-gamepad1.right_stick_x < 0) {
+//                Turn = -Math.pow(-gamepad1.right_stick_x, 2);
+//            } else {
+//                Turn = Math.pow(-gamepad1.right_stick_x, 2);
+//            }
+
             if(gamepad1.right_stick_x < 0){
                 Turn = Turn + 1;
             }
             else if(gamepad1.right_stick_x > 0){
                 Turn = Turn - 1;
             }
-            telemetry.addData("\nTurn Value that is equal at the present moment:", Turn);
-            telemetry.addData("\nturning stick value", gamepad1.right_stick_x);
+            if(Turn > 180){
+                Turn = Turn - 360;
+            }
+
+            if(Turn < -180){
+                Turn = Turn + 360;
+            }
+
+            telemetry.addData("Turn Value that is equal at the present moment to:", Turn);
+            telemetry.addData("turning stick value", gamepad1.right_stick_x);
+            telemetry.addData("Gyro", robot.getYawAngles());
+
             if (gamepad1.left_stick_y < 0) {
                 Drive = -Math.pow(gamepad1.left_stick_y, 2);
             } else {
                 Drive = Math.pow(gamepad1.left_stick_y, 2);
             }
+
+
+
             if (!PreviousToggleReading && gamepad1.left_bumper) {
                 ToggleSpeed = !ToggleSpeed;
             }
@@ -91,8 +112,8 @@ public class TeleOp_23_24 extends LinearOpMode {
             }
             else {
                 robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
+
             }
-            robot.setArm(-gamepad2.right_stick_y);
             telemetry.update();
 
 
