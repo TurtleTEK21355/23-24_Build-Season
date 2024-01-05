@@ -52,9 +52,9 @@ public class TeleOp_23_24 extends LinearOpMode {
 
             if ((gamepad2.y && gamepad2.a) || (gamepad2.y && gamepad2.b) || (gamepad2.a && gamepad2.b)) {
             } else if (gamepad2.a) {
-                robot.setIntake(0.5);
+                robot.setIntake(0.64);
             } else if (gamepad2.b) {
-                robot.setIntake(-0.5);
+                robot.setIntake(-0.64);
             } else if (gamepad2.y) {
                 robot.setIntake(0);
             }

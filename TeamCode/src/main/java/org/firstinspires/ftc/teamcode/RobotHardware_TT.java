@@ -404,7 +404,7 @@ public class RobotHardware_TT {
     }
 
     /**
-     * @param speed Sets 3D printed intake speed. Do NOT go over 0.7
+     * @param speed Sets 3D printed intake speed. 0.64 is awesome!
      */
     public void setIntake(double speed) {
         intakeMotor.setPower(speed);
