@@ -381,7 +381,7 @@ public class RobotHardware_TT {
     }
 
     /**
-     * @param flick1 linear Servo; max: 0.8 min: 0.2
+     * @param flick1 Servo. Will add numbers.
      */
     public void launchServoGo(double flick1) {
         flick.setPosition(flick1);
