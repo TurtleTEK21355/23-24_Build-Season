@@ -120,7 +120,7 @@ public class RobotHardware_TT {
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
-        launch = myOpMode.hardwareMap.get(DcMotor.class, "launch");
+        launch = myOpMode.hardwareMap.get(DcMotor.class, "launchMotor");
         armMotor = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         intakeMotor = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
@@ -144,7 +144,7 @@ public class RobotHardware_TT {
         clawRight = myOpMode.hardwareMap.get(Servo.class, "clawRight");
         clawLeft = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
-        flick = myOpMode.hardwareMap.get(Servo.class, "linear");
+        flick = myOpMode.hardwareMap.get(Servo.class, "launchServo");
         flick.setPosition(0.8);
 
 
@@ -380,7 +380,7 @@ public class RobotHardware_TT {
     /**
      * @param flick1 linear Servo; max: 0.8 min: 0.2
      */
-    public void linearServoGo(double flick1) {
+    public void launchServoGo(double flick1) {
         flick.setPosition(flick1);
     }
 
