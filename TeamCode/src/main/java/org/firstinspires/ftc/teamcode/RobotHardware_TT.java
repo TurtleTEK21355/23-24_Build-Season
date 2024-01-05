@@ -76,8 +76,8 @@ public class RobotHardware_TT {
 
     // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
 
-    public Servo claw1;
-    public Servo claw2;
+    public Servo clawRight;
+    public Servo clawLeft;
     private Servo wrist;
     private Servo flick;
     private DcMotor launch;
@@ -120,7 +120,7 @@ public class RobotHardware_TT {
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
-        launch = myOpMode.hardwareMap.get(DcMotor.class, "launch");
+        launch = myOpMode.hardwareMap.get(DcMotor.class, "launchMotor");
         armMotor = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
         intakeMotor = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
@@ -141,10 +141,10 @@ public class RobotHardware_TT {
 
 
         // Define and initialize ALL installed servos.
-        claw1 = myOpMode.hardwareMap.get(Servo.class, "clawRight");
-        claw2 = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
+        clawRight = myOpMode.hardwareMap.get(Servo.class, "clawRight");
+        clawLeft = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
-        flick = myOpMode.hardwareMap.get(Servo.class, "linear");
+        flick = myOpMode.hardwareMap.get(Servo.class, "launchServo");
         flick.setPosition(0.8);
 
 
@@ -350,37 +350,47 @@ public class RobotHardware_TT {
     }
 
     /**
-     * @param clawOne Sets left claw position. Be careful with the number restraints!
+     * @param clawRite Sets left claw position. Be careful with the number restraints! 0.68 is closed. 0.4 is open.
      *
      */
-    public void setClaw(double clawOne) {
+    public void setClaw(double clawRite) {
         //need to work on exact numbers
-        double clawTwo;
-        if (clawOne > 0.20) {
-            claw1.setPosition(22);
-            clawTwo = 1-clawOne;
-        } else {
-            claw1.setPosition(clawOne);
-            clawTwo = 1-clawOne;
+        double clawLet;
+        if (clawRite > 0.7) {
+            clawRight.setPosition(0.5);
+            clawRite = 0.5;
+        } else if (clawRite <= 0.02) {
+            clawRight.setPosition(0.5);
+            clawRite = 0.5;
+        } else if (clawRite < 0.15) {
+            clawRight.setPosition(0.20);
+            clawRite = 0.35;
+        }else {
+            clawRight.setPosition(clawRite);
         }
-        if (clawTwo < 0.80) {
-            claw2.setPosition(78);
+        clawLet = 1-clawRite;
+        if (clawLet < 0.25) {
+            clawLeft.setPosition(0.30);
+        } else if (clawLet > 0.85) {
+            clawLeft.setPosition(0.8);
+        } else if (clawLet == 0.5) {
+            clawLeft.setPosition(0.5);
         } else {
-            claw2.setPosition(clawTwo);
+            clawLeft.setPosition(clawLet);
         }
     }
 
     /**
-     * @param wrist1 sets wrist position
+     * @param wrist1 sets wrist position. 0.5 is ready for pixel.
      */
     public void setWrist(double wrist1) {
         wrist.setPosition(wrist1);
     }
 
     /**
-     * @param flick1 linear Servo; max: 0.8 min: 0.2
+     * @param flick1 Servo. Will add numbers.
      */
-    public void linearServoGo(double flick1) {
+    public void launchServoGo(double flick1) {
         flick.setPosition(flick1);
     }
 
@@ -401,7 +411,7 @@ public class RobotHardware_TT {
     }
 
     /**
-     * @param speed Sets 3D printed intake speed. Do NOT go over 0.7
+     * @param speed Sets 3D printed intake speed. 0.64 is awesome!
      */
     public void setIntake(double speed) {
         intakeMotor.setPower(speed);
