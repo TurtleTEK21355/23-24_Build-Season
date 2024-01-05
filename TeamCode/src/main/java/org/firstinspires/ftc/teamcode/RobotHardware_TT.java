@@ -136,7 +136,7 @@ public class RobotHardware_TT {
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        launch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        launch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
@@ -199,7 +199,6 @@ public class RobotHardware_TT {
     public void mecanumDrive(double x, double y, double heading) {
         double newRx = 0;
         myOpMode.telemetry.addData("New RX value", newRx);
-          y*=-1;
           newRx = turnValue(-heading);
 //        leftFrontDrive.setPower(y + x + newRx);
 //        rightFrontDrive.setPower(y + x - newRx);
@@ -218,6 +217,14 @@ public class RobotHardware_TT {
         encoderValues.add(leftBackDrive.getCurrentPosition());
         encoderValues.add(rightBackDrive.getCurrentPosition());
         return encoderValues;
+    }
+
+    public boolean isMoving() {
+        boolean isMoving = false;
+        if (leftFrontDrive.isBusy() || rightFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy()){
+            isMoving = true;
+        }
+        return isMoving;
     }
 
 

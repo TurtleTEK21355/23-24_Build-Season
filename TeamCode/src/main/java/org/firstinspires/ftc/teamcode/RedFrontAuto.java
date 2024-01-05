@@ -21,6 +21,7 @@ public class RedFrontAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         robot.init();
+        robot.resetImu();
         List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
         waitForStart();
@@ -29,33 +30,34 @@ public class RedFrontAuto extends LinearOpMode {
             robot.resetEncoders();
             while (encoderList.get(0) > -830 && opModeIsActive()) {
                 encoderList = robot.getEncoders();
-                robot.mecanumDrive(0, 0.5, 0); //drive to the spike mark placing
+                robot.mecanumDrive(0, -0.2, 0); //drive to the spike mark placing
                 telemetry.addData("ticks", encoderList.get(0));
                 telemetry.update();
             }
-            robot.mecanumDrive(0,0,0);
-            while (robot.getYawAngles() > -92 && opModeIsActive()){
-                robot.mecanumTurn(-90,0.5);
-            }
+            robot.mecanumDrive(0, 0, 0);
             robot.resetImu();
-            robot.mecanumDrive(0,0,0);
-            robot.resetEncoders();
-            while (encoderList.get(0) > -1600 && opModeIsActive()) {
-                encoderList = robot.getEncoders();
-                robot.mecanumDrive(0, 0.5, 0); //drive to backdrop
-                telemetry.addData("ticks", encoderList.get(0));
-                telemetry.update();
+            while (robot.getYawAngles() > -92 && opModeIsActive()) {
+                robot.mecanumTurn(-90, 0.2);
             }
+//            robot.resetImu();
             robot.mecanumDrive(0,0,0);
-            robot.resetEncoders();
-            while (encoderList.get(0) > -700 && opModeIsActive()) {
-                encoderList = robot.getEncoders();
-                robot.mecanumDrive(0.5, 0, 0); //drive to backdrop
-                telemetry.addData("ticks", encoderList.get(0));
-                telemetry.update();
-            }
-            robot.mecanumDrive(0,0,0);
-
+//            robot.resetEncoders();
+//            while (encoderList.get(0) > -1600 && opModeIsActive()) {
+//                encoderList = robot.getEncoders();
+//                robot.mecanumDrive(0, 0.2, 0); //drive to backdrop
+//                telemetry.addData("ticks", encoderList.get(0));
+//                telemetry.update();
+//            }
+//            robot.mecanumDrive(0,0,0);
+//            robot.resetEncoders();
+//            while (encoderList.get(0) < 1200 && opModeIsActive()) {
+//                encoderList = robot.getEncoders();
+//                robot.mecanumDrive(-0.2, 0, 0); //drive to backdrop
+//                telemetry.addData("ticks", encoderList.get(0));
+//                telemetry.update();
+//            }
+//            robot.mecanumDrive(0,0,0);
+//
 //            robot.resetEncoders();
 //            robot.mecanumDrive(0,0,30);// filler value, need to have vision to determine how much to turn.
 //            //places pixel
@@ -67,7 +69,7 @@ public class RedFrontAuto extends LinearOpMode {
 //            }
 //            robot.resetEncoders();
 //            robot.mecanumDrive(0,0,0);
-            return;
+//            return;
         }
     }
 }

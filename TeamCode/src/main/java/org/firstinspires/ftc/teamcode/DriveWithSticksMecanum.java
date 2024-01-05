@@ -46,12 +46,15 @@ public class DriveWithSticksMecanum extends LinearOpMode {
             else if(gamepad1.right_stick_x > 0){
                 Turn = Turn - 1;
             }
+
             if(Turn > 180){
                 Turn = Turn - 360;
+                telemetry.addLine("Minus 360");
             }
 
             if(Turn < -180){
                 Turn = Turn + 360;
+                telemetry.addLine("Plus 360");
             }
 
             telemetry.addData("Turn Value that is equal at the present moment to:", Turn);
@@ -64,21 +67,19 @@ public class DriveWithSticksMecanum extends LinearOpMode {
                 Drive = Math.pow(gamepad1.left_stick_y, 2);
             }
 
-
-
             if (!PreviousToggleReading && gamepad1.left_bumper) {
                 ToggleSpeed = !ToggleSpeed;
             }
-            PreviousToggleReading = gamepad1.left_bumper;
 
+            PreviousToggleReading = gamepad1.left_bumper;
 
             if (ToggleSpeed == true) {
                 robot.mecanumDrive(Strafe * 0.6, Drive * 0.6, Turn);
             }
             else {
                 robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
-
             }
+
             telemetry.update();
         }
     }

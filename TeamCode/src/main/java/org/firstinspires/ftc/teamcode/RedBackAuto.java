@@ -38,7 +38,7 @@ public class RedBackAuto extends LinearOpMode {
         startEncoderValue = encoderList.get(0);
         while (opModeIsActive()) {
             robotHardware.resetEncoders();
-            while (encoderList.get(0) > -1000 && opModeIsActive()) {
+            while (encoderList.get(0) > -830 && opModeIsActive()) {
                 encoderList = robotHardware.getEncoders();
                 robotHardware.mecanumDrive(0, 0.1, 0); //drive to the spike mark placing
                 telemetry.addData("ticks", encoderList.get(0));
@@ -46,15 +46,15 @@ public class RedBackAuto extends LinearOpMode {
             }
             robotHardware.mecanumDrive(0, 0, 0);
             robotHardware.resetEncoders();
-            while (encoderList.get(0) > -1200 && opModeIsActive()) {
+            while (encoderList.get(0) < 1200 && opModeIsActive()) {
                 encoderList = robotHardware.getEncoders();
-                robotHardware.mecanumDrive(-0.1, 0, 0); //drive to backdrop
+                robotHardware.mecanumDrive(-0.2, 0, 0); //drive to backdrop
                 telemetry.addData("ticks", encoderList.get(0));
                 telemetry.update();
             }
             while (encoderList.get(0) < 830 && opModeIsActive()) {
                 encoderList = robotHardware.getEncoders();
-                robotHardware.mecanumDrive(0, -0.5, 0); //drive to the spike mark placing
+                robotHardware.mecanumDrive(0, -0.1, 0); //drive to the spike mark placing
                 telemetry.addData("ticks", encoderList.get(0));
                 telemetry.update();
             }
