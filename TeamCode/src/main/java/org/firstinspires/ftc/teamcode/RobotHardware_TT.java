@@ -374,7 +374,7 @@ public class RobotHardware_TT {
     }
 
     /**
-     * @param wrist1 sets wrist position
+     * @param wrist1 sets wrist position. 0.5 is ready for pixel.
      */
     public void setWrist(double wrist1) {
         wrist.setPosition(wrist1);
