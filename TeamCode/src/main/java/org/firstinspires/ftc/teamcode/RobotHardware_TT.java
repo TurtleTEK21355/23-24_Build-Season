@@ -306,22 +306,22 @@ public class RobotHardware_TT {
     public void setClaw(double clawRite) {
         //need to work on exact numbers
         double clawLet;
-        if (clawRite > 0.7) {
+        if (clawRite > 0.6) {
             clawRight.setPosition(0.5);
             clawRite = 0.5;
             clawLet = 1-clawRite;
-        } else if (clawRite < 0.15) {
-            clawRight.setPosition(0.25);
+        } else if (clawRite < 0.35) {
+            clawRight.setPosition(0.45);
             clawRite = 0.5;
             clawLet = 1-clawRite;
         } else {
             clawRight.setPosition(clawRite);
             clawLet = 1-clawRite;
         }
-        if (clawLet < 0.7) {
+        if (clawLet < 0.6) {
             clawLeft.setPosition(0.5);
-        } else if (clawLet > 0.85) {
-            clawLeft.setPosition(0.75);
+        } else if (clawLet > 0.65) {
+            clawLeft.setPosition(0.55);
         } else {
             clawLeft.setPosition(clawLet);
         }
