@@ -11,7 +11,7 @@ public class MotorTestSpace extends LinearOpMode {
         //double claw1Position = 0;
         robot.init();
         waitForStart();
-        double speed = 0;
+        double speed = 0.68;
         while (opModeIsActive()) {
             if (gamepad2.left_bumper && gamepad2.right_bumper) {
             }
@@ -33,9 +33,9 @@ public class MotorTestSpace extends LinearOpMode {
 //            else if (gamepad2.b) {
 //                robot.setWrist(.5);
 //            }
-            speed = gamepad1.left_stick_x;
+
             robot.setWrist(gamepad1.right_stick_y);
-//            robot.setClaw(gamepad1.left_stick_y);
+
             telemetry.addData("Left Claw Position: ",robot.clawLeft.getPosition());
             telemetry.addData("Right Claw Position: ",robot.clawRight.getPosition());
 
