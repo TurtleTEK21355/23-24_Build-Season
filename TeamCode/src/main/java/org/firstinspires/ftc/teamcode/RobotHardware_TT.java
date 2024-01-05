@@ -300,28 +300,31 @@ public class RobotHardware_TT {
     }*/
 
     /**
-     * @param clawRite Sets left claw position. Be careful with the number restraints!
+     * @param clawRite Sets left claw position. Be careful with the number restraints! 0.68 is closed.
      *
      */
     public void setClaw(double clawRite) {
         //need to work on exact numbers
         double clawLet;
-        if (clawRite > 0.6) {
+        if (clawRite > 0.7) {
             clawRight.setPosition(0.5);
             clawRite = 0.5;
-            clawLet = 1-clawRite;
-        } else if (clawRite < 0.35) {
-            clawRight.setPosition(0.45);
+        } else if (clawRite <= 0.02) {
+            clawRight.setPosition(0.5);
             clawRite = 0.5;
-            clawLet = 1-clawRite;
-        } else {
+        } else if (clawRite < 0.15) {
+            clawRight.setPosition(0.20);
+            clawRite = 0.35;
+        }else {
             clawRight.setPosition(clawRite);
-            clawLet = 1-clawRite;
         }
-        if (clawLet < 0.6) {
+        clawLet = 1-clawRite;
+        if (clawLet < 0.25) {
+            clawLeft.setPosition(0.30);
+        } else if (clawLet > 0.85) {
+            clawLeft.setPosition(0.8);
+        } else if (clawLet == 0.5) {
             clawLeft.setPosition(0.5);
-        } else if (clawLet > 0.65) {
-            clawLeft.setPosition(0.55);
         } else {
             clawLeft.setPosition(clawLet);
         }
