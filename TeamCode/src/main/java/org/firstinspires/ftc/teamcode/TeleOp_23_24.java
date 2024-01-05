@@ -25,12 +25,13 @@ public class TeleOp_23_24 extends LinearOpMode {
                 robot.setLaunch(speed);
                 sleep(30);
                 robot.launchServoGo(0.2);
+                //need new numbers
             }
 
 
             robot.setWrist(Math.abs(gamepad2.left_stick_y));
 
-            robot.setClaw(Math.abs(gamepad2.left_trigger));
+
             telemetry.addData("Claw 1 Servo Position: ", robot.clawRight.getPosition());
             telemetry.addData("Claw 2 Servo Position: ", robot.clawLeft.getPosition());
 
