@@ -300,7 +300,7 @@ public class RobotHardware_TT {
     }*/
 
     /**
-     * @param clawRite Sets left claw position. Be careful with the number restraints! 0.68 is closed.
+     * @param clawRite Sets left claw position. Be careful with the number restraints! 0.68 is closed. 0.4 is open.
      *
      */
     public void setClaw(double clawRite) {
