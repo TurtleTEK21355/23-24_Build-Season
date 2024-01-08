@@ -32,10 +32,9 @@ public class TeleOp_23_24 extends LinearOpMode {
             robot.setWrist(Math.abs(gamepad2.left_stick_y));
 
 
-            telemetry.addData("Claw 1 Servo Position: ", robot.clawRight.getPosition());
-            telemetry.addData("Claw 2 Servo Position: ", robot.clawLeft.getPosition());
+            
 
-//
+
 //            if (gamepad2.right_bumper && gamepad2.left_bumper) {
 //            } else if (gamepad2.left_bumper) {
 //                robot.setWrist(0.25);
