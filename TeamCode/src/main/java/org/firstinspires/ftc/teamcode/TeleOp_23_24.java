@@ -32,7 +32,7 @@ public class TeleOp_23_24 extends LinearOpMode {
             robot.setWrist(Math.abs(gamepad2.left_stick_y));
 
 
-            
+
 
 
 //            if (gamepad2.right_bumper && gamepad2.left_bumper) {
@@ -70,11 +70,7 @@ public class TeleOp_23_24 extends LinearOpMode {
                 Strafe = Math.pow(-gamepad1.left_stick_x, 2);
             }
 
-//            if (-gamepad1.right_stick_x < 0) {
-//                Turn = -Math.pow(-gamepad1.right_stick_x, 2);
-//            } else {
-//                Turn = Math.pow(-gamepad1.right_stick_x, 2);
-//            }
+
 
             if(gamepad1.right_stick_x < 0){
                 Turn = Turn + 1;
