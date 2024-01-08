@@ -18,6 +18,8 @@ public class DroneLaunchers extends LinearOpMode {
             } else if (gamepad2.dpad_down) {
                 speed = speed - 0.01;
             }
+            robot.goLaunch(gamepad2.right_stick_y);
+            telemetry.addData("Launch Servo Position: ", robot.flick.getPosition());
            // speed = -gamepad2.right_stick_y;
             robot.setArm(speed);
 
@@ -29,7 +31,7 @@ public class DroneLaunchers extends LinearOpMode {
             else if (gamepad2.right_bumper) {
                 robot.setWrist(0);
             }*/
-            telemetry.addData("Speed", speed);
+            telemetry.addData("\nSpeed", speed);
             telemetry.update();
         }
     }

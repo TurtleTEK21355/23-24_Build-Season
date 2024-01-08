@@ -76,6 +76,7 @@ public class RobotHardware_TT {
     //private DcMotor left;
     private DcMotor intake;
     private DcMotor Arm;
+    public Servo flick;
     //private Servo claw2;
     // private DigitalChannel touchSensor;
     // private double pastEncoder = Double.NEGATIVE_INFINITY;
@@ -148,6 +149,8 @@ public class RobotHardware_TT {
         clawRight = myOpMode.hardwareMap.get(Servo.class, "clawRight");
         clawLeft = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+        flick = myOpMode.hardwareMap.get(Servo.class, "launchServo");
+        flick.setPosition(0.5);
 
 
 
@@ -331,6 +334,12 @@ public class RobotHardware_TT {
     }
     public void setWrist(double wrist1) {
         wrist.setPosition(wrist1);
+    }
+
+    public void goLaunch(double flick1) {
+        if (flick1 > 0) {
+            flick.setPosition(flick1);
+        }
     }
     public void setArm(double arm) {
         Arm.setPower(arm);
