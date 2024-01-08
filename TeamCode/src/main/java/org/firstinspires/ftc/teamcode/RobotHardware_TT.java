@@ -72,7 +72,7 @@ public class RobotHardware_TT {
     //private DcMotor rightBackDrive;
     public Servo clawRight;
     public Servo clawLeft;
-    private Servo wrist;
+    public Servo wrist;
     //private DcMotor left;
     private DcMotor intake;
     private DcMotor Arm;
