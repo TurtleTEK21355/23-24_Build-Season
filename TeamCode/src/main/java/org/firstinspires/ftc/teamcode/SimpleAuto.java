@@ -2,84 +2,35 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.util.List;
 
-@Autonomous(name="RedFrontAuto", group="Red Team")
+@Autonomous(name = "SimpleAuto", group = "Red Team")
 public class SimpleAuto extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
-
-
+    public DcMotor leftFrontDrive;
+    public DcMotor rightFrontDrive;
+    public DcMotor leftBackDrive;
+    public DcMotor rightBackDrive;
     double tickToMMRatio = 0.561 / 1;
     double distance = 0;
     int startEncoderValue;
-    //19.2 * 28 = 96πmm <-- Replace these numbers.
-    //537.6 ticks = 301.6mm
-    // 1 tick = 0.561mm
+//19.2 * 28 = 96πmm <-- Replace these numbers.
+//537.6 ticks = 301.6mm
+// 1 tick = 0.561mm
 
     @Override
     public void runOpMode() throws InterruptedException {
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
+        leftBackDrive = hardwareMap.get(DcMotor.class, "leftBackDrive");
+        rightBackDrive = hardwareMap.get(DcMotor.class, "rightBackDrive");
 
-        robot.init();
-        List<Integer> encoderList = robot.getEncoders();
-        startEncoderValue = encoderList.get(0);
-        waitForStart();
-
+        leftFrontDrive.setPower(1);
         while (opModeIsActive()) {
-            robot.resetEncoders();
-            while (encoderList.get(0) > -830 && opModeIsActive()) {
-                encoderList = robot.getEncoders();
-                robot.mecanumDrive(0, 0.5, 0); //drive to the spike mark placing
-                telemetry.addData("ticks", encoderList.get(0));
-                telemetry.addData("Angle", robot.getYawAngles());
-                telemetry.update();
-            }
-            robot.mecanumDrive(0,0,0);
-            while (opModeIsActive()) {
-                telemetry.addData("tix", encoderList.get(0));
-            }
-
-           // scan
-           // turn to right place
-           // place pixel
-            robot.mecanumDrive(0,0,0);
-            while (robot.getYawAngles() > -92 && opModeIsActive()){
-                robot.mecanumTurn(-90,0.5);
-                telemetry.addLine("NOT GOING STRATE REELY BAD CRY AND KIKK AND SCREEM");
-                telemetry.addData("ticks", encoderList.get(0));
-                telemetry.addData("Angle", robot.getYawAngles());
-                telemetry.update();
-            }
-            robot.mecanumDrive(0,0,0);
-//            robot.resetEncoders();
-//            while (encoderList.get(0) > -1600 && opModeIsActive()) {
-//                encoderList = robot.getEncoders();
-//                robot.mecanumDrive(0, 0.5, 0); //drive to backdrop
-//                telemetry.addData("ticks", encoderList.get(0));
-//                telemetry.update();
-//            }
-//            robot.mecanumDrive(0,0,0);
-//            robot.resetEncoders();
-//            while (encoderList.get(0) > -700 && opModeIsActive()) {
-//                encoderList = robot.getEncoders();
-//                robot.mecanumDrive(0.5, 0, 0); //drive to backdrop
-//                telemetry.addData("ticks", encoderList.get(0));
-//                telemetry.update();
-//            }
-//            robot.mecanumDrive(0,0,0);
-
-//            robot.resetEncoders();
-//            robot.mecanumDrive(0,0,30);// filler value, need to have vision to determine how much to turn.
-//            //places pixel
-//            robot.resetEncoders();
-//            robot.mecanumDrive(0,0,-30);// filler value, will be the opposite of the line above it,
-//            robot.resetEncoders();
-//            while (encoderList.get(0) > 1000 && opModeIsActive()) {  //Parking
-//                robot.mecanumDrive(0.5, -0.2, 0);
-//            }
-//            robot.resetEncoders();
-//            robot.mecanumDrive(0,0,0);
-            return;
+            leftFrontDrive.setPower(0.1);
         }
+
     }
 }
