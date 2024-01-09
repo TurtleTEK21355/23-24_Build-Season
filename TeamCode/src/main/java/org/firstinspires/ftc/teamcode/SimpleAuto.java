@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.List;
 
-@Autonomous(name="RedFrontAuto", group="Red Team")
+@Autonomous(name="RedFrontAuto1", group="Red Team")
 public class SimpleAuto extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
 

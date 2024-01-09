@@ -45,9 +45,9 @@ public class TeleOp_23_24 extends LinearOpMode {
             //need new numbers!
             if (gamepad2.dpad_down && gamepad2.dpad_up) {
             } else if (gamepad2.dpad_up) {
-                robot.setClaw(0.4);
+                robot.setClaw(0.44);
             } else if (gamepad2.dpad_down) {
-                robot.setClaw(0.68);
+                robot.setClaw(0.64);
             }
 
 
