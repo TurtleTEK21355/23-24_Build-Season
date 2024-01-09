@@ -16,11 +16,11 @@ public class MotorTestSpace extends LinearOpMode {
             if (gamepad2.left_bumper && gamepad2.right_bumper) {
             }
             else if (gamepad2.right_bumper) {
-                robot.setClaw(0.4);
+                robot.setClaw(0.44);
                 gamepad2.right_bumper = false;
             }
             else if (gamepad2.left_bumper) {
-                robot.setClaw(0.68);
+                robot.setClaw(0.64);
                 gamepad2.right_bumper = false;
             }
 
