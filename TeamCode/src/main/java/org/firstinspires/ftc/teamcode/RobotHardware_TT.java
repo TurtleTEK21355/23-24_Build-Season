@@ -195,10 +195,17 @@ public class RobotHardware_TT {
         myOpMode.telemetry.update();*/
     }
 
+    public void stopAllMotors(){
+        leftFrontDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightBackDrive.setPower(0);
+    }
 
     public void mecanumDrive(double x, double y, double heading) {
         double newRx = 0;
-        myOpMode.telemetry.addData("New RX value", newRx);
+        //myOpMode.telemetry.addData("New RX value", newRx);
+          y*=-1;
           newRx = turnValue(-heading);
 //        leftFrontDrive.setPower(y + x + newRx);
 //        rightFrontDrive.setPower(y + x - newRx);
@@ -233,12 +240,17 @@ public class RobotHardware_TT {
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        myOpMode.telemetry.addLine("ERWEFEry gsthsTR HSrth srth");
+        myOpMode.telemetry.update();
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
     public void resetImu(){
         scootImu.resetYaw();

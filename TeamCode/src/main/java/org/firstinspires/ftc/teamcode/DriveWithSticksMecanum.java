@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="MecanumTest", group="Turtle Group")
+@TeleOp(name="Competition TeleOp", group="Turtle Group")
 public class DriveWithSticksMecanum extends LinearOpMode {
     RobotHardware_TT   robot       = new RobotHardware_TT(this);
    // PorportionalController    p    = new PorportionalController();
@@ -41,10 +41,10 @@ public class DriveWithSticksMecanum extends LinearOpMode {
 //            }
 
             if(gamepad1.right_stick_x < 0){
-                Turn = Turn + 1;
+                Turn = Turn - gamepad1.right_stick_x * 2;
             }
             else if(gamepad1.right_stick_x > 0){
-                Turn = Turn - 1;
+                Turn = Turn + gamepad1.right_stick_x * 2;
             }
 
             if(Turn > 180){
@@ -62,9 +62,9 @@ public class DriveWithSticksMecanum extends LinearOpMode {
             telemetry.addData("Gyro", robot.getYawAngles());
 
             if (gamepad1.left_stick_y < 0) {
-                Drive = -Math.pow(gamepad1.left_stick_y, 2);
-            } else {
                 Drive = Math.pow(gamepad1.left_stick_y, 2);
+            } else {
+                Drive = -Math.pow(gamepad1.left_stick_y, 2);
             }
 
             if (!PreviousToggleReading && gamepad1.left_bumper) {

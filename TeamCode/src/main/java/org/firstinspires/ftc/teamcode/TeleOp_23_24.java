@@ -32,10 +32,9 @@ public class TeleOp_23_24 extends LinearOpMode {
             robot.setWrist(Math.abs(gamepad2.left_stick_y));
 
 
-            telemetry.addData("Claw 1 Servo Position: ", robot.clawRight.getPosition());
-            telemetry.addData("Claw 2 Servo Position: ", robot.clawLeft.getPosition());
 
-//
+
+
 //            if (gamepad2.right_bumper && gamepad2.left_bumper) {
 //            } else if (gamepad2.left_bumper) {
 //                robot.setWrist(0.25);
@@ -43,11 +42,12 @@ public class TeleOp_23_24 extends LinearOpMode {
 //                robot.setWrist(0);
 //            }
 
+            //need new numbers!
             if (gamepad2.dpad_down && gamepad2.dpad_up) {
             } else if (gamepad2.dpad_up) {
-                robot.setClaw(0.4);
+                robot.setClaw(0.44);
             } else if (gamepad2.dpad_down) {
-                robot.setClaw(0.68);
+                robot.setClaw(0.64);
             }
 
 
@@ -71,11 +71,7 @@ public class TeleOp_23_24 extends LinearOpMode {
                 Strafe = Math.pow(-gamepad1.left_stick_x, 2);
             }
 
-//            if (-gamepad1.right_stick_x < 0) {
-//                Turn = -Math.pow(-gamepad1.right_stick_x, 2);
-//            } else {
-//                Turn = Math.pow(-gamepad1.right_stick_x, 2);
-//            }
+
 
             if(gamepad1.right_stick_x < 0){
                 Turn = Turn + 1;
