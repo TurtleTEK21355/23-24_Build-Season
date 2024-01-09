@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import java.util.List;
 
 @Autonomous(name = "SimpleAuto", group = "Red Team")
+
 public class SimpleAuto extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
     public DcMotor leftFrontDrive;
