@@ -12,8 +12,7 @@ public class DriveWithSticksMecanum extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init();
-
-
+        robot.resetImu();
         waitForStart();
         boolean ToggleSpeed = false;
         boolean PreviousToggleReading = gamepad1.left_bumper;
@@ -41,10 +40,12 @@ public class DriveWithSticksMecanum extends LinearOpMode {
 //            }
 
             if(gamepad1.right_stick_x < 0){
-                Turn = Turn - gamepad1.right_stick_x * 2;
+                Turn = Turn - Math.abs(gamepad1.right_stick_x * 2);
+                telemetry.addData("Current turn value, should be subtracting", Turn);
             }
             else if(gamepad1.right_stick_x > 0){
-                Turn = Turn + gamepad1.right_stick_x * 2;
+                Turn = Turn + Math.abs(gamepad1.right_stick_x * 2);
+                telemetry.addData("Current turn value, should be adding", Turn);
             }
 
             if(Turn > 180){

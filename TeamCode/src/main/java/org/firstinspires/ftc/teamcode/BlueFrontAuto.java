@@ -17,22 +17,44 @@ import java.util.List;
 
 @Autonomous(name="BlueFrontAuto", group="Blue Team")
 public class BlueFrontAuto extends LinearOpMode {
-    RobotHardware_TT robot = new RobotHardware_TT(this);
 
 
-    double tickToMMRatio = 0.561 / 1;
-    double distance = 0;
-    int startEncoderValue;
-    //19.2 * 28 = 96πmm <-- Replace these numbers.
-    //537.6 ticks = 301.6mm
-    // 1 tick = 0.561mm
+        RobotHardware_TT robot = new RobotHardware_TT(this);
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-        robot.init();
-        robot.getEncoders();
-        List<Integer> encoderList = robot.getEncoders();
-        startEncoderValue = encoderList.get(0);
+        //19.2 * 28 = 96πmm <-- Replace these numbers.
+        //537.6 ticks = 301.6mm
+        // 1 tick = 0.561mm
+        double tickToMMRatio = 0.561 / 1;
+        int startEncoderValue;
 
+        @Override
+        public void runOpMode() throws InterruptedException {
+
+            robot.init();
+            robot.resetImu();
+            List<Integer> encoderList = robot.getEncoders();
+            startEncoderValue = encoderList.get(0);
+            waitForStart();
+
+            robot.resetEncoders();
+            encoderList = robot.getEncoders();
+            while (encoderList.get(0) > -100 && opModeIsActive()) {
+                encoderList = robot.getEncoders();
+                robot.mecanumDrive(0, 0.2, 0); //drive to the spike mark placing
+                telemetry.addData("ticks", encoderList.get(0));
+                telemetry.addData("Angle", robot.getYawAngles());
+                telemetry.update();
+            }
+            robot.resetEncoders();
+            encoderList = robot.getEncoders();
+            while (encoderList.get(0) < 1330 && opModeIsActive()) {
+                encoderList = robot.getEncoders();
+                robot.mecanumDrive(0.4, 0, 0); //drive to the spike mark placing
+                telemetry.addData("ticks", encoderList.get(0));
+                telemetry.addData("Angle", robot.getYawAngles());
+                telemetry.update();
+            }
+
+            robot.stopAllMotors();
+        }
     }
-}

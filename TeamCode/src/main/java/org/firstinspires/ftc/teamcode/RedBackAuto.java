@@ -15,51 +15,41 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.io.File;
 import java.util.List;
 
-@Autonomous(name="RedBackAuto", group="Red Team")
+@Autonomous(name = "RedBackAuto", group = "Red Team")
 public class RedBackAuto extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
 
-
     double tickToMMRatio = 0.561 / 1;
-    double distance = 0;
     int startEncoderValue;
-    //19.2 * 28 = 96πmm <-- Replace these numbers.
-    //537.6 ticks = 301.6mm
-    // 1 tick = 0.561mm
 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        RobotHardware_TT robotHardware = new RobotHardware_TT(this);
-        robotHardware.init();
-        waitForStart();
-        robotHardware.getEncoders();
-        List<Integer> encoderList = robotHardware.getEncoders();
+        robot.init();
+        robot.resetImu();
+        List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
-        while (opModeIsActive()) {
-            robotHardware.resetEncoders();
-            while (encoderList.get(0) > -830 && opModeIsActive()) {
-                encoderList = robotHardware.getEncoders();
-                robotHardware.mecanumDrive(0, 0.1, 0); //drive to the spike mark placing
-                telemetry.addData("ticks", encoderList.get(0));
-                telemetry.update();
-            }
-            robotHardware.mecanumDrive(0, 0, 0);
-            robotHardware.resetEncoders();
-            while (encoderList.get(0) < 1200 && opModeIsActive()) {
-                encoderList = robotHardware.getEncoders();
-                robotHardware.mecanumDrive(-0.2, 0, 0); //drive to backdrop
-                telemetry.addData("ticks", encoderList.get(0));
-                telemetry.update();
-            }
-            while (encoderList.get(0) < 830 && opModeIsActive()) {
-                encoderList = robotHardware.getEncoders();
-                robotHardware.mecanumDrive(0, -0.1, 0); //drive to the spike mark placing
-                telemetry.addData("ticks", encoderList.get(0));
-                telemetry.update();
-            }
-            return;
+        waitForStart();
+        robot.resetEncoders();
+        encoderList = robot.getEncoders();
 
+        while (encoderList.get(0) > -1650 && opModeIsActive()) {
+            encoderList = robot.getEncoders();
+            robot.mecanumDrive(0, 0.2, 0); //drive to the spike mark placing
+            telemetry.addData("ticks", encoderList.get(0));
+            telemetry.addData("Angle", robot.getYawAngles());
+            telemetry.update();
         }
+        robot.resetEncoders();
+        encoderList = robot.getEncoders();
+        while (encoderList.get(0) > -3350 && opModeIsActive()) {
+            encoderList = robot.getEncoders();
+            robot.mecanumDrive(-0.4, 0, 0); //drive to the spike mark placing
+            telemetry.addData("ticks", encoderList.get(0));
+            telemetry.addData("Angle", robot.getYawAngles());
+            telemetry.update();
+        }
+
+        robot.stopAllMotors();
     }
 }
