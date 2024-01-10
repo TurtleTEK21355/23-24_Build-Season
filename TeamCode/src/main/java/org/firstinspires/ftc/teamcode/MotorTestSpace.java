@@ -12,6 +12,7 @@ public class MotorTestSpace extends LinearOpMode {
         robot.init();
         waitForStart();
         double speed = 0.68;
+        double position = 0.5;
         while (opModeIsActive()) {
             if (gamepad2.left_bumper && gamepad2.right_bumper) {
             }
@@ -34,7 +35,7 @@ public class MotorTestSpace extends LinearOpMode {
 //                robot.setWrist(.5);
 //            }
 
-            robot.setWrist(gamepad1.right_stick_y);
+            robot.setWrist(position + -gamepad2.left_stick_y);
             
             telemetry.addData("Wrist Position: ",robot.wrist.getPosition());
 
