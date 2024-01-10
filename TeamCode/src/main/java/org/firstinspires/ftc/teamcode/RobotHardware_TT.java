@@ -111,7 +111,7 @@ public class RobotHardware_TT {
     /**
      * Initialize all the robot's hardware.
      * This method must be called ONCE when the OpMode is initialized.
-     *left
+     * left
      * All of the hardware devices are accessed via the hardware map, and initialized.
      */
     public void init() {
@@ -148,14 +148,12 @@ public class RobotHardware_TT {
         flick.setPosition(0.8);
 
 
-
         scootImu = myOpMode.hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         scootImu.initialize(new IMU.Parameters(orientationOnRobot));
         scootImu.resetYaw();
-
 
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
@@ -195,7 +193,7 @@ public class RobotHardware_TT {
         myOpMode.telemetry.update();*/
     }
 
-    public void stopAllMotors(){
+    public void stopAllMotors() {
         leftFrontDrive.setPower(0);
         rightFrontDrive.setPower(0);
         leftBackDrive.setPower(0);
@@ -205,8 +203,8 @@ public class RobotHardware_TT {
     public void mecanumDrive(double x, double y, double heading) {
         double newRx = 0;
         //myOpMode.telemetry.addData("New RX value", newRx);
-          y*=-1;
-          newRx = turnValue(-heading);
+        y *= -1;
+        newRx = turnValue(-heading);
 //        leftFrontDrive.setPower(y + x + newRx);
 //        rightFrontDrive.setPower(y + x - newRx);
 //        leftBackDrive.setPower(y - x + newRx);
@@ -216,17 +214,28 @@ public class RobotHardware_TT {
         leftBackDrive.setPower(newRx - x + y);
         rightBackDrive.setPower(newRx - x - y);
     }
-    public double autoDrive(double distanceTicks, double x, double y, double heading) {
+
+    public void autoDrive(double ticks, double speed){
+        autoDrive(ticks,0,speed);
+    }
+
+    public void autoStrafe(double ticks, double speed){
+        autoDrive(ticks,speed,0);
+    }
+    private void autoDrive(double distanceTicks, double x, double y) {
         resetEncoders();
         List<Integer> encoderList = getEncoders();
         while (Math.abs(encoderList.get(0)) < Math.abs(distanceTicks) && myOpMode.opModeIsActive()) {
             encoderList = getEncoders();
-            mecanumDrive(x, y, heading); //drive to the spike mark placing
+            mecanumDrive(x, y, 0); //drive to the spike mark placing
             myOpMode.telemetry.addData("ticks", encoderList.get(0));
             myOpMode.telemetry.addData("Angle", getYawAngles());
             myOpMode.telemetry.update();
         }
+        stopAllMotors();
     }
+
+
 
 
 
@@ -339,7 +348,7 @@ public class RobotHardware_TT {
         return tValue;
     }
 
-    public void mecanumTurn(double desiredAngle, double speed) {
+    public void autoTurn(double desiredAngle, double speed) {
         double tolerance = 0.5;
         if (getYawAngles() < desiredAngle + tolerance) {
             leftFrontDrive.setPower(speed);

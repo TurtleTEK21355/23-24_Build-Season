@@ -27,29 +27,12 @@ public class BlueBackAuto extends LinearOpMode {
 
         robot.init();
         robot.resetImu();
+
         List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
         waitForStart();
-        robot.resetEncoders();
-        encoderList = robot.getEncoders();
 
-        while (encoderList.get(0) > -1650 && opModeIsActive()) {
-            encoderList = robot.getEncoders();
-            robot.mecanumDrive(0, 0.2, 0); //drive to the spike mark placing
-            telemetry.addData("ticks", encoderList.get(0));
-            telemetry.addData("Angle", robot.getYawAngles());
-            telemetry.update();
-        }
-        robot.resetEncoders();
-        encoderList = robot.getEncoders();
-        while (encoderList.get(0) < 3350 && opModeIsActive()) {
-            encoderList = robot.getEncoders();
-            robot.mecanumDrive(0.4, 0, 0); //drive to the spike mark placing
-            telemetry.addData("ticks", encoderList.get(0));
-            telemetry.addData("Angle", robot.getYawAngles());
-            telemetry.update();
-        }
-
-        robot.stopAllMotors();
+        robot.autoDrive(-1650, 0.2);
+        robot.autoStrafe(3350, 0.2);
     }
 }
