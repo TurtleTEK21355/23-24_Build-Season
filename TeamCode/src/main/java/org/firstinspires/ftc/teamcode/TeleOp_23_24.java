@@ -74,17 +74,22 @@ public class TeleOp_23_24 extends LinearOpMode {
 
 
             if(gamepad1.right_stick_x < 0){
-                Turn = Turn + 1;
+                Turn = Turn - Math.abs(gamepad1.right_stick_x * 2);
+                telemetry.addData("Current turn value, should be subtracting", Turn);
             }
             else if(gamepad1.right_stick_x > 0){
-                Turn = Turn - 1;
+                Turn = Turn + Math.abs(gamepad1.right_stick_x * 2);
+                telemetry.addData("Current turn value, should be adding", Turn);
             }
+
             if(Turn > 180){
                 Turn = Turn - 360;
+                telemetry.addLine("Minus 360");
             }
 
             if(Turn < -180){
                 Turn = Turn + 360;
+                telemetry.addLine("Plus 360");
             }
 
             telemetry.addData("Turn Value that is equal at the present moment to:", Turn);
