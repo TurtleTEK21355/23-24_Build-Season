@@ -24,26 +24,29 @@ public class TeleOp_23_24 extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad2.x && gamepad2.back) {
-
                 robot.setLaunch(speed);
-                sleep(30);
+                sleep(3000);
                 robot.launchServoGo(0.2);
+                sleep(2000);
+                robot.setLaunch(0);
                 //need new numbers
             }
 
 
 
-            if (gamepad2.right_trigger != 0 && gamepad2.left_trigger != 0) {
+            if (gamepad2.right_trigger != 0 && gamepad2.left_trigger != 0 && gamepad2.x) {
             } else if (gamepad2.right_trigger > 0 && wristPosition < 0.5){ // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
                 wristPosition = wristPosition + 0.1;
                 robot.setWrist(wristPosition);
             } else if (gamepad2.left_trigger > 0 && wristPosition > 0) { // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
                 wristPosition = wristPosition - 0.1;
                 robot.setWrist(wristPosition);
+            } else if (gamepad2.x) {
+                robot.setWrist(0.5);
             }
 
             //need new numbers!
-            if (gamepad2.dpad_down && gamepad2.dpad_up) {
+            if (gamepad2.right_bumper && gamepad2.left_bumper) {
             } else if (gamepad2.right_bumper) {
                 robot.setClaw(0.44);
             } else if (gamepad2.left_bumper) {
