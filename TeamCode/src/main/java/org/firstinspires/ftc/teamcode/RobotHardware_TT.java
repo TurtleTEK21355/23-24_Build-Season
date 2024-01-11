@@ -216,7 +216,7 @@ public class RobotHardware_TT {
         leftBackDrive.setPower(newRx - x + y);
         rightBackDrive.setPower(newRx - x - y);
     }
-    public double autoDrive(double distanceTicks, double x, double y, double heading) {
+    public void autoDrive(double distanceTicks, double x, double y, double heading) {
         resetEncoders();
         List<Integer> encoderList = getEncoders();
         while (Math.abs(encoderList.get(0)) < Math.abs(distanceTicks) && myOpMode.opModeIsActive()) {
