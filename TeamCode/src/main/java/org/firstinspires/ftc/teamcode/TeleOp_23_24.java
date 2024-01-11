@@ -33,9 +33,8 @@ public class TeleOp_23_24 extends LinearOpMode {
             }
 
 
-
-            if (gamepad2.right_trigger != 0 && gamepad2.left_trigger != 0 && gamepad2.x) {
-            } else if (gamepad2.right_trigger > 0 && wristPosition < 0.5){ // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
+            if (gamepad2.right_trigger != 0.2 && gamepad2.left_trigger != 0.2 && gamepad2.x) {
+            } else if (gamepad2.right_trigger > 0 && wristPosition < 0.5) { // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
                 wristPosition = wristPosition + 0.1;
                 robot.setWrist(wristPosition);
             } else if (gamepad2.left_trigger > 0 && wristPosition > 0) { // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
@@ -46,21 +45,22 @@ public class TeleOp_23_24 extends LinearOpMode {
             }
 
             //need new numbers!
-            if (gamepad2.right_bumper && gamepad2.left_bumper) {
-            } else if (gamepad2.right_bumper) {
-                robot.setClaw(0.44);
-            } else if (gamepad2.left_bumper) {
-                robot.setClaw(0.64);
+            if (gamepad2.left_bumper) {
+                // Closed
+                robot.setClaw(0.44); // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS
+            }
+            else if (gamepad2.right_bumper || gamepad1.right_bumper) {
+                robot.setClaw(0.64); // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS
             }
 
 
 
-            if ((gamepad2.y && gamepad2.a) || (gamepad2.y && gamepad2.b) || (gamepad2.a && gamepad2.b)) {
-            } else if (gamepad2.b) {
+            if (gamepad1.right_trigger > 0.2 && gamepad1.left_trigger > 0.2) {
+            } else if (gamepad1.right_trigger > 0.2) {
                 robot.setIntake(0.64);
-            } else if (gamepad2.y) {
+            } else if (gamepad1.left_trigger > 0.2) {
                 robot.setIntake(-0.64);
-            } else if (gamepad2.a) {
+            } else {
                 robot.setIntake(0);
             }
 
