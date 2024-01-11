@@ -22,15 +22,20 @@ public class BlueBackAuto extends LinearOpMode {
     double tickToMMRatio = 0.561 / 1;
     int startEncoderValue;
 
+    String Tag = "Unseen";
+
     @Override
     public void runOpMode() throws InterruptedException {
 
         robot.init();
+        boolean targetFound = false;
+        robot.initAprilTag();
         robot.resetImu();
 
         List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
         waitForStart();
+
 
         robot.autoDrive(-1650, 0.2);
         robot.autoStrafe(3350, 0.2);

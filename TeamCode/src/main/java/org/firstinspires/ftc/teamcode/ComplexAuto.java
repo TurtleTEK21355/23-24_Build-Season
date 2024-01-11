@@ -28,9 +28,6 @@ import java.util.List;
         robotHardware.getEncoders();
         List<Integer> encoderList = robotHardware.getEncoders();
         startEncoderValue = encoderList.get(0);
-
-
-
         robot.initLens();
         VisionPortal visionPortal;
         AprilTagDetection desiredTag = null;
