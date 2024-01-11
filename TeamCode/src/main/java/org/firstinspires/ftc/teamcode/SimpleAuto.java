@@ -15,12 +15,12 @@ public class SimpleAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.init();
         robot.resetImu();
+
         List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
+        robot.resetEncoders();
         waitForStart();
-        robot.autoDrive(300,0.2);
-        robot.stopAllMotors();
-        robot.autoStrafe(250,-0.5);
-        robot.autoTurn(90,0.2);
+        robot.getEncoders();
+        robot.autoStrafe(1300,-0.4);
     }
 }

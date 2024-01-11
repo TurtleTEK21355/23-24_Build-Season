@@ -205,10 +205,6 @@ public class RobotHardware_TT {
         //myOpMode.telemetry.addData("New RX value", newRx);
         y *= -1;
         newRx = turnValue(-heading);
-//        leftFrontDrive.setPower(y + x + newRx);
-//        rightFrontDrive.setPower(y + x - newRx);
-//        leftBackDrive.setPower(y - x + newRx);
-//        rightBackDrive.setPower(y - x - newRx);
         leftFrontDrive.setPower(newRx + x + y);
         rightFrontDrive.setPower(newRx + x - y);
         leftBackDrive.setPower(newRx - x + y);
@@ -216,13 +212,13 @@ public class RobotHardware_TT {
     }
 
     public void autoDrive(double ticks, double speed){
-        autoDrive(ticks,0,speed);
+        autoDrivePrivate(ticks,0,speed);
     }
 
     public void autoStrafe(double ticks, double speed){
-        autoDrive(ticks,speed,0);
+        autoDrivePrivate(ticks,speed,0);
     }
-    private void autoDrive(double distanceTicks, double x, double y) {
+    private void autoDrivePrivate(double distanceTicks, double x, double y) {
         resetEncoders();
         List<Integer> encoderList = getEncoders();
         while (Math.abs(encoderList.get(0)) < Math.abs(distanceTicks) && myOpMode.opModeIsActive()) {
