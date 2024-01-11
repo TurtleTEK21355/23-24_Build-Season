@@ -26,23 +26,17 @@ public class StrafeVsNormalDistanceTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        RobotHardware_TT robotHardware = new RobotHardware_TT(this);
-        robotHardware.init();
-        robotHardware.getEncoders();
-        List<Integer> encoderList = robotHardware.getEncoders();
+
+        robot.init();
+        robot.resetImu();
+
+        List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
 
-        double done = 0;
         waitForStart();
-        while (opModeIsActive()) {
-            if (done == 0) {
-                robot.autoDrive(1000, 0.5);
-                done = 1;
-            } else {
-                robot.autoDrive(0,0);
-            }
 
-        }
+        robot.autoDrive(1000,0.2);
+        robot.stopAllMotors();
 
     }
 }
