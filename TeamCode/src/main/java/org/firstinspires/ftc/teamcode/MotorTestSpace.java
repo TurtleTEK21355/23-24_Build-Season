@@ -36,11 +36,11 @@ public class MotorTestSpace extends LinearOpMode {
 //            }
 
             if (gamepad2.left_stick_y > 0.02) {
-                robot.setWrist(position);
+                position = gamepad2.left_stick_y;
             } else {
-                robot.setWrist(0.5);
+                position = 0.5;
             }
-            
+            robot.setWrist(position);
             
             telemetry.addData("Wrist Position: ",robot.wrist.getPosition());
 
