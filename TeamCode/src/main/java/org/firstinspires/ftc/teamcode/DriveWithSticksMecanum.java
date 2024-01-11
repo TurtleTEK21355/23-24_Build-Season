@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="Competition TeleOp", group="Turtle Group")
+@TeleOp(name="Wheel testing TeleOp", group="Turtle Group")
 public class DriveWithSticksMecanum extends LinearOpMode {
     RobotHardware_TT   robot       = new RobotHardware_TT(this);
    // PorportionalController    p    = new PorportionalController();
