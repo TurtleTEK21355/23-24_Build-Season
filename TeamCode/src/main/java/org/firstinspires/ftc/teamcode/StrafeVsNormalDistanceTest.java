@@ -32,11 +32,15 @@ public class StrafeVsNormalDistanceTest extends LinearOpMode {
         List<Integer> encoderList = robotHardware.getEncoders();
         startEncoderValue = encoderList.get(0);
 
+        double done = 0;
         waitForStart();
-        while (opModeIsActive() && distance < 1000) {
-            robotHardware.mecanumDrive(0, 0.5, 0);
-            encoderList = robotHardware.getEncoders();
-            distance = (encoderList.get(0) - startEncoderValue);
+        while (opModeIsActive()) {
+            if (done == 0) {
+                robot.autoDrive(1000, 0.5);
+                done = 1;
+            } else {
+                robot.autoDrive(0,0);
+            }
 
         }
 
