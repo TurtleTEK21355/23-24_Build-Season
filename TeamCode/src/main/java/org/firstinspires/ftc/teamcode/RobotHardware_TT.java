@@ -293,7 +293,7 @@ public class RobotHardware_TT {
         double toleranceValue = 5;
         //Taking an IMU reading
         YawPitchRollAngles orientation = scootImu.getRobotYawPitchRollAngles();
-        double yawDegrees = orientation.getYaw(AngleUnit.DEGREES);
+           double yawDegrees = orientation.getYaw(AngleUnit.DEGREES);
         // Adjust the correctionRx value by that result * -1
         double correctionYawDegrees = -yawDegrees;
         // if correctionYawDegrees < 0 then turn left.
