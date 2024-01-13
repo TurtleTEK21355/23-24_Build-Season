@@ -37,6 +37,7 @@ public class TeleOp_23_24 extends LinearOpMode {
             if (gamepad2.right_trigger != 0.2 && gamepad2.left_trigger != 0.2 && gamepad2.x) {
             } else if (gamepad2.right_trigger > 0 && wristPosition < 0.5) { // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
                 wristPosition = wristPosition + 0.1;
+                telemetry.addLine("Move the wrist");
                 robot.setWrist(wristPosition);
             } else if (gamepad2.left_trigger > 0 && wristPosition > 0) { // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
                 wristPosition = wristPosition - 0.1;
