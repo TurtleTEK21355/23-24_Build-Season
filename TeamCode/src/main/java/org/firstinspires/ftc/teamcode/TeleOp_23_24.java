@@ -27,6 +27,7 @@ public class TeleOp_23_24 extends LinearOpMode {
                 robot.setLaunch(speed);
                 sleep(3000);
                 robot.launchServoGo(0.2);
+                telemetry.addLine("LAUCH THE NUKE!!!");
                 sleep(2000);
                 robot.setLaunch(0);
                 //need new numbers
@@ -48,9 +49,12 @@ public class TeleOp_23_24 extends LinearOpMode {
             if (gamepad2.left_bumper) {
                 // Closed
                 robot.setClaw(0.44); // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS
+                telemetry.addLine("CLOSE CLAW");
+
             }
             else if (gamepad2.right_bumper || gamepad1.right_bumper) {
                 robot.setClaw(0.64); // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS
+                telemetry.addLine("OPEN CLAw");
             }
 
 
