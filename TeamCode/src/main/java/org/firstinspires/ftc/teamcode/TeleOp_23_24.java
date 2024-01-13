@@ -26,9 +26,9 @@ public class TeleOp_23_24 extends LinearOpMode {
             if (gamepad2.x && gamepad2.back) {
                 robot.setLaunch(speed);
                 sleep(3000);
-                robot.launchServoGo(0.2);
+                robot.launchServoGo(0.65);
                 telemetry.addLine("LAUCH THE NUKE!!!");
-                sleep(2000);
+                sleep(1000);
                 robot.setLaunch(0);
                 //need new numbers
             }
@@ -125,6 +125,11 @@ public class TeleOp_23_24 extends LinearOpMode {
                 robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
 
             }
+            telemetry.addData("Launch Servo: ", robot.launchServo.getPosition());
+            telemetry.addData("Claw Right: ", robot.clawRight.getPosition());
+            telemetry.addData("Claw Left: ", robot.clawLeft.getPosition());
+            telemetry.addData("Wrist: ", robot.wrist.getPosition());
+
             telemetry.update();
 
 
