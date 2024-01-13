@@ -17,7 +17,7 @@ public class TeleOp_23_24 extends LinearOpMode {
         double Turn = 0;
         double Strafe = 0;
         double Drive = 0;
-        double speed = 0.32;
+        double speed = 0.52;
         double wristPosition = 0;
 
 
@@ -30,7 +30,7 @@ public class TeleOp_23_24 extends LinearOpMode {
                 telemetry.addLine("LAUCH THE NUKE!!!");
                 sleep(1000);
                 robot.setLaunch(0);
-                robot.launchServoGo(0.55);
+                robot.launchServoGo(0.53);
                 //need new numbers
             }
 
