@@ -145,7 +145,7 @@ public class RobotHardware_TT {
         clawLeft = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
         launchServo = myOpMode.hardwareMap.get(Servo.class, "launchServo");
-        launchServo.setPosition(0.55);
+        launchServo.setPosition(0.53);
 
 
         scootImu = myOpMode.hardwareMap.get(IMU.class, "imu");
