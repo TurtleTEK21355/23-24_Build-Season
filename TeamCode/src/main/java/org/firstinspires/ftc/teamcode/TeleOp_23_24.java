@@ -18,7 +18,7 @@ public class TeleOp_23_24 extends LinearOpMode {
         double Strafe = 0;
         double Drive = 0;
         double speed = 0.52;
-        double wristPosition = 0;
+        double wristPosition = 0.5;
 
 
         while (opModeIsActive()) {
@@ -27,7 +27,7 @@ public class TeleOp_23_24 extends LinearOpMode {
                 robot.setLaunch(speed);
                 sleep(2000);
                 robot.launchServoGo(0.65);
-                telemetry.addLine("LAUCH THE NUKE!!!");
+                telemetry.addLine("LAUNCH THE NUKE!!!");
                 sleep(1000);
                 robot.setLaunch(0);
                 robot.launchServoGo(0.53);
@@ -35,36 +35,34 @@ public class TeleOp_23_24 extends LinearOpMode {
             }
 
 
-            if (gamepad2.right_trigger > 0.2 && gamepad2.left_trigger > 0.2 && gamepad2.x) {
-            } else if (gamepad2.right_trigger > 0.2 && wristPosition < 0.5) { // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
+            if (gamepad2.right_trigger > 0.2 && wristPosition < 0.5) { // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
                 wristPosition = wristPosition + 0.002;
                 telemetry.addLine("Move the wrist");
-                robot.setWrist(wristPosition);
             } else if (gamepad2.left_trigger > 0.2 && wristPosition > 0) { // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
                 wristPosition = wristPosition - 0.002;
-                robot.setWrist(wristPosition);
             } else if (gamepad2.x) {
-                robot.setWrist(0.5);
+                wristPosition = 0.5;
             }
+            robot.setWrist(wristPosition);
 
             //need new numbers!
             if (gamepad2.left_bumper) {
                 // Closed
-                robot.setClaw(0.44); // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS
+                robot.setClaw(0.1); // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS
                 telemetry.addLine("CLOSE CLAW");
             }
             else if (gamepad2.right_bumper || gamepad1.right_bumper) {
-                robot.setClaw(0.64); // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS
+                robot.setClaw(0.54); // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS
                 telemetry.addLine("OPEN CLAW");
             }
 
 
-
             if (gamepad1.right_trigger > 0.2 && gamepad1.left_trigger > 0.2) {
             } else if (gamepad1.right_trigger > 0.2) {
-                robot.setIntake(0.64);
+                robot.setIntake(-0.4);
             } else if (gamepad1.left_trigger > 0.2) {
-                robot.setIntake(-0.64);
+                robot.setIntake(0.4);
+
             } else {
                 robot.setIntake(0);
             }
@@ -80,14 +78,16 @@ public class TeleOp_23_24 extends LinearOpMode {
             }
 
 
-
-            if(gamepad1.right_stick_x < 0){
-                Turn = Turn - Math.abs(gamepad1.right_stick_x * 2);
-                telemetry.addData("Current turn value, should be subtracting", Turn);
+                        if (-gamepad1.right_stick_x < 0) {
+                Turn = -Math.pow(-gamepad1.right_stick_x, 2);
+            } else {
+                Turn = Math.pow(-gamepad1.right_stick_x, 2);
             }
-            else if(gamepad1.right_stick_x > 0){
-                Turn = Turn + Math.abs(gamepad1.right_stick_x * 2);
-                telemetry.addData("Current turn value, should be adding", Turn);
+
+            if (-gamepad1.right_stick_x > 0) {
+                Turn = Math.pow(-gamepad1.right_stick_x, 2);
+            } else {
+                Turn = -Math.pow(-gamepad1.right_stick_x, 2);
             }
 
             if(Turn > 180){
@@ -119,16 +119,15 @@ public class TeleOp_23_24 extends LinearOpMode {
 
 
             if (ToggleSpeed == true) {
-                robot.mecanumDrive(Strafe * 0.6, Drive * 0.6, Turn);
+                robot.mecanumDrive(Strafe * 0.75,Drive*0.75,Turn);
             }
             else {
-                robot.mecanumDrive(Strafe * 0.3, Drive * 0.3, Turn);
+                robot.mecanumDrive(Strafe * 0.5,Drive * -0.5, Turn);
 
             }
-            telemetry.addData("Launch Servo: ", robot.launchServo.getPosition());
-            telemetry.addData("Claw Right: ", robot.clawRight.getPosition());
-            telemetry.addData("Claw Left: ", robot.clawLeft.getPosition());
-            telemetry.addData("Wrist: ", robot.wrist.getPosition());
+
+
+            telemetry.addData("\nWrist: ", robot.wrist.getPosition());
 
             telemetry.update();
 

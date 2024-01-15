@@ -201,14 +201,12 @@ public class RobotHardware_TT {
     }
 
     public void mecanumDrive(double x, double y, double heading) {
-        double newRx = 0;
         //myOpMode.telemetry.addData("New RX value", newRx);
         y *= -1;
-//        newRx = turnValue(-heading);
-        leftFrontDrive.setPower(newRx + x + y);
-        rightFrontDrive.setPower(newRx + x - y);
-        leftBackDrive.setPower(newRx - x + y);
-        rightBackDrive.setPower(newRx - x - y);
+        leftFrontDrive.setPower(heading + x + y);
+        rightFrontDrive.setPower(heading + x - y);
+        leftBackDrive.setPower(heading - x + y);
+        rightBackDrive.setPower(heading - x - y);
     }
     public void mecanumDriveAuto(double x, double y, double heading) {
         double newRx = 0;
@@ -353,6 +351,33 @@ public class RobotHardware_TT {
         }
         return tValue;
     }
+
+    double turnValueTeleOp(double desiredAngle) {
+        YawPitchRollAngles orientation = scootImu.getRobotYawPitchRollAngles();
+        double currentAngle = orientation.getYaw(AngleUnit.DEGREES);
+        //The angle based on where you where facing when you started.
+        double correctionAngle = desiredAngle - currentAngle;
+        double tValue = 0;
+        //When I want to turn right, tValue should be positive.
+        // When I want to turn left, tValue should be negative.
+        if (correctionAngle > 180) {
+            //turn left
+            tValue = -0.6;
+        } else if (correctionAngle > 10) {
+            //turn right
+            tValue = 0.6;
+        }
+
+        if (correctionAngle < -180) {
+            //turn right
+            tValue = 0.6;
+        } else if (correctionAngle < -10) {
+            //turn left
+            tValue = -0.6;
+        }
+        return tValue;
+    }
+
 
     public void autoTurn(double desiredAngle, double speed) {
         double tolerance = 0.5;
