@@ -119,7 +119,7 @@ public class TeleOp_23_24 extends LinearOpMode {
 
 
             if (ToggleSpeed == true) {
-                robot.mecanumDrive(Strafe * 0.75,Drive*0.75,Turn);
+                robot.mecanumDrive(Strafe * 0.75,Drive * -0.75,Turn);
             }
             else {
                 robot.mecanumDrive(Strafe * 0.5,Drive * -0.5, Turn);
