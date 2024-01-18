@@ -30,7 +30,7 @@ public class TeleOp_23_24 extends LinearOpMode {
                 telemetry.addLine("LAUNCH THE NUKE!!!");
                 sleep(1000);
                 robot.setLaunch(0);
-                robot.launchServoGo(0.35);
+                robot.launchServoGo(0.34);
                 //need new numbers
             }
 
