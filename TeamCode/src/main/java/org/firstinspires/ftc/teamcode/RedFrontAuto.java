@@ -38,7 +38,7 @@ public class RedFrontAuto extends LinearOpMode {
                     //HuskyLens stuff (Don't move before this block of code)
                     if (robot.blockLensX() >= 270 && robot.blockLensX() <= 280) {
                         if (robot.blockLensY() >= 60 && robot.blockLensY() <= 70) {
-                            //Right
+                            //Left
                             // Here is where you would put code to place the pixel on the spike mark
                             //need numbers
                             robot.autoStrafe(100, -0.2); //don't know true numbers
@@ -50,7 +50,7 @@ public class RedFrontAuto extends LinearOpMode {
                             robot.autoTurn(90, 0.2);
                             robot.autoDrive(100, 0.2); //don't know true numbers
                         } else {
-                            //Left
+                            //Right
                             // Here is where you would put code to place the pixel on the spike mark
                             //need numbers
                             robot.autoStrafe(100, 0.2); //don't know true numbers
@@ -75,7 +75,7 @@ public class RedFrontAuto extends LinearOpMode {
                             robot.autoTurn(90, 0.2);
                             robot.autoDrive(100, 0.2); //don't know true numbers
                         } else {
-                            //Left
+                            //Right
                             // Here is where you would put code to place the pixel on the spike mark
                             //need numbers
                             robot.autoStrafe(100, 0.2); //don't know true numbers
@@ -88,7 +88,7 @@ public class RedFrontAuto extends LinearOpMode {
                             robot.autoDrive(100, 0.2); //don't know true numbers
                         }
                     } else {
-                        //Left
+                        //Right
                         // Here is where you would put code to place the pixel on the spike mark
                         //need numbers
                         robot.autoStrafe(100, 0.2); //don't know true numbers
