@@ -39,31 +39,68 @@ public class RedFrontAuto extends LinearOpMode {
                     if (robot.blockLensX() >= 270 && robot.blockLensX() <= 280) {
                         if (robot.blockLensY() >= 60 && robot.blockLensY() <= 70) {
                             //Right
+                            // Here is where you would put code to place the pixel on the spike mark
+                            //need numbers
                             robot.autoStrafe(100, -0.2); //don't know true numbers
                             robot.autoDrive(100, 0.2); //don't know true numbers
                             robot.setIntake(-0.5);
+                            sleep(10);
+                            robot.setIntake(0);
+                            robot.autoStrafe(100, -0.4); //don't know true numbers
+                            robot.autoTurn(90, 0.2);
+                            robot.autoDrive(100, 0.2); //don't know true numbers
+                        } else {
+                            //Left
+                            // Here is where you would put code to place the pixel on the spike mark
+                            //need numbers
+                            robot.autoStrafe(100, 0.2); //don't know true numbers
+                            robot.autoDrive(100, 0.2); //don't know true numbers
+                            robot.setIntake(-0.5);
+                            sleep(10);
+                            robot.setIntake(0);
+                            robot.autoStrafe(100, -0.4); //don't know true numbers
+                            robot.autoTurn(90, 0.2);
+                            robot.autoDrive(100, 0.2); //don't know true numbers
                         }
                     } else if (robot.blockLensX() >= 170 && robot.blockLensX() <= 270) {
                         if (robot.blockLensY() >= 60 && robot.blockLensY() <= 70) {
                             //Center
+                            // Here is where you would put code to place the pixel on the spike mark
+                            //need numbers
                             robot.autoDrive(200, 0.2);
                             robot.setIntake(-0.5);
+                            sleep(10);
+                            robot.setIntake(0);
+                            robot.autoStrafe(100, -0.4); //don't know true numbers
+                            robot.autoTurn(90, 0.2);
+                            robot.autoDrive(100, 0.2); //don't know true numbers
+                        } else {
+                            //Left
+                            // Here is where you would put code to place the pixel on the spike mark
+                            //need numbers
+                            robot.autoStrafe(100, 0.2); //don't know true numbers
+                            robot.autoDrive(100, 0.2); //don't know true numbers
+                            robot.setIntake(-0.5);
+                            sleep(10);
+                            robot.setIntake(0);
+                            robot.autoStrafe(100, -0.4); //don't know true numbers
+                            robot.autoTurn(90, 0.2);
+                            robot.autoDrive(100, 0.2); //don't know true numbers
                         }
                     } else {
                         //Left
+                        // Here is where you would put code to place the pixel on the spike mark
+                        //need numbers
                         robot.autoStrafe(100, 0.2); //don't know true numbers
                         robot.autoDrive(100, 0.2); //don't know true numbers
                         robot.setIntake(-0.5);
+                        sleep(10);
+                        robot.setIntake(0);
+                        robot.autoStrafe(100, -0.4); //don't know true numbers
+                        robot.autoTurn(90, 0.2);
+                        robot.autoDrive(100, 0.2); //don't know true numbers
                     }
 
-
-                    // Here is where you would put code to place the pixel on the spike mark
-                     //need numbers
-                    sleep(10);
-                    robot.setIntake(0);
-                    robot.autoStrafe(100, -0.4); //don't know true numbers
-                    robot.autoTurn(90, 0.2);
-                    robot.autoDrive(100, 0.2); //don't know true numbers
 
                     robot.autoStrafe(100,-0.4); //not true numbers
                     robot.autoDrive(100,0.2); //not true numbers
