@@ -68,10 +68,8 @@ public class RedFrontAuto extends LinearOpMode {
                     robot.autoStrafe(100,-0.4); //not true numbers
                     robot.autoDrive(100,0.2); //not true numbers
 
-                                }
-
-                            }
-                        }
-                    }
-
                 }
+            }
+        }
+    }
+}
