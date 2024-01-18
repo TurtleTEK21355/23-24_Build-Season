@@ -141,9 +141,9 @@ public class RobotHardware_TT {
 
 
         // Define and initialize ALL installed servos.
-        clawRight = myOpMode.hardwareMap.get(Servo.class, "clawRight");
-        clawLeft = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
-        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+//        clawRight = myOpMode.hardwareMap.get(Servo.class, "clawRight");
+//        clawLeft = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
+//        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
         launchServo = myOpMode.hardwareMap.get(Servo.class, "launchServo");
         launchServo.setPosition(0.53);
 
