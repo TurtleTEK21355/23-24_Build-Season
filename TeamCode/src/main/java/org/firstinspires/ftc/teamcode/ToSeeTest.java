@@ -22,19 +22,21 @@ public class ToSeeTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot.initLens();
+
         robot.init();
         robot.resetImu();
-
+        robot.initLens();
         List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
         waitForStart();
         while (opModeIsActive()) {
-            robot.autoDrive(100, 0.2);
+           // robot.autoDrive(100, 0.2);
             if (opModeIsActive()) {
                 while (opModeIsActive()) {
-                    robot.blockLensY();
-                    robot.blockLensX();
+                    int y = robot.blockLensY();
+                    int x = robot.blockLensX();
+                    telemetry.addData("X: ", x);
+                    telemetry.addData("Y: ", y);
                     telemetry.update();
                 }
 

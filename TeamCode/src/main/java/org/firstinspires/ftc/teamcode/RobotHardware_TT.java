@@ -121,8 +121,8 @@ public class RobotHardware_TT {
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
         launch = myOpMode.hardwareMap.get(DcMotor.class, "launchMotor");
-        armMotor = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
-        intakeMotor = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
+        armMotor = myOpMode.hardwareMap.get(DcMotor.class, "Arm");
+        intakeMotor = myOpMode.hardwareMap.get(DcMotor.class, "intake");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
         huskyLens = myOpMode.hardwareMap.get(HuskyLens.class, "huskylens");
@@ -450,6 +450,8 @@ public class RobotHardware_TT {
     public void initLens() {
         Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
         rateLimit.expire();
+
+
 
         if (!huskyLens.knock()) {
             myOpMode.telemetry.addData(">>", "Problem communicating with " + huskyLens.getDeviceName());

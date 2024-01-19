@@ -22,8 +22,8 @@ public class RedFrontAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot.initLens();
         robot.init();
+        robot.initLens();
         robot.resetImu();
 
         List<Integer> encoderList = robot.getEncoders();
