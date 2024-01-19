@@ -201,6 +201,14 @@ public class RobotHardware_TT {
     }
 
     public void mecanumDrive(double x, double y, double heading) {
+        //myOpMode.telemetry.addData("New RX value", newRx);
+        y *= -1;
+        leftFrontDrive.setPower(heading + x + y);
+        rightFrontDrive.setPower(heading + x - y);
+        leftBackDrive.setPower(heading - x + y);
+        rightBackDrive.setPower(heading - x - y);
+    }
+    public void mecanumDriveAuto(double x, double y, double heading) {
         double newRx = 0;
         //myOpMode.telemetry.addData("New RX value", newRx);
         y *= -1;
@@ -223,7 +231,7 @@ public class RobotHardware_TT {
         List<Integer> encoderList = getEncoders();
         while (Math.abs(encoderList.get(0)) < Math.abs(distanceTicks) && myOpMode.opModeIsActive()) {
             encoderList = getEncoders();
-            mecanumDrive(x, y, 0); //drive to the spike mark placing
+            mecanumDriveAuto(x, y, 0); //drive to the spike mark placing
             myOpMode.telemetry.addData("ticks", encoderList.get(0));
             myOpMode.telemetry.addData("Angle", getYawAngles());
             myOpMode.telemetry.update();

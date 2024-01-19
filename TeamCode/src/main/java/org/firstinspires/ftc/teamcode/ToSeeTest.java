@@ -30,7 +30,7 @@ public class ToSeeTest extends LinearOpMode {
         startEncoderValue = encoderList.get(0);
         waitForStart();
         while (opModeIsActive()) {
-           // robot.autoDrive(100, 0.2);
+            robot.autoDrive(100, 0.2);
             if (opModeIsActive()) {
                 while (opModeIsActive()) {
                     int y = robot.blockLensY();
