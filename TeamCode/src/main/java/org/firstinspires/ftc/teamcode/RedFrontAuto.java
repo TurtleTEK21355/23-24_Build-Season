@@ -44,7 +44,7 @@ public class RedFrontAuto extends LinearOpMode {
                 //need numbers
                 robot.autoStrafe(100, 0.2); //don't know true numbers
 //              robot.autoDrive(100, 0.2); //don't know true numbers
-//              robot.setIntake(-0.5);
+//              robot.setIntake(-0.23);
 //                            sleep(10);
 //                            robot.setIntake(0);
 //                            robot.autoStrafe(100, -0.4); //don't know true numbers
@@ -56,7 +56,7 @@ public class RedFrontAuto extends LinearOpMode {
                 //need numbers
                 robot.autoStrafe(100, -0.2); //don't know true numbers
 //                            robot.autoDrive(100, 0.2); //don't know true numbers
-//                            robot.setIntake(-0.5);
+//                            robot.setIntake(-0.23);
 //                            sleep(10);
 //                            robot.setIntake(0);
 //                            robot.autoStrafe(100, -0.4); //don't know true numbers
@@ -69,7 +69,7 @@ public class RedFrontAuto extends LinearOpMode {
                 // Here is where you would put code to place the pixel on the spike mark
                 //need numbers
                 robot.autoDrive(200, 0.2);
-//                            robot.setIntake(-0.5);
+//                            robot.setIntake(-0.23);
 //                            sleep(10);
 //                            robot.setIntake(0);
 //                            robot.autoStrafe(100, -0.4); //don't know true numbers
@@ -81,7 +81,7 @@ public class RedFrontAuto extends LinearOpMode {
                 //need numbers
                 robot.autoStrafe(100, -0.2); //don't know true numbers
 //                            robot.autoDrive(100, 0.2); //don't know true numbers
-//                            robot.setIntake(-0.5);
+//                            robot.setIntake(-0.23);
 //                            sleep(10);
 //                            robot.setIntake(0);
 //                            robot.autoStrafe(100, -0.4); //don't know true numbers
@@ -94,7 +94,7 @@ public class RedFrontAuto extends LinearOpMode {
             //need numbers
             robot.autoStrafe(100, -0.2); //don't know true numbers
 //                        robot.autoDrive(100, 0.2); //don't know true numbers
-//                        robot.setIntake(-0.5);
+//                        robot.setIntake(-0.23);
 //                        sleep(10);
 //                        robot.setIntake(0);
 //                        robot.autoStrafe(100, -0.4); //don't know true numbers
