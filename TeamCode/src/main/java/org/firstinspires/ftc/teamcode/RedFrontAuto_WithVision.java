@@ -2,14 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-import org.checkerframework.checker.units.qual.Angle;
 import java.util.List;
 
-@Autonomous(name="RedFrontAuto_L", group="Red Team")
-public class RedFrontAuto_L extends LinearOpMode {
+@Autonomous(name="RedFrontAuto_Vision", group="Red Team")
+public class RedFrontAuto_WithVision extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
 
     //19.2 * 28 = 96πmm <-- Replace these numbers.
