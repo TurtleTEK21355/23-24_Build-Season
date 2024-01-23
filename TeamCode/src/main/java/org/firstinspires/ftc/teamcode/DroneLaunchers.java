@@ -15,8 +15,10 @@ public class DroneLaunchers extends LinearOpMode {
             if (gamepad2.dpad_down && gamepad2.dpad_up) {
             } else if (gamepad2.dpad_up) {
                 speed = speed + 0.01;
+                gamepad2.dpad_up = false;
             } else if (gamepad2.dpad_down) {
                 speed = speed - 0.01;
+                gamepad2.dpad_down = false;
             }
 
             robot.goLaunch(gamepad2.right_stick_y);
