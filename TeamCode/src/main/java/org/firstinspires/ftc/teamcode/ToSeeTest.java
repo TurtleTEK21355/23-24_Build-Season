@@ -18,19 +18,19 @@ public class ToSeeTest extends LinearOpMode {
     double tickToMMRatio = 0.561 / 1;
     int startEncoderValue;
 
-    String Tag = "Unseen";
 
     @Override
     public void runOpMode() throws InterruptedException {
-
         robot.init();
         robot.resetImu();
         robot.initLens();
+
+
         List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
         waitForStart();
         while (opModeIsActive()) {
-            robot.autoDrive(100, 0.2);
+
             if (opModeIsActive()) {
                 while (opModeIsActive()) {
                     int y = robot.blockLensY();
