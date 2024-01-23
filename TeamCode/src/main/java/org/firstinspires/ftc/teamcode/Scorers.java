@@ -10,9 +10,21 @@ public class Scorers extends LinearOpMode {
     public void runOpMode() {
         robot.init();
         waitForStart();
+        double speed = -0.23;
         while (opModeIsActive()) {
 
-            robot.setWrist(gamepad1.left_stick_y);
+            if (gamepad2.dpad_up) {
+                speed = speed - 0.01;
+                gamepad2.dpad_up = false;
+            } else if (gamepad2.dpad_down) {
+                speed = speed + 0.01;
+                gamepad2.dpad_down = false;
+            }
+
+            robot.intake(speed);
+
+            telemetry.addData("\nSpeed", speed);
+            telemetry.update();
         }
     }
 }
