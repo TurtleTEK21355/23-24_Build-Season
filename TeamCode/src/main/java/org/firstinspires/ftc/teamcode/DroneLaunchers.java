@@ -8,7 +8,7 @@ public class DroneLaunchers extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
     @Override
     public void runOpMode() {
-        double speed = -0.32;
+        double speed = 0.33;
         robot.init();
         waitForStart();
         while (opModeIsActive()) {
@@ -21,11 +21,16 @@ public class DroneLaunchers extends LinearOpMode {
                 gamepad2.dpad_down = false;
             }
 
-            robot.goLaunch(gamepad2.right_stick_y);
+            if (gamepad2.a) {
+                robot.goLaunch(0.65);
+            } else if(gamepad2.x) {
+                robot.goLaunch(0.5);
+            }
+
 
             telemetry.addData("Launch Servo Position: ", robot.flick.getPosition());
            // speed = -gamepad2.right_stick_y;
-            robot.setArm(speed);
+            robot.setlaunch(speed);
 
            /* if (gamepad2.left_bumper && gamepad2.right_bumper) {
             }
