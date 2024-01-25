@@ -36,5 +36,7 @@ public void runOpMode() throws InterruptedException {
 //    robot.autoDrive(1650, 0.2);
 //    robot.autoStrafe(3250, -0.4);
     robot.autoTurn(90,0.2);
+    telemetry.addData("YAW: ", robot.getYawAngles());
+
     }
 }

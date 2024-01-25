@@ -380,8 +380,8 @@ public class RobotHardware_TT {
 
 
     public void autoTurn(double desiredAngle, double speed) {
-        double tolerance = 1;
-        while (getYawAngles() + tolerance != desiredAngle || getYawAngles()-tolerance != desiredAngle) {
+        double tolerance = 3;
+        while (getYawAngles() <= desiredAngle + tolerance || getYawAngles() >= desiredAngle - tolerance) {
             if (getYawAngles() <= desiredAngle + tolerance) {
                 leftFrontDrive.setPower(speed);
                 rightFrontDrive.setPower(speed);
@@ -394,6 +394,8 @@ public class RobotHardware_TT {
                 leftBackDrive.setPower(-speed);
                 rightBackDrive.setPower(-speed);
             }
+            myOpMode.telemetry.addData("Yaw: ", getYawAngles());
+            myOpMode.telemetry.update();
         }
         stopAllMotors();
     }
