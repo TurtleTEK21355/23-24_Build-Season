@@ -380,7 +380,7 @@ public class RobotHardware_TT {
 
 
     public void autoTurn(double desiredAngle, double speed) {
-        double tolerance = 3;
+        double tolerance = 10;
         while (getYawAngles() <= desiredAngle + tolerance || getYawAngles() >= desiredAngle - tolerance) {
             if (getYawAngles() <= desiredAngle + tolerance) {
                 leftFrontDrive.setPower(speed);
