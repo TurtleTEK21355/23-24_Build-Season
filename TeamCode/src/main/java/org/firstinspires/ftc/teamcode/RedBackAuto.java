@@ -33,7 +33,8 @@ public void runOpMode() throws InterruptedException {
 
     waitForStart();
 
-    robot.autoDrive(1650, 0.2);
-    robot.autoStrafe(3250, -0.4);
+//    robot.autoDrive(1650, 0.2);
+//    robot.autoStrafe(3250, -0.4);
+    robot.autoTurn(90,0.2);
     }
 }

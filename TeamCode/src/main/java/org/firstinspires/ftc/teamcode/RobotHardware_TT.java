@@ -380,19 +380,22 @@ public class RobotHardware_TT {
 
 
     public void autoTurn(double desiredAngle, double speed) {
-        double tolerance = 0.5;
-        if (getYawAngles() < desiredAngle + tolerance) {
-            leftFrontDrive.setPower(speed);
-            rightFrontDrive.setPower(speed);
-            leftBackDrive.setPower(speed);
-            rightBackDrive.setPower(speed);
+        double tolerance = 1;
+        while (getYawAngles() + tolerance != desiredAngle || getYawAngles()-tolerance != desiredAngle) {
+            if (getYawAngles() <= desiredAngle + tolerance) {
+                leftFrontDrive.setPower(speed);
+                rightFrontDrive.setPower(speed);
+                leftBackDrive.setPower(speed);
+                rightBackDrive.setPower(speed);
+            }
+            if (getYawAngles() >= desiredAngle - tolerance) {
+                leftFrontDrive.setPower(-speed);
+                rightFrontDrive.setPower(-speed);
+                leftBackDrive.setPower(-speed);
+                rightBackDrive.setPower(-speed);
+            }
         }
-        if (getYawAngles() > desiredAngle - tolerance) {
-            leftFrontDrive.setPower(-speed);
-            rightFrontDrive.setPower(-speed);
-            leftBackDrive.setPower(-speed);
-            rightBackDrive.setPower(-speed);
-        }
+        stopAllMotors();
     }
 
     double pValue = -1;

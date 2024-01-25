@@ -39,10 +39,6 @@ public class RedFrontAuto_WithVision extends LinearOpMode {
             // Here is where you would put code to place the pixel on the spike mark
             robot.autoDrive(750, 0.2); //don't know true numbers
             robot.autoTurn(90, 0.2); //don't know true numbers
-            sleep(1000);
-            robot.setIntake(-0.23);
-            sleep(1500);
-            robot.setIntake(0);
             robot.autoDrive(-200, -0.2);
             robot.autoTurn(0, 0.2);
             robot.autoDrive(-600, -0.2); //don't know true numbers
@@ -52,29 +48,22 @@ public class RedFrontAuto_WithVision extends LinearOpMode {
                 // Here is where code to place the pixel on the spike mark is.
                 robot.autoDrive(750, 0.2);
                 robot.autoStrafe(50, -0.2);
-                robot.setIntake(-0.23); //need numbers
-                sleep(1500);
-                robot.setIntake(0);
                 robot.autoStrafe(200, -0.4);
                 robot.autoDrive(-600, -0.2);
-            robot.autoStrafe(900, -0.4);
+                robot.autoStrafe(900, -0.4);
 
         } else {
             //Right
             // Here is where you would put code to place the pixel on the spike mark
             //need numbers
-            robot.autoStrafe(300, -0.2); //don't know true numbers
-            robot.autoDrive(100, 0.2); //don't know true numbers
-            robot.setIntake(-0.23);
-            sleep(1500);
-            robot.setIntake(0);
+            robot.autoDrive(750, 0.2); //don't know true numbers
+            robot.autoTurn(270,-0.2);
             robot.autoDrive(-600,-0.2);
             robot.autoStrafe(900, -0.4); //don't know true numbers
         }
 
 
-//                    robot.autoStrafe(100,-0.4); //not true numbers
-//                    robot.autoDrive(100,0.2); //not true numbers
+
 
     }
 }
