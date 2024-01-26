@@ -95,6 +95,7 @@ public class RobotHardware_TT {
     private DcMotor pixelMotor;
     public final int READ_PERIOD = 1;
     private HuskyLens huskyLens;
+    long time = 0;
 
     /*  IMU imu;
       // Define Drive constants.  Make them public so they CAN be used by the calling OpMode
@@ -154,6 +155,7 @@ public class RobotHardware_TT {
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         scootImu.initialize(new IMU.Parameters(orientationOnRobot));
         scootImu.resetYaw();
+        time = System.currentTimeMillis();
 
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
@@ -218,8 +220,11 @@ public class RobotHardware_TT {
         leftBackDrive.setPower(newRx - x + y);
         rightBackDrive.setPower(newRx - x - y);
     }
-
+/**
+ * Resets the IMU
+ * */
     public void autoDrive(double ticks, double speed){
+        resetImu();
         autoDrivePrivate(ticks,0,speed);
     }
 
@@ -380,8 +385,8 @@ public class RobotHardware_TT {
 
 
     public void autoTurn(double desiredAngle, double speed) {
-        double tolerance = 10;
-        while (getYawAngles() <= desiredAngle + tolerance || getYawAngles() >= desiredAngle - tolerance) {
+        double tolerance = 5;
+        while (getYawAngles() >= desiredAngle + tolerance || getYawAngles() <= desiredAngle - tolerance) {
             if (getYawAngles() <= desiredAngle + tolerance) {
                 leftFrontDrive.setPower(speed);
                 rightFrontDrive.setPower(speed);
@@ -588,6 +593,10 @@ public class RobotHardware_TT {
             myOpMode.telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
             myOpMode.telemetry.addLine("RBE = Range, Bearing & Elevation");
 
+        }
+
+        public long eleapsedTime () {
+            return System.currentTimeMillis() - time;
         }
 
 
