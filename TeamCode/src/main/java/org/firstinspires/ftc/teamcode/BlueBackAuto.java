@@ -58,16 +58,16 @@ public class BlueBackAuto extends LinearOpMode {
         } else if (x >= 180 && x <= 240) {
             //Center
             // Here is where code to place the pixel on the spike mark is.
-            robot.autoDrive(750, 0.5);
-            robot.autoStrafe(-50, -0.5);
-            robot.setIntake(-0.2);
+            robot.autoDrive(750, 0.2);
+            robot.autoStrafe(-50, -0.2);
+            robot.setIntake(-0.22);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
             robot.setIntake(0);
             robot.autoDrive(-150, -0.5);
             robot.autoStrafe(-450, -0.5);
-            robot.autoDrive(980,0.4);
-            robot.autoStrafe(3500,0.7);
+            robot.autoDrive(1200,0.4);
+            robot.autoStrafe(3650,0.5);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
 
@@ -88,7 +88,7 @@ public class BlueBackAuto extends LinearOpMode {
             robot.autoDrive(-500,-0.2);
             robot.autoStrafe(-650, -0.2);
             robot.autoDrive(980,0.4);
-            robot.autoStrafe(3500,0.7);
+            robot.autoStrafe(3500,0.5);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
         }
