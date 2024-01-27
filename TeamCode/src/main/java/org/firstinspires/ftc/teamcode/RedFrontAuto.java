@@ -45,27 +45,28 @@ public class RedFrontAuto extends LinearOpMode {
             robot.autoDrive(150, 0.2);
             robot.setIntake(-0.2);
             timer = robot.eleapsedTime();
-            while (robot.eleapsedTime() < timer +2000){}
+            while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
             robot.setIntake(0);
             robot.autoDrive(-150,-0.2);
             robot.autoTurn(-90, 0.2);
             robot.autoDrive(-600,-0.2);
-            robot.autoStrafe(1200, -0.4); //don't know true numbers
+            robot.autoStrafe(-1200, -0.4); //don't know true numbers
+            while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
         } else if (x >= 180 && x <= 230) {
             //Center
             // Here is where code to place the pixel on the spike mark is.
             telemetry.addLine("Center");
             telemetry.update();
             robot.autoDrive(750, 0.2);
-            robot.autoStrafe(50, -0.2);
+            robot.autoStrafe(50, 0.2);
             robot.setIntake(-0.2);
             timer = robot.eleapsedTime();
-            while (robot.eleapsedTime() < timer +2000){}
+            while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
             robot.setIntake(0);
-            robot.autoStrafe(200, -0.4);
+            robot.autoStrafe(200, 0.4);
             robot.autoDrive(-600, -0.2);
-            robot.autoStrafe(900, -0.4);
-
+            robot.autoStrafe(-900, -0.4);
+            while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
         } else {
             //Right
             // Here is where you would put code to place the pixel on the spike mark
@@ -74,15 +75,16 @@ public class RedFrontAuto extends LinearOpMode {
             telemetry.update();
             robot.autoDrive(750, 0.2); //don't know true numbers
             robot.autoTurn(-90,0.2);
-            robot.autoDrive(200, 0.2);
+            robot.autoDrive(150, 0.2);
             robot.setIntake(-0.2);
             timer = robot.eleapsedTime();
-            while (robot.eleapsedTime() < timer +2000){}
+            while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
             robot.setIntake(0);
-            robot.autoDrive(-200,-0.2);
+            robot.autoDrive(-150,-0.2);
             robot.autoTurn(90, 0.2);
             robot.autoDrive(-600,-0.2);
-            robot.autoStrafe(1200, -0.4); //don't know true numbers
+            robot.autoStrafe(-1200, -0.4); //don't know true numbers
+            while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
         }
     }
 }

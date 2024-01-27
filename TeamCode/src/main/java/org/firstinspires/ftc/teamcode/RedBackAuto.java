@@ -27,6 +27,7 @@ public class RedBackAuto extends LinearOpMode {
         startEncoderValue = encoderList.get(0);
         waitForStart();
 
+        long timer = 0;
         int y = robot.blockLensY();
         int x = robot.blockLensX();
         telemetry.addData("X: ", x);
@@ -37,28 +38,59 @@ public class RedBackAuto extends LinearOpMode {
         if (x >= 70 && x <= 120) {
             //Left
             // Here is where you would put code to place the pixel on the spike mark
-            robot.autoDrive(750, 0.2); //don't know true numbers
-            robot.autoTurn(90, 0.2); //don't know true numbers
-            robot.autoDrive(-200, -0.2);
-            robot.autoTurn(0, 0.2);
-            robot.autoDrive(-600, -0.2); //don't know true numbers
-            robot.autoStrafe(750, -0.2);
+            telemetry.addLine("Left");
+            telemetry.update();
+            robot.autoDrive(750, 0.2);
+            robot.autoTurn(90,0.2);
+            robot.autoDrive(150, 0.2);
+            robot.setIntake(-0.2);
+            timer = robot.eleapsedTime();
+            while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
+            robot.setIntake(0);
+            robot.autoDrive(-150,-0.2);
+            robot.autoTurn(-90, 0.2);
+            robot.autoDrive(-500, -0.2);
+            robot.autoStrafe(450, 0.2);
+            robot.autoDrive(980,0.4);
+            robot.autoStrafe(-3500,-0.7);
+            timer = robot.eleapsedTime();
+            while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
         } else if (x >= 180 && x <= 230) {
             //Center
             // Here is where code to place the pixel on the spike mark is.
+
             robot.autoDrive(750, 0.2);
-            robot.autoStrafe(250, 0.2);
-            robot.autoDrive(800, 0.2);
-            robot.autoStrafe(-1450, -0.4);
+            robot.autoStrafe(50, 0.2);
+            robot.setIntake(-0.2);
+            timer = robot.eleapsedTime();
+            while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
+            robot.setIntake(0);
+            robot.autoDrive(-150, -0.2);
+            robot.autoStrafe(450, 0.4);
+            robot.autoDrive(980,0.4);
+            robot.autoStrafe(-3500,-0.7);
+            timer = robot.eleapsedTime();
+            while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
 
         } else {
             //Right
             // Here is where you would put code to place the pixel on the spike mark
             //need numbers
-            robot.autoDrive(750, 0.2); //don't know true numbers
-            robot.autoTurn(270,-0.2);
-            robot.autoDrive(-600,-0.2);
-            robot.autoStrafe(900, -0.4); //don't know true numbers
+            robot.autoDrive(750, 0.2);
+            robot.autoTurn(-90,0.2);
+            robot.autoDrive(150, 0.2);
+            robot.setIntake(-0.2);
+            timer = robot.eleapsedTime();
+            while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
+            robot.setIntake(0);
+            robot.autoDrive(-50,-0.2);
+            robot.autoTurn(90, 0.2);
+            robot.autoDrive(-500,-0.2);
+            robot.autoStrafe(450, 0.2);
+            robot.autoDrive(980,0.2);
+            robot.autoStrafe(-3500,-0.7);
+            timer = robot.eleapsedTime();
+            while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
         }
     }
 }
