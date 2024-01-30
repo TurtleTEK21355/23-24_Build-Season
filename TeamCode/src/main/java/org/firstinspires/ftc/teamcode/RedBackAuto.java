@@ -49,8 +49,8 @@ public class RedBackAuto extends LinearOpMode {
             robot.setIntake(0);
             robot.autoDrive(-150,-0.2);
             robot.autoTurn(-90, 0.2);
-            robot.autoDrive(-150, -0.4);
-            robot.autoStrafe(450, 0.2);
+            robot.autoDrive(-150, -0.2);
+            robot.autoStrafe(650, 0.3);
             robot.autoDrive(950,0.3);
             robot.autoStrafe(-3650,-0.5);
             robot.autoDrive(-150, -0.2);
@@ -80,12 +80,12 @@ public class RedBackAuto extends LinearOpMode {
             //need numbers
             robot.autoDrive(750, 0.2);
             robot.autoTurn(-90,0.2);
-            robot.autoDrive(150, 0.2);
-            robot.setIntake(-0.22);
+            robot.autoDrive(100, 0.2);
+            robot.setIntake(-0.25);
             timer = robot.eleapsedTime();
-            while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
+            while (opModeIsActive() && robot.eleapsedTime() < timer + 1000){}
             robot.setIntake(0);
-            robot.autoDrive(-150,-0.2);
+            robot.autoDrive(-200,-0.2);
             robot.autoTurn(90, 0.2);
             robot.autoDrive(-150, -0.2);
             robot.autoStrafe(450, 0.2);

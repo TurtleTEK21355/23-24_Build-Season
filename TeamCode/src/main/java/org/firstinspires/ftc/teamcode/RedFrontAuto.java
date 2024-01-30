@@ -63,9 +63,9 @@ public class RedFrontAuto extends LinearOpMode {
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
             robot.setIntake(0);
-            robot.autoStrafe(200, 0.4);
+            robot.autoStrafe(-200, -0.4);
             robot.autoDrive(-600, -0.2);
-            robot.autoStrafe(-900, -0.4);
+            robot.autoStrafe(-1200, -0.4);
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
         } else {
             //Right
