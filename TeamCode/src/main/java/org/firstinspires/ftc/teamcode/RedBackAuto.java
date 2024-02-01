@@ -35,7 +35,7 @@ public class RedBackAuto extends LinearOpMode {
         telemetry.update();
         sleep(100);
         robot.autoDrive(100, 0.2);
-        if (x >= 70 && x <= 120) {
+        if (x >= 0 && x <= 120) {
             //Left
             // Here is where you would put code to place the pixel on the spike mark
             telemetry.addLine("Left");
@@ -56,7 +56,7 @@ public class RedBackAuto extends LinearOpMode {
             robot.autoDrive(-150, -0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
-        } else if (x >= 180 && x <= 230) {
+        } else if (x >= 121 && x <= 280) {
             //Center
             // Here is where code to place the pixel on the spike mark is.
 
