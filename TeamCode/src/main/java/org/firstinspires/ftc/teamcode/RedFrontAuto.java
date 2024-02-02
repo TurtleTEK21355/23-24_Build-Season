@@ -40,7 +40,7 @@ public class RedFrontAuto extends LinearOpMode {
             // Here is where you would put code to place the pixel on the spike mark
             telemetry.addLine("Left");
             telemetry.update();
-            robot.autoDrive(750, 0.2); //don't know true numbers
+            robot.autoDrive(725, 0.2); //don't know true numbers
             robot.autoTurn(90,0.2);
             robot.autoDrive(150, 0.2);
             robot.setIntake(-0.2);
@@ -57,7 +57,7 @@ public class RedFrontAuto extends LinearOpMode {
             // Here is where code to place the pixel on the spike mark is.
             telemetry.addLine("Center");
             telemetry.update();
-            robot.autoDrive(750, 0.2);
+            robot.autoDrive(725, 0.2);
             robot.autoStrafe(50, 0.2);
             robot.setIntake(-0.2);
             timer = robot.eleapsedTime();
@@ -73,7 +73,7 @@ public class RedFrontAuto extends LinearOpMode {
             //need numbers
             telemetry.addLine("Right");
             telemetry.update();
-            robot.autoDrive(750, 0.2); //don't know true numbers
+            robot.autoDrive(725, 0.2); //don't know true numbers
             robot.autoTurn(-90,0.2);
             robot.autoDrive(100, 0.2);
             robot.setIntake(-0.2);

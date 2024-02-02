@@ -40,7 +40,7 @@ public class BlueBackAuto extends LinearOpMode {
             // Here is where you would put code to place the pixel on the spike mark
             telemetry.addLine("Left");
             telemetry.update();
-            robot.autoDrive(750, 0.2);
+            robot.autoDrive(725, 0.2);
             robot.autoTurn(90,0.2);
             robot.autoDrive(150, 0.2);
             robot.setIntake(-0.2);
@@ -58,7 +58,7 @@ public class BlueBackAuto extends LinearOpMode {
         } else if (x >= 121 && x <= 280) {
             //Center
             // Here is where code to place the pixel on the spike mark is.
-            robot.autoDrive(750, 0.2);
+            robot.autoDrive(725, 0.2);
             robot.autoStrafe(-50, -0.2);
             robot.setIntake(-0.22);
             timer = robot.eleapsedTime();
@@ -76,7 +76,7 @@ public class BlueBackAuto extends LinearOpMode {
         } else {
             //Right
             // Here is where you would put code to place the pixel on the spike mark
-            robot.autoDrive(750, 0.2);
+            robot.autoDrive(725, 0.2);
             robot.autoTurn(-90,0.2);
             robot.autoDrive(150, 0.2);
             robot.setIntake(-0.2);
