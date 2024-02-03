@@ -229,6 +229,7 @@ public class RobotHardware_TT {
     }
 
     public void autoStrafe(double ticks, double speed){
+        resetImu();
         autoDrivePrivate(ticks,speed,0);
     }
     private void autoDrivePrivate(double distanceTicks, double x, double y) {

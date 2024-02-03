@@ -75,13 +75,14 @@ public class RedFrontAuto extends LinearOpMode {
             telemetry.update();
             robot.autoDrive(725, 0.2); //don't know true numbers
             robot.autoTurn(-90,0.2);
-            robot.autoDrive(100, 0.2);
+            robot.autoDrive(150, 0.2);
             robot.setIntake(-0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +1000){}
             robot.setIntake(0);
-            robot.autoDrive(-100,-0.2);
+            robot.autoDrive(-170,-0.2);
             robot.autoTurn(90, 0.2);
+            robot.autoStrafe(100, 0.2);
             robot.autoDrive(-600,-0.2);
             robot.autoStrafe(-1200, -0.4); //don't know true numbers
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}

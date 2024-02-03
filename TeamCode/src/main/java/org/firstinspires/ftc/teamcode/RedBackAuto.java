@@ -53,7 +53,6 @@ public class RedBackAuto extends LinearOpMode {
             robot.autoStrafe(650, 0.3);
             robot.autoDrive(950,0.3);
             robot.autoStrafe(-3650,-0.5);
-            robot.autoDrive(-150, -0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
         } else if (x >= 121 && x <= 280) {
@@ -70,7 +69,6 @@ public class RedBackAuto extends LinearOpMode {
             robot.autoStrafe(450, 0.2);
             robot.autoDrive(950,0.3);
             robot.autoStrafe(-3650,-0.5);
-            robot.autoDrive(-150, -0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
 
@@ -91,7 +89,6 @@ public class RedBackAuto extends LinearOpMode {
             robot.autoStrafe(450, 0.2);
             robot.autoDrive(950,0.3);
             robot.autoStrafe(-3650,-0.5);
-            robot.autoDrive(-150, -0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
         }
