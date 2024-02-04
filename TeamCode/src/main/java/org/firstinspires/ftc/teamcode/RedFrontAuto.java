@@ -83,7 +83,7 @@ public class RedFrontAuto extends LinearOpMode {
             robot.autoDrive(-170,-0.2);
             robot.autoTurn(90, 0.2);
             robot.autoStrafe(100, 0.2);
-            robot.autoDrive(-600,-0.2);
+            robot.autoDrive(-675,-0.2);
             robot.autoStrafe(-1200, -0.4); //don't know true numbers
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
         }

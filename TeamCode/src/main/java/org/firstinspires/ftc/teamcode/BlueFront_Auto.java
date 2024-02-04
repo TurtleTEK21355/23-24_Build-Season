@@ -28,6 +28,6 @@ public class BlueFront_Auto extends LinearOpMode {
         waitForStart();
 
         robot.autoDrive(100,0.2);
-        robot.autoStrafe(-1300,-0.4);
+        robot.autoStrafe(1300,0.4);
     }
 }
