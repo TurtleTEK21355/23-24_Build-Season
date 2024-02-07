@@ -24,12 +24,12 @@ public class TeleOp_23_24 extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad2.x && gamepad2.back) {
-                robot.setLaunch(speed);
-                sleep(2000);
+                robot.setLaunch();
+                robot.checkVelocity();
                 robot.launchServoGo(0.65);
                 telemetry.addLine("LAUNCH THE NUKE!!!");
                 sleep(1000);
-                robot.setLaunch(0);
+                robot.setLaunchSpeed(0);
                 robot.launchServoGo(0.53);
                 //need new numbers
             }

@@ -34,6 +34,7 @@ import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -80,7 +81,7 @@ public class RobotHardware_TT {
     public Servo clawLeft;
     public Servo wrist;
     public Servo launchServo;
-    private DcMotor launchMotor;
+    private DcMotorEx launchMotor;
     private DcMotor intake;
     private DcMotor Arm;
     private IMU scootImu;
@@ -121,7 +122,7 @@ public class RobotHardware_TT {
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
-        launchMotor = myOpMode.hardwareMap.get(DcMotor.class, "launchMotor");
+        launchMotor = myOpMode.hardwareMap.get(DcMotorEx.class, "launchMotor");
         Arm = myOpMode.hardwareMap.get(DcMotor.class, "Arm");
         intake = myOpMode.hardwareMap.get(DcMotor.class, "intake");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
@@ -139,6 +140,8 @@ public class RobotHardware_TT {
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         launchMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        launchMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
         // Define and initialize ALL installed servos.
@@ -471,11 +474,23 @@ public class RobotHardware_TT {
         launchServo.setPosition(flick1);
     }
 
+
+    public void setLaunchSpeed(double speed) {
+        launchMotor.setPower(speed);
+    }
+
     /**
-     * @param power spins wheel for Drone launch. Do NOT go over 0.8
+     * spins wheel for Drone launch. Do NOT go over 0.8
      */
-    public void setLaunch(double power) {
-        launchMotor.setPower(power);
+    public void setLaunch() {
+        launchMotor.setVelocity(934);
+    }
+
+    public void checkVelocity() {
+        while (launchMotor.getVelocity() < 930 && myOpMode.opModeIsActive()|| launchMotor.getVelocity() > 938 && myOpMode.opModeIsActive()) {
+            myOpMode.telemetry.addData("Waiting... \nCurrent Velocity: ", launchMotor.getVelocity());
+            myOpMode.telemetry.update();
+        }
     }
 
 /**
