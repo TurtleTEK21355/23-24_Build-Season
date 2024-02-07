@@ -34,6 +34,7 @@ import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -78,11 +79,11 @@ public class RobotHardware_TT {
 
     public Servo clawRight;
     public Servo clawLeft;
-    private Servo wrist;
-    private Servo flick;
-    private DcMotor launch;
-    private DcMotor intakeMotor;
-    private DcMotor armMotor;
+    public Servo wrist;
+    public Servo launchServo;
+    private DcMotorEx launchMotor;
+    private DcMotor intake;
+    private DcMotor Arm;
     private IMU scootImu;
     private DcMotor leftFrontDrive;
     private DcMotor rightFrontDrive;
@@ -95,6 +96,7 @@ public class RobotHardware_TT {
     private DcMotor pixelMotor;
     public final int READ_PERIOD = 1;
     private HuskyLens huskyLens;
+    long time = 0;
 
     /*  IMU imu;
       // Define Drive constants.  Make them public so they CAN be used by the calling OpMode
@@ -111,7 +113,7 @@ public class RobotHardware_TT {
     /**
      * Initialize all the robot's hardware.
      * This method must be called ONCE when the OpMode is initialized.
-     *left
+     * left
      * All of the hardware devices are accessed via the hardware map, and initialized.
      */
     public void init() {
@@ -120,9 +122,9 @@ public class RobotHardware_TT {
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightFrontDrive");
         leftBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "leftBackDrive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightBackDrive");
-        launch = myOpMode.hardwareMap.get(DcMotor.class, "launchMotor");
-        armMotor = myOpMode.hardwareMap.get(DcMotor.class, "motorArm");
-        intakeMotor = myOpMode.hardwareMap.get(DcMotor.class, "intakeMotor");
+        launchMotor = myOpMode.hardwareMap.get(DcMotorEx.class, "launchMotor");
+        Arm = myOpMode.hardwareMap.get(DcMotor.class, "Arm");
+        intake = myOpMode.hardwareMap.get(DcMotor.class, "intake");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
         huskyLens = myOpMode.hardwareMap.get(HuskyLens.class, "huskylens");
@@ -131,31 +133,32 @@ public class RobotHardware_TT {
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
 
 
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        launch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        launchMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        launchMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
         // Define and initialize ALL installed servos.
-        clawRight = myOpMode.hardwareMap.get(Servo.class, "clawRight");
-        clawLeft = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
-        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
-        flick = myOpMode.hardwareMap.get(Servo.class, "launchServo");
-        flick.setPosition(0.8);
-
+//        clawRight = myOpMode.hardwareMap.get(Servo.class, "clawRight");
+//        clawLeft = myOpMode.hardwareMap.get(Servo.class, "clawLeft");
+//        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+        launchServo = myOpMode.hardwareMap.get(Servo.class, "launchServo");
+        launchServo.setPosition(0.53);
 
 
         scootImu = myOpMode.hardwareMap.get(IMU.class, "imu");
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
-        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         scootImu.initialize(new IMU.Parameters(orientationOnRobot));
         scootImu.resetYaw();
-
+        time = System.currentTimeMillis();
 
 
         myOpMode.telemetry.addData(">", "Hardware Initialized");
@@ -195,7 +198,7 @@ public class RobotHardware_TT {
         myOpMode.telemetry.update();*/
     }
 
-    public void stopAllMotors(){
+    public void stopAllMotors() {
         leftFrontDrive.setPower(0);
         rightFrontDrive.setPower(0);
         leftBackDrive.setPower(0);
@@ -203,19 +206,51 @@ public class RobotHardware_TT {
     }
 
     public void mecanumDrive(double x, double y, double heading) {
+        //myOpMode.telemetry.addData("New RX value", newRx);
+        y *= -1;
+        leftFrontDrive.setPower(heading + x + y);
+        rightFrontDrive.setPower(heading + x - y);
+        leftBackDrive.setPower(heading - x + y);
+        rightBackDrive.setPower(heading - x - y);
+    }
+    public void mecanumDriveAuto(double x, double y, double heading) {
         double newRx = 0;
         //myOpMode.telemetry.addData("New RX value", newRx);
-          y*=-1;
-          newRx = turnValue(-heading);
-//        leftFrontDrive.setPower(y + x + newRx);
-//        rightFrontDrive.setPower(y + x - newRx);
-//        leftBackDrive.setPower(y - x + newRx);
-//        rightBackDrive.setPower(y - x - newRx);
+        y *= -1;
+        newRx = turnValue(-heading);
         leftFrontDrive.setPower(newRx + x + y);
         rightFrontDrive.setPower(newRx + x - y);
         leftBackDrive.setPower(newRx - x + y);
         rightBackDrive.setPower(newRx - x - y);
     }
+/**
+ * Resets the IMU
+ * */
+    public void autoDrive(double ticks, double speed){
+        resetImu();
+        autoDrivePrivate(ticks,0,speed);
+    }
+
+    public void autoStrafe(double ticks, double speed){
+        resetImu();
+        autoDrivePrivate(ticks,speed,0);
+    }
+    private void autoDrivePrivate(double distanceTicks, double x, double y) {
+        resetEncoders();
+        List<Integer> encoderList = getEncoders();
+        while (Math.abs(encoderList.get(0)) < Math.abs(distanceTicks) && myOpMode.opModeIsActive()) {
+            encoderList = getEncoders();
+            mecanumDriveAuto(x, y, 0); //drive to the spike mark placing
+            myOpMode.telemetry.addData("ticks", encoderList.get(0));
+            myOpMode.telemetry.addData("Angle", getYawAngles());
+            myOpMode.telemetry.update();
+        }
+        stopAllMotors();
+    }
+
+
+
+
 
     public List<Integer> getEncoders() {
         List<Integer> encoderValues = new ArrayList<Integer>();
@@ -224,6 +259,14 @@ public class RobotHardware_TT {
         encoderValues.add(leftBackDrive.getCurrentPosition());
         encoderValues.add(rightBackDrive.getCurrentPosition());
         return encoderValues;
+    }
+
+    public boolean isMoving() {
+        boolean isMoving = false;
+        if (leftFrontDrive.isBusy() || rightFrontDrive.isBusy() || leftBackDrive.isBusy() || rightBackDrive.isBusy()){
+            isMoving = true;
+        }
+        return isMoving;
     }
 
 
@@ -267,7 +310,7 @@ public class RobotHardware_TT {
         double toleranceValue = 5;
         //Taking an IMU reading
         YawPitchRollAngles orientation = scootImu.getRobotYawPitchRollAngles();
-        double yawDegrees = orientation.getYaw(AngleUnit.DEGREES);
+           double yawDegrees = orientation.getYaw(AngleUnit.DEGREES);
         // Adjust the correctionRx value by that result * -1
         double correctionYawDegrees = -yawDegrees;
         // if correctionYawDegrees < 0 then turn left.
@@ -318,20 +361,52 @@ public class RobotHardware_TT {
         return tValue;
     }
 
-    public void mecanumTurn(double desiredAngle, double speed) {
-        double tolerance = 0.5;
-        if (getYawAngles() < desiredAngle + tolerance) {
-            leftFrontDrive.setPower(speed);
-            rightFrontDrive.setPower(speed);
-            leftBackDrive.setPower(speed);
-            rightBackDrive.setPower(speed);
+    double turnValueTeleOp(double desiredAngle) {
+        YawPitchRollAngles orientation = scootImu.getRobotYawPitchRollAngles();
+        double currentAngle = orientation.getYaw(AngleUnit.DEGREES);
+        //The angle based on where you where facing when you started.
+        double correctionAngle = desiredAngle - currentAngle;
+        double tValue = 0;
+        //When I want to turn right, tValue should be positive.
+        // When I want to turn left, tValue should be negative.
+        if (correctionAngle > 180) {
+            //turn left
+            tValue = -0.6;
+        } else if (correctionAngle > 10) {
+            //turn right
+            tValue = 0.6;
         }
-        if (getYawAngles() > desiredAngle - tolerance) {
-            leftFrontDrive.setPower(-speed);
-            rightFrontDrive.setPower(-speed);
-            leftBackDrive.setPower(-speed);
-            rightBackDrive.setPower(-speed);
+
+        if (correctionAngle < -180) {
+            //turn right
+            tValue = 0.6;
+        } else if (correctionAngle < -10) {
+            //turn left
+            tValue = -0.6;
         }
+        return tValue;
+    }
+
+
+    public void autoTurn(double desiredAngle, double speed) {
+        double tolerance = 5;
+        while (getYawAngles() >= desiredAngle + tolerance || getYawAngles() <= desiredAngle - tolerance) {
+            if (getYawAngles() <= desiredAngle + tolerance) {
+                leftFrontDrive.setPower(speed);
+                rightFrontDrive.setPower(speed);
+                leftBackDrive.setPower(speed);
+                rightBackDrive.setPower(speed);
+            }
+            if (getYawAngles() >= desiredAngle - tolerance) {
+                leftFrontDrive.setPower(-speed);
+                rightFrontDrive.setPower(-speed);
+                leftBackDrive.setPower(-speed);
+                rightBackDrive.setPower(-speed);
+            }
+            myOpMode.telemetry.addData("Yaw: ", getYawAngles());
+            myOpMode.telemetry.update();
+        }
+        stopAllMotors();
     }
 
     double pValue = -1;
@@ -349,7 +424,7 @@ public class RobotHardware_TT {
     }
 
     double armMotorEncoders() {
-        double armMotorPosition = armMotor.getCurrentPosition();
+        double armMotorPosition = Arm.getCurrentPosition();
         return armMotorPosition;
     }
 
@@ -382,6 +457,7 @@ public class RobotHardware_TT {
         } else {
             clawLeft.setPosition(clawLet);
         }
+
     }
 
     /**
@@ -395,14 +471,26 @@ public class RobotHardware_TT {
      * @param flick1 Servo. Will add numbers.
      */
     public void launchServoGo(double flick1) {
-        flick.setPosition(flick1);
+        launchServo.setPosition(flick1);
+    }
+
+
+    public void setLaunchSpeed(double speed) {
+        launchMotor.setPower(speed);
     }
 
     /**
-     * @param power spins wheel for Drone launch. Do NOT go over 0.8
+     * spins wheel for Drone launch. Do NOT go over 0.8
      */
-    public void setLaunch(double power) {
-        launch.setPower(power);
+    public void setLaunch() {
+        launchMotor.setVelocity(934);
+    }
+
+    public void checkVelocity() {
+        while (launchMotor.getVelocity() < 930 && myOpMode.opModeIsActive()|| launchMotor.getVelocity() > 938 && myOpMode.opModeIsActive()) {
+            myOpMode.telemetry.addData("Waiting... \nCurrent Velocity: ", launchMotor.getVelocity());
+            myOpMode.telemetry.update();
+        }
     }
 
 /**
@@ -411,14 +499,14 @@ public class RobotHardware_TT {
      * @param arm driving power (-1.0 to 1.0)
      */
     public void setArm(double arm) {
-        armMotor.setPower(arm);
+        Arm.setPower(arm);
     }
 
     /**
      * @param speed Sets 3D printed intake speed. 0.64 is awesome!
      */
     public void setIntake(double speed) {
-        intakeMotor.setPower(speed);
+        intake.setPower(speed);
     }
 
     public void initLens() {
@@ -521,6 +609,10 @@ public class RobotHardware_TT {
             myOpMode.telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
             myOpMode.telemetry.addLine("RBE = Range, Bearing & Elevation");
 
+        }
+
+        public long eleapsedTime () {
+            return System.currentTimeMillis() - time;
         }
 
 
