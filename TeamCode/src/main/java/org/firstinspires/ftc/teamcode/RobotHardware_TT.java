@@ -127,7 +127,6 @@ public class RobotHardware_TT {
         intake = myOpMode.hardwareMap.get(DcMotor.class, "intake");
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
         visionPortal = VisionPortal.easyCreateWithDefaults(myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
-        huskyLens = myOpMode.hardwareMap.get(HuskyLens.class, "huskylens");
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
@@ -483,11 +482,11 @@ public class RobotHardware_TT {
      * spins wheel for Drone launch. Do NOT go over 0.8
      */
     public void setLaunch() {
-        launchMotor.setVelocity(930);
+        launchMotor.setVelocity(940);
     }
 
     public void checkVelocity() {
-        while (launchMotor.getVelocity() >= 920 && myOpMode.opModeIsActive() || launchMotor.getVelocity() <= 940 && myOpMode.opModeIsActive()) {
+        while (launchMotor.getVelocity() <= 920 && myOpMode.opModeIsActive() || launchMotor.getVelocity() > 940 && myOpMode.opModeIsActive()) {
             myOpMode.telemetry.addData("Waiting... \nCurrent Velocity: ", launchMotor.getVelocity());
             myOpMode.telemetry.update();
         }
