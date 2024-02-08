@@ -31,7 +31,6 @@ public class TeleOp_23_24 extends LinearOpMode {
                 sleep(1000);
                 robot.setLaunchSpeed(0);
                 robot.launchServoGo(0.53);
-                //need new numbers
             }
 
 
