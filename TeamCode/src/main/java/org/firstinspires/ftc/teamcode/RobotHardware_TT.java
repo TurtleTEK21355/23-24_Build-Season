@@ -488,6 +488,7 @@ public class RobotHardware_TT {
     public void checkVelocity() {
         while (launchMotor.getVelocity() != 600 && myOpMode.opModeIsActive()) {
             myOpMode.telemetry.addData("Waiting... \nCurrent Velocity: ", launchMotor.getVelocity());
+            myOpMode.telemetry.addData("\nPower: ", launchMotor.getPower());
             myOpMode.telemetry.update();
         }
     }
