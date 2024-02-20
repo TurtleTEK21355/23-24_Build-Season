@@ -17,7 +17,6 @@ public class TeleOp_23_24 extends LinearOpMode {
         double Turn = 0;
         double Strafe = 0;
         double Drive = 0;
-        double speed = 0.345;
         double wristPosition = 0.5;
 
 
