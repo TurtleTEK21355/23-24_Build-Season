@@ -58,9 +58,9 @@ public class TeleOp_23_24 extends LinearOpMode {
 
             if (gamepad1.right_trigger > 0.2 && gamepad1.left_trigger > 0.2) {
             } else if (gamepad1.right_trigger > 0.2) {
-                robot.setIntake(-0.4);
+                robot.setIntake(-0.35);
             } else if (gamepad1.left_trigger > 0.2) {
-                robot.setIntake(0.4);
+                robot.setIntake(0.35);
 
             } else {
                 robot.setIntake(0);
