@@ -482,7 +482,7 @@ public class RobotHardware_TT {
      * spins wheel for Drone launch. Do NOT go over 0.8
      */
     public void setLaunch() {
-        launchMotor.setVelocity(600);
+        launchMotor.setVelocity(680);
     }
 
     public void checkVelocity() {
