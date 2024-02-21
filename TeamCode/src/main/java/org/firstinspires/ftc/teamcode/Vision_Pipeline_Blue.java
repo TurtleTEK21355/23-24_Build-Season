@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -13,10 +17,13 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvNativeViewViewport;
 import org.openftc.easyopencv.OpenCvPipeline;
+import org.openftc.easyopencv.OpenCvSurfaceViewViewport;
+import org.openftc.easyopencv.OpenCvViewRenderer;
 
 
-@TeleOp(name = "VisionPipeline", group="Purzple Team")
+@TeleOp(name = "VisionPipelineBlue", group="Purzple Team")
 
 public class Vision_Pipeline_Blue extends LinearOpMode{
     RobotHardware_Calibration robot;
@@ -27,7 +34,8 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         telemetry.addData(">", cameraMonitorViewId);
         telemetry.update();
-        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"),cameraMonitorViewId);
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
         pipeline = new centerstageDeterminationPipeline();
         camera.setPipeline(pipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -53,8 +61,11 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
             //telemetry.addData("Analysis", pipeline.getAnalysis());
             //telemetry.update();
             pipeline.getAnalysis();
+            telemetry.addLine("Reeet");
+            telemetry.addData(pipeline.getColorRegion1().toString(), "Yes.");
             // Don't burn CPU cycles busy-looping in this sample
             sleep(50);
+            telemetry.update();
         }
 
     }
@@ -75,6 +86,7 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
          */
         static final Scalar BLUE = new Scalar(0, 0, 255);
         static final Scalar GREEN = new Scalar(0, 255, 0);
+
 
         /*
          * The core values which define the location and size of the sample regions
@@ -118,10 +130,20 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
         /*
          * Working variables
          */
-        Mat region1_Cb, region2_Cb, region3_Cb;
-        Mat YCrCb = new Mat();
+        Mat region1, region2, region3;
+        Mat imgYCrCb = new Mat();
+        Mat maskedYCrCb = new Mat();
+        Mat maskedRGB = new Mat();
         Mat Cb = new Mat();
-        int avg1, avg2;
+
+        Mat Cr = new Mat();
+
+        Mat Y = new Mat();
+        int avgCb, avg2;
+
+        int avgY;
+
+        int avgCr;
 
         // Volatile since accessed by OpMode thread w/o synchronization
         private volatile PropPosition position = PropPosition.LEFT;
@@ -130,15 +152,16 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
          * This function takes the RGB frame, converts to YCrCb,
          * and extracts the Cb channel to the 'Cb' variable
          */
-        void inputToCb(Mat input)
+        void inputToYCrCb(Mat input)
         {
-            Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-            Core.extractChannel(YCrCb, Cb, 2);
+            Imgproc.cvtColor(input, imgYCrCb, Imgproc.COLOR_RGB2YCrCb);
         }
 
         @Override
+
         public void init(Mat firstFrame)
         {
+
             /*
              * We need to call this in order to make sure the 'Cb'
              * object is initialized, so that the submats we make
@@ -148,16 +171,15 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
              * buffer would be re-allocated the first time a real frame
              * was crunched)
              */
-            inputToCb(firstFrame);
+            inputToYCrCb(firstFrame);
 
             /*
              * Submats are a persistent reference to a region of the parent
              * buffer. Any changes to the child affect the parent, and the
              * reverse also holds true.
              */
-            region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
-            region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
         }
+
 
         @Override
         public Mat processFrame(Mat input)
@@ -180,8 +202,11 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
             /*
              * Get the Cb channel of the input frame after conversion to YCrCb
              */
-            inputToCb(input);
+            inputToYCrCb(input);
+            Core.inRange(imgYCrCb, new Scalar(35,60,110), new Scalar(100,150,210), maskedYCrCb);
 
+            region1 = maskedYCrCb.submat(new Rect(region1_pointA, region1_pointB));
+            region2 = maskedYCrCb.submat(new Rect(region2_pointA, region2_pointB));
             /*
              * Compute the average pixel value of each submat region. We're
              * taking the average of a single channel buffer, so the value
@@ -189,15 +214,12 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
              * pixel value of the 3-channel image, and referenced the value
              * at index 2 here.
              */
-            avg1 = (int) Core.mean(region1_Cb).val[0];
-            avg2 = (int) Core.mean(region2_Cb).val[0];
-
             /*
              * Draw a rectangle showing sample region 1 on the screen.
              * Simply a visual aid. Serves no functional purpose.
              */
             Imgproc.rectangle(
-                    input, // Buffer to draw on
+                    maskedYCrCb, // Buffer to draw on
                     region1_pointA, // First point which defines the rectangle
                     region1_pointB, // Second point which defines the rectangle
                     BLUE, // The color the rectangle is drawn in
@@ -208,7 +230,7 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
              * Simply a visual aid. Serves no functional purpose.
              */
             Imgproc.rectangle(
-                    input, // Buffer to draw on
+                    maskedYCrCb, // Buffer to draw on
                     region2_pointA, // First point which defines the rectangle
                     region2_pointB, // Second point which defines the rectangle
                     BLUE, // The color the rectangle is drawn in
@@ -223,14 +245,14 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
             /*
              * Find the max of the 3 averages
              */
-            int max = Math.max(avg1, avg2);
+            int max = Math.max(avgCb, avg2);
 
 
             /*
              * Now that we found the max, we actually need to go and
              * figure out which sample region that value was from
              */
-            if(max == avg1) // Was it from region 1?
+            if(max == avgCb) // Was it from region 1?
             {
                 position = PropPosition.LEFT; // Record our analysis
 
@@ -239,7 +261,7 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
                  * Simply a visual aid. Serves no functional purpose.
                  */
                 Imgproc.rectangle(
-                        input, // Buffer to draw on
+                        maskedYCrCb, // Buffer to draw on
                         region1_pointA, // First point which defines the rectangle
                         region1_pointB, // Second point which defines the rectangle
                         GREEN, // The color the rectangle is drawn in
@@ -255,7 +277,7 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
                  * Simply a visual aid. Serves no functional purpose.
                  */
                 Imgproc.rectangle(
-                        input, // Buffer to draw on
+                        maskedYCrCb, // Buffer to draw on
                         region2_pointA, // First point which defines the rectangle
                         region2_pointB, // Second point which defines the rectangle
                         GREEN, // The color the rectangle is drawn in
@@ -268,7 +290,7 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
              * simply rendering the raw camera feed, because we called functions
              * to add some annotations to this buffer earlier up.
              */
-            return input;
+            return maskedYCrCb;
         }
 
         /*
@@ -277,6 +299,10 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
         public PropPosition getAnalysis()
         {
             return position;
+        }
+        public Scalar getColorRegion1()
+        {
+            return new Scalar(avgY,avgCr,avgCb);
         }
     }
 }

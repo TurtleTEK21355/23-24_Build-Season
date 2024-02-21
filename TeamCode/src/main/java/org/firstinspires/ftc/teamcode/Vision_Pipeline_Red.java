@@ -16,7 +16,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 
-@TeleOp(name = "VisionPipeline", group="Purzple Team")
+@TeleOp(name = "VisionPipelineReds", group="Purzple Team")
 
 public class Vision_Pipeline_Red extends LinearOpMode{
     RobotHardware_Calibration robot;
