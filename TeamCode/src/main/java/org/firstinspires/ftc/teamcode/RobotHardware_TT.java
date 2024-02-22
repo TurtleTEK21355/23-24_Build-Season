@@ -492,6 +492,10 @@ public class RobotHardware_TT {
             myOpMode.telemetry.update();
         }
     }
+    public void launchNumbers() {
+        myOpMode.telemetry.addData("Current Velocity: ", launchMotor.getVelocity());
+        myOpMode.telemetry.addData("\nPower: ", launchMotor.getPower());
+    }
 
 /**
      * Pass the requested arm power to the appropriate hardware drive motor
