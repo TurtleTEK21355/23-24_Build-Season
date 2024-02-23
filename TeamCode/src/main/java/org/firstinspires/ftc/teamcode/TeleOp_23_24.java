@@ -33,27 +33,7 @@ public class TeleOp_23_24 extends LinearOpMode {
             }
             robot.launchNumbers();
 
-
-//            if (gamepad2.right_trigger > 0.2 && wristPosition < 0.5) { // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
-//                wristPosition = wristPosition + 0.002;
-//                telemetry.addLine("Move the wrist");
-//            } else if (gamepad2.left_trigger > 0.2 && wristPosition > 0) { // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS)
-//                wristPosition = wristPosition - 0.002;
-//            } else if (gamepad2.x) {
-//                wristPosition = 0.5;
-//            }
-//            robot.setWrist(wristPosition);
-//
-//            //need new numbers!
-//            if (gamepad2.left_bumper) {
-//                // Closed
-//                robot.setClaw(0.1); // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS
-//                telemetry.addLine("CLOSE CLAW");
-//            }
-//            else if (gamepad2.right_bumper || gamepad1.right_bumper) {
-//                robot.setClaw(0.54); // FILLER NUMBER STILL NEED THE ACTUAL NUMBERS
-//                telemetry.addLine("OPEN CLAW");
-//            }
+            
 
 
             if (gamepad1.right_trigger > 0.2 && gamepad1.left_trigger > 0.2) {
