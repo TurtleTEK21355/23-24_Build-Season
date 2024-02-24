@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -17,17 +13,14 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvNativeViewViewport;
 import org.openftc.easyopencv.OpenCvPipeline;
-import org.openftc.easyopencv.OpenCvSurfaceViewViewport;
-import org.openftc.easyopencv.OpenCvViewRenderer;
 
 
 @TeleOp(name = "VisionPipelineBlue", group="Purzple Team")
 
 public class Vision_Pipeline_Blue extends LinearOpMode{
     RobotHardware_Calibration robot;
-    centerstageDeterminationPipeline pipeline;
+    CenterstageDeterminationPipeline pipeline;
     @Override
     public void runOpMode() throws InterruptedException {
         robot = new RobotHardware_Calibration(this);
@@ -36,7 +29,7 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
         telemetry.update();
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        pipeline = new centerstageDeterminationPipeline();
+        pipeline = new CenterstageDeterminationPipeline();
         camera.setPipeline(pipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -61,15 +54,14 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
             //telemetry.addData("Analysis", pipeline.getAnalysis());
             //telemetry.update();
             pipeline.getAnalysis();
-            telemetry.addLine("Reeet");
-            telemetry.addData(pipeline.getColorRegion1().toString(), "Yes.");
+            telemetry.addData("Which Square?", pipeline.WhichRegion());
             // Don't burn CPU cycles busy-looping in this sample
             sleep(50);
             telemetry.update();
         }
 
     }
-    public static class centerstageDeterminationPipeline extends OpenCvPipeline {
+    public static class CenterstageDeterminationPipeline extends OpenCvPipeline {
         /*
          * An enum to define the Centerstage position
          */
@@ -91,7 +83,7 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(120,198);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0,302);
         static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(300,98);
         static final int REGION_WIDTH = 125;
         static final int REGION_HEIGHT = 125;
@@ -139,7 +131,9 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
         Mat Cr = new Mat();
 
         Mat Y = new Mat();
-        int avgCb, avg2;
+        double avgYRegion1;
+        double avgYRegion2;
+
 
         int avgY;
 
@@ -148,6 +142,20 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
         // Volatile since accessed by OpMode thread w/o synchronization
         private volatile PropPosition position = PropPosition.LEFT;
 
+        public PropPosition getPropPosition() {
+            return position;
+        }
+
+        public double WhichRegion(){
+            double ThisRegion = 0;
+            if (avgYRegion1 > avgYRegion2){
+                ThisRegion = 1;
+            }
+            else if (avgYRegion2 > avgYRegion1){
+                ThisRegion = 2;
+            }
+            return ThisRegion;
+        }
         /*
          * This function takes the RGB frame, converts to YCrCb,
          * and extracts the Cb channel to the 'Cb' variable
@@ -203,8 +211,7 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
              * Get the Cb channel of the input frame after conversion to YCrCb
              */
             inputToYCrCb(input);
-            Core.inRange(imgYCrCb, new Scalar(35,60,110), new Scalar(100,150,210), maskedYCrCb);
-
+            Core.inRange(imgYCrCb, new Scalar(30,55,100), new Scalar(100,150,210), maskedYCrCb);
             region1 = maskedYCrCb.submat(new Rect(region1_pointA, region1_pointB));
             region2 = maskedYCrCb.submat(new Rect(region2_pointA, region2_pointB));
             /*
@@ -218,23 +225,6 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
              * Draw a rectangle showing sample region 1 on the screen.
              * Simply a visual aid. Serves no functional purpose.
              */
-            Imgproc.rectangle(
-                    maskedYCrCb, // Buffer to draw on
-                    region1_pointA, // First point which defines the rectangle
-                    region1_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-
-            /*
-             * Draw a rectangle showing sample region 2 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
-            Imgproc.rectangle(
-                    maskedYCrCb, // Buffer to draw on
-                    region2_pointA, // First point which defines the rectangle
-                    region2_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
 
             /*
              * Draw a rectangle showing sample region 3 on the screen.
@@ -245,16 +235,19 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
             /*
              * Find the max of the 3 averages
              */
-            int max = Math.max(avgCb, avg2);
+            avgYRegion1 = Core.mean(region1).val[0];
+            avgYRegion2 = Core.mean(region2).val[0];
+            double max = Math.max(avgYRegion1, avgYRegion2);
 
 
             /*
              * Now that we found the max, we actually need to go and
              * figure out which sample region that value was from
              */
-            if(max == avgCb) // Was it from region 1?
+            if(max == avgYRegion1) // Was it from region 1?
             {
                 position = PropPosition.LEFT; // Record our analysis
+
 
                 /*
                  * Draw a solid rectangle on top of the chosen region.
@@ -267,8 +260,9 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
                         GREEN, // The color the rectangle is drawn in
                         -1); // Negative thickness means solid fill
 
+
             }
-            else if(max == avg2) // Was it from region 2?
+            else if(max == avgYRegion2) // Was it from region 2?
             {
                 position = PropPosition.CENTER; // Record our analysis
 
@@ -290,7 +284,28 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
              * simply rendering the raw camera feed, because we called functions
              * to add some annotations to this buffer earlier up.
              */
-            return maskedYCrCb;
+            Mat t = new Mat();
+            Imgproc.cvtColor(maskedYCrCb, t, Imgproc.COLOR_YCrCb2RGB);
+
+            Imgproc.rectangle(
+                    t, // Buffer to draw on
+                    region1_pointA, // First point which defines the rectangle
+                    region1_pointB, // Second point which defines the rectangle
+                    GREEN, // The color the rectangle is drawn in
+                    2); // Thickness of the rectangle lines
+
+            /*
+             * Draw a rectangle showing sample region 2 on the screen.
+             * Simply a visual aid. Serves no functional purpose.
+             */
+            Imgproc.rectangle(
+                    t, // Buffer to draw on
+                    region2_pointA, // First point which defines the rectangle
+                    region2_pointB, // Second point which defines the rectangle
+                    GREEN, // The color the rectangle is drawn in
+                    2); // Thickness of the rectangle lines
+
+            return t;
         }
 
         /*
@@ -302,7 +317,7 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
         }
         public Scalar getColorRegion1()
         {
-            return new Scalar(avgY,avgCr,avgCb);
+            return new Scalar(avgY,avgCr, avgYRegion1);
         }
     }
 }
