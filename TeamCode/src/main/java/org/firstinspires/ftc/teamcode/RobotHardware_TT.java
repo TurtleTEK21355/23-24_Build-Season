@@ -479,14 +479,14 @@ public class RobotHardware_TT {
     }
 
     /**
-     * spins wheel for Drone launch. Do NOT go over 0.8
+     * spins wheel for Drone launch. Do NOT go over 700
      */
     public void setLaunch() {
-        launchMotor.setVelocity(680);
+        launchMotor.setVelocity(580);
     }
 
     public void checkVelocity() {
-        while (launchMotor.getVelocity() != 600 && myOpMode.opModeIsActive()) {
+        while (launchMotor.getVelocity() != 580 && myOpMode.opModeIsActive()) {
             myOpMode.telemetry.addData("Waiting... \nCurrent Velocity: ", launchMotor.getVelocity());
             myOpMode.telemetry.addData("\nPower: ", launchMotor.getPower());
             myOpMode.telemetry.update();
