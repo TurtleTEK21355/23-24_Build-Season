@@ -21,6 +21,8 @@ public class BlueBackAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.init();
         robot.initLens();
+        boolean targetFound = false;
+        robot.initAprilTag();
         robot.resetImu();
 
         List<Integer> encoderList = robot.getEncoders();
@@ -41,20 +43,22 @@ public class BlueBackAuto extends LinearOpMode {
             telemetry.addLine("Left");
             telemetry.update();
             robot.autoDrive(725, 0.25);
-            robot.autoTurn(90,0.3);
+            robot.autoTurn(90, 0.3);
             robot.autoDrive(50, 0.2);
             robot.setIntake(-0.2);
             timer = robot.eleapsedTime();
-            while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
+            while (opModeIsActive() && robot.eleapsedTime() < timer + 2000) {
+            }
             robot.setIntake(0);
-            robot.autoDrive(80,-0.2);
+            robot.autoDrive(80, -0.2);
             robot.autoTurn(-90, 0.2);
             robot.autoDrive(-150, -0.2);
             robot.autoStrafe(-450, -0.3);
-            robot.autoDrive(950,0.3);
-            robot.autoStrafe(3750,0.5);
+            robot.autoDrive(950, 0.3);
+            robot.autoStrafe(3750, 0.5);
             timer = robot.eleapsedTime();
-            while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
+            while (opModeIsActive() && robot.eleapsedTime() < timer + 20000) {
+            }
         } else if (x >= 121 && x <= 280) {
             //Center
             // Here is where code to place the pixel on the spike mark is.
@@ -62,35 +66,41 @@ public class BlueBackAuto extends LinearOpMode {
             robot.autoStrafe(50, -0.2);
             robot.setIntake(-0.2);
             timer = robot.eleapsedTime();
-            while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
+            while (opModeIsActive() && robot.eleapsedTime() < timer + 2000) {
+            }
             robot.setIntake(0);
             robot.autoDrive(-150, -0.2);
             robot.autoStrafe(450, -0.2);
-            robot.autoDrive(950,0.3);
-            robot.autoStrafe(3650,0.5);
+            robot.autoDrive(950, 0.3);
+            robot.autoStrafe(3650, 0.5);
             timer = robot.eleapsedTime();
-            while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
-
+            while (opModeIsActive() && robot.eleapsedTime() < timer + 20000) {
+            }
 
 
         } else {
             //Right
             // Here is where you would put code to place the pixel on the spike mark
             robot.autoDrive(725, 0.2);
-            robot.autoTurn(-90,0.3);
+            robot.autoTurn(-90, 0.3);
             robot.autoDrive(50, 0.2);
             robot.setIntake(-0.25);
             timer = robot.eleapsedTime();
-            while (opModeIsActive() && robot.eleapsedTime() < timer + 1000){}
+            while (opModeIsActive() && robot.eleapsedTime() < timer + 1000) {
+            }
             robot.setIntake(0);
-            robot.autoDrive(-150,-0.2);
+            robot.autoDrive(-150, -0.2);
             robot.autoTurn(90, 0.2);
             robot.autoDrive(-250, -0.2);
             robot.autoStrafe(400, -0.2);
-            robot.autoDrive(950,0.3);
-            robot.autoStrafe(3650,0.5);
+            robot.autoDrive(950, 0.3);
+            robot.autoStrafe(3650, 0.5);
             timer = robot.eleapsedTime();
-            while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
+            while (opModeIsActive() && robot.eleapsedTime() < timer + 20000) {
+            }
         }
+
+        robot.autoDrive(-1650, 0.2);
+        robot.autoStrafe(3350, 0.2);
     }
 }
