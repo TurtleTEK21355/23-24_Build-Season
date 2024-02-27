@@ -17,7 +17,7 @@ public class TeleOp_23_24 extends LinearOpMode {
         double Turn = 0;
         double Strafe = 0;
         double Drive = 0;
-        double wristPosition = 0.5;
+
 
 
         while (opModeIsActive()) {
@@ -106,7 +106,7 @@ public class TeleOp_23_24 extends LinearOpMode {
             }
 
 
-            //telemetry.addData("\nWrist: ", robot.wrist.getPosition());
+
 
             telemetry.update();
 
