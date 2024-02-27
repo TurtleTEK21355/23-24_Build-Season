@@ -190,8 +190,7 @@ public class Vision_Pipeline_Red extends LinearOpMode{
 
 
         @Override
-        public Mat processFrame(Mat input)
-        {
+        public Mat processFrame(Mat input) {
             /*
              * Overview of what we're doing:
              *
@@ -211,7 +210,7 @@ public class Vision_Pipeline_Red extends LinearOpMode{
              * Get the Cb channel of the input frame after conversion to YCrCb
              */
             inputToYCrCb(input);
-            Core.inRange(imgYCrCb, new Scalar(30,100,55), new Scalar(100,210,150), maskedYCrCb);
+            Core.inRange(imgYCrCb, new Scalar(30, 100, 55), new Scalar(100, 210, 150), maskedYCrCb);
             region1 = maskedYCrCb.submat(new Rect(region1_pointA, region1_pointB));
             region2 = maskedYCrCb.submat(new Rect(region2_pointA, region2_pointB));
             /*
@@ -244,7 +243,7 @@ public class Vision_Pipeline_Red extends LinearOpMode{
              * Now that we found the max, we actually need to go and
              * figure out which sample region that value was from
              */
-            if(max == avgYRegion1) // Was it from region 1?
+            if (max == avgYRegion1) // Was it from region 1?
             {
                 position = PropPosition.LEFT; // Record our analysis
 
@@ -261,8 +260,7 @@ public class Vision_Pipeline_Red extends LinearOpMode{
                         -1); // Negative thickness means solid fill
 
 
-            }
-            else if(max == avgYRegion2) // Was it from region 2?
+            } else if (max == avgYRegion2) // Was it from region 2?
             {
                 position = PropPosition.CENTER; // Record our analysis
 
@@ -284,28 +282,7 @@ public class Vision_Pipeline_Red extends LinearOpMode{
              * simply rendering the raw camera feed, because we called functions
              * to add some annotations to this buffer earlier up.
              */
-            Mat t = new Mat();
-            Imgproc.cvtColor(maskedYCrCb, t, Imgproc.COLOR_YCrCb2RGB);
-
-            Imgproc.rectangle(
-                    t, // Buffer to draw on
-                    region1_pointA, // First point which defines the rectangle
-                    region1_pointB, // Second point which defines the rectangle
-                    GREEN, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-
-            /*
-             * Draw a rectangle showing sample region 2 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
-            Imgproc.rectangle(
-                    t, // Buffer to draw on
-                    region2_pointA, // First point which defines the rectangle
-                    region2_pointB, // Second point which defines the rectangle
-                    GREEN, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-
-            return t;
+            return maskedYCrCb;
         }
 
         /*

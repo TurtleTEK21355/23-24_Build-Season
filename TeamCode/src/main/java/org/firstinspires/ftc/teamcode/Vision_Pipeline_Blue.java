@@ -190,8 +190,7 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
 
 
         @Override
-        public Mat processFrame(Mat input)
-        {
+        public Mat processFrame(Mat input) {
             /*
              * Overview of what we're doing:
              *
@@ -244,9 +243,9 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
              * Now that we found the max, we actually need to go and
              * figure out which sample region that value was from
              */
-            if(max == avgYRegion1) // Was it from region 1?
+            if (max == avgYRegion1) // Was it from region 1?
             {
-                position = PropPosition.LEFT; // Record our analysis
+                position = Vision_Pipeline_Blue.CenterstageDeterminationPipeline.PropPosition.LEFT; // Record our analysis
 
 
                 /*
@@ -261,10 +260,9 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
                         -1); // Negative thickness means solid fill
 
 
-            }
-            else if(max == avgYRegion2) // Was it from region 2?
+            } else if (max == avgYRegion2) // Was it from region 2?
             {
-                position = PropPosition.CENTER; // Record our analysis
+                position = Vision_Pipeline_Blue.CenterstageDeterminationPipeline.PropPosition.CENTER; // Record our analysis
 
                 /*
                  * Draw a solid rectangle on top of the chosen region.
@@ -284,34 +282,13 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
              * simply rendering the raw camera feed, because we called functions
              * to add some annotations to this buffer earlier up.
              */
-            Mat t = new Mat();
-            Imgproc.cvtColor(maskedYCrCb, t, Imgproc.COLOR_YCrCb2RGB);
-
-            Imgproc.rectangle(
-                    t, // Buffer to draw on
-                    region1_pointA, // First point which defines the rectangle
-                    region1_pointB, // Second point which defines the rectangle
-                    GREEN, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-
-            /*
-             * Draw a rectangle showing sample region 2 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
-            Imgproc.rectangle(
-                    t, // Buffer to draw on
-                    region2_pointA, // First point which defines the rectangle
-                    region2_pointB, // Second point which defines the rectangle
-                    GREEN, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
-
-            return t;
+            return maskedYCrCb;
         }
 
         /*
          * Call this from the OpMode thread to obtain the latest analysis
          */
-        public PropPosition getAnalysis()
+        public Vision_Pipeline_Blue.CenterstageDeterminationPipeline.PropPosition getAnalysis()
         {
             return position;
         }
