@@ -53,15 +53,12 @@ public class RedFrontAuto extends LinearOpMode {
 
         List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
-        long timer = 0;
+        long timer;
         waitForStart();
-// seeing stuff here
-
-        sleep(100);
+        sleep(1000);
+        telemetry.addData("The Region", pipeline.WhichRegion());
         robot.autoDrive(100, 0.2);
         if (pipeline.WhichRegion() == 1) {
-            //Left
-            // Here is where you would put code to place the pixel on the spike mark
             telemetry.addLine("Left");
             telemetry.update();
             robot.autoDrive(725, 0.2); //don't know true numbers
@@ -76,9 +73,7 @@ public class RedFrontAuto extends LinearOpMode {
             robot.autoDrive(-600,-0.2);
             robot.autoStrafe(-1200, -0.4); //don't know true numbers
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
-        } else if (pipeline.WhichRegion() == 2) {
-            //Center
-            // Here is where code to place the pixel on the spike mark is.
+        } if (pipeline.WhichRegion() == 2) {
             telemetry.addLine("Center");
             telemetry.update();
             robot.autoDrive(725, 0.2);
@@ -91,10 +86,7 @@ public class RedFrontAuto extends LinearOpMode {
             robot.autoDrive(-600, -0.2);
             robot.autoStrafe(-1200, -0.4);
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
-        } else {
-            //Right
-            // Here is where you would put code to place the pixel on the spike mark
-            //need numbers
+        } if (pipeline.WhichRegion() == 3){
             telemetry.addLine("Right");
             telemetry.update();
             robot.autoDrive(725, 0.2); //don't know true numbers
@@ -110,6 +102,9 @@ public class RedFrontAuto extends LinearOpMode {
             robot.autoDrive(-675,-0.2);
             robot.autoStrafe(-1200, -0.4); //don't know true numbers
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
+        } else if (pipeline.WhichRegion() == 0){
+            telemetry.addLine("Problem");
         }
+
     }
 }

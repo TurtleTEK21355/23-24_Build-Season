@@ -98,10 +98,10 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
         public double WhichRegion(){
             double ThisRegion = 0;
-            if (avgYRegion1 > avgYRegion2 && avgYRegion1 > 45){
+            if (avgYRegion1 > avgYRegion2 && avgYRegion1 > 25){
                 ThisRegion = 1;
             }
-            else if (avgYRegion2 > avgYRegion1 && avgYRegion2 > 45){
+            else if (avgYRegion2 > avgYRegion1 && avgYRegion2 > 25){
                 ThisRegion = 2;
             }
             else{
