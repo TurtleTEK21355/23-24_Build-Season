@@ -20,22 +20,17 @@ public class RedFrontAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init();
-        robot.initLens();
         robot.resetImu();
 
         List<Integer> encoderList = robot.getEncoders();
         startEncoderValue = encoderList.get(0);
         long timer = 0;
         waitForStart();
+// seeing stuff here
 
-        int y = robot.blockLensY();
-        int x = robot.blockLensX();
-        telemetry.addData("X: ", x);
-        telemetry.addData("Y: ", y);
-        telemetry.update();
         sleep(100);
         robot.autoDrive(100, 0.2);
-        if (x > 0 && x <= 120) {
+        if () {
             //Left
             // Here is where you would put code to place the pixel on the spike mark
             telemetry.addLine("Left");
@@ -52,7 +47,7 @@ public class RedFrontAuto extends LinearOpMode {
             robot.autoDrive(-600,-0.2);
             robot.autoStrafe(-1200, -0.4); //don't know true numbers
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
-        } else if (x >= 121 && x <= 280) {
+        } else if () {
             //Center
             // Here is where code to place the pixel on the spike mark is.
             telemetry.addLine("Center");

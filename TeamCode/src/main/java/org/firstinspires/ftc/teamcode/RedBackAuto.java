@@ -15,12 +15,12 @@ public class RedBackAuto extends LinearOpMode {
     double tickToMMRatio = 0.561 / 1;
     int startEncoderValue;
 
-    String Tag = "Unseen";
+
 
     @Override
     public void runOpMode() throws InterruptedException {
         robot.init();
-        robot.initLens();
+
         robot.resetImu();
 
         List<Integer> encoderList = robot.getEncoders();
@@ -28,14 +28,12 @@ public class RedBackAuto extends LinearOpMode {
         waitForStart();
 
         long timer = 0;
-        int y = robot.blockLensY();
-        int x = robot.blockLensX();
-        telemetry.addData("X: ", x);
-        telemetry.addData("Y: ", y);
-        telemetry.update();
+
+        //Seeing stuff here
+
         sleep(100);
         robot.autoDrive(100, 0.2);
-        if (x > 0 && x <= 120) {
+        if () {
             //Left
             // Here is where you would put code to place the pixel on the spike mark
             telemetry.addLine("Left");
@@ -55,7 +53,7 @@ public class RedBackAuto extends LinearOpMode {
             robot.autoStrafe(-3650,-0.5);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
-        } else if (x >= 121 && x <= 280) {
+        } else if () {
             //Center
             // Here is where code to place the pixel on the spike mark is.
 
