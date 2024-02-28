@@ -58,7 +58,7 @@ public class DriveWithSticksMecanum extends LinearOpMode {
                 telemetry.addLine("Plus 360");
             }
 
-            telemetry.addData("Turn Value that is equal at the present moment to:", Turn);
+            telemetry.addData("Turn Value", Turn);
             telemetry.addData("turning stick value", gamepad1.right_stick_x);
             telemetry.addData("Gyro", robot.getYawAngles());
 

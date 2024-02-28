@@ -517,6 +517,8 @@ public class RobotHardware_TT {
         Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
         rateLimit.expire();
 
+
+
         if (!huskyLens.knock()) {
             myOpMode.telemetry.addData(">>", "Problem communicating with " + huskyLens.getDeviceName());
         } else {
