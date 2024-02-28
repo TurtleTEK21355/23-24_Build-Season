@@ -243,9 +243,9 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
              * Now that we found the max, we actually need to go and
              * figure out which sample region that value was from
              */
-            if (max == avgYRegion1) // Was it from region 1?
+            if (max == avgYRegion1 && avgYRegion1 > 45) // Was it from region 1?
             {
-                position = Vision_Pipeline_Blue.CenterstageDeterminationPipeline.PropPosition.LEFT; // Record our analysis
+                position = PropPosition.LEFT; // Record our analysis
 
 
                 /*
@@ -260,9 +260,9 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
                         -1); // Negative thickness means solid fill
 
 
-            } else if (max == avgYRegion2) // Was it from region 2?
+            } else if (max == avgYRegion2 && avgYRegion2 > 45) // Was it from region 2?
             {
-                position = Vision_Pipeline_Blue.CenterstageDeterminationPipeline.PropPosition.CENTER; // Record our analysis
+                position = PropPosition.CENTER; // Record our analysis
 
                 /*
                  * Draw a solid rectangle on top of the chosen region.
@@ -274,6 +274,9 @@ public class Vision_Pipeline_Blue extends LinearOpMode{
                         region2_pointB, // Second point which defines the rectangle
                         GREEN, // The color the rectangle is drawn in
                         -1); // Negative thickness means solid fill
+            }
+            else {
+                position = PropPosition.RIGHT;
             }
 
 

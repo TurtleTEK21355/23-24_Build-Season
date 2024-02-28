@@ -30,7 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.qualcomm.hardware.dfrobot.HuskyLens;
+
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -89,13 +89,12 @@ public class RobotHardware_TT {
     private DcMotor rightFrontDrive;
     private DcMotor leftBackDrive;
     private DcMotor rightBackDrive;
-    public AprilTagProcessor aprilTag;
-    public VisionPortal visionPortal;
-    public int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
-    public AprilTagDetection desiredTag = null;
+//    public AprilTagProcessor aprilTag;
+//    public VisionPortal visionPortal;
+//    public int DESIRED_TAG_ID = 6;   // Choose the tag you want to approach or set to -1 for ANY tag.
+//    public AprilTagDetection desiredTag = null;
     private DcMotor pixelMotor;
     public final int READ_PERIOD = 1;
-    private HuskyLens huskyLens;
     long time = 0;
 
     /*  IMU imu;
@@ -125,9 +124,9 @@ public class RobotHardware_TT {
         launchMotor = myOpMode.hardwareMap.get(DcMotorEx.class, "launchMotor");
         Arm = myOpMode.hardwareMap.get(DcMotor.class, "Arm");
         intake = myOpMode.hardwareMap.get(DcMotor.class, "intake");
-        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
-        visionPortal = VisionPortal.easyCreateWithDefaults(myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
-        // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
+//        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+//        visionPortal = VisionPortal.easyCreateWithDefaults(myOpMode.hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
+//        // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
 
@@ -513,56 +512,6 @@ public class RobotHardware_TT {
         intake.setPower(speed);
     }
 
-    public void initLens() {
-        Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
-        rateLimit.expire();
-
-
-
-        if (!huskyLens.knock()) {
-            myOpMode.telemetry.addData(">>", "Problem communicating with " + huskyLens.getDeviceName());
-        } else {
-            myOpMode.telemetry.addData(">>", "Press start to continue");
-        }
-
-        huskyLens.selectAlgorithm(HuskyLens.Algorithm.OBJECT_TRACKING);
-
-        myOpMode.telemetry.update();
-    }
-    /**
-     * If you use this also use blockLensY.
-     * This is for the x-value with the HuskyLens.
-     * */
-    public int blockLensX() {
-        HuskyLens.Block[] blocks = huskyLens.blocks();
-        myOpMode.telemetry.addData("Block count", blocks.length);
-        int x = 0;
-        for (int i = 0; i < blocks.length; i++) {
-            x = blocks[i].x;
-            myOpMode.telemetry.addData("\nX:", blocks[i].x);
-            myOpMode.telemetry.addData("Blocks: ", blocks[i].toString());
-        }
-
-        myOpMode.telemetry.update();
-        return x;
-    }
-    /**
-     * If you use this also use blockLensX.
-     * This is for the y-value with the HuskyLens.
-     * */
-    public int blockLensY() {
-        HuskyLens.Block[] blocks = huskyLens.blocks();
-        myOpMode.telemetry.addData("Block count", blocks.length);
-        int y = 0;
-        for (int i = 0; i < blocks.length; i++) {
-            y = blocks[i].y;
-            myOpMode.telemetry.addData("\nY:", blocks[i].y);
-            myOpMode.telemetry.addData("Blocks: ", blocks[i].toString());
-        }
-
-        myOpMode.telemetry.update();
-        return y;
-    }
 
 
 
@@ -579,43 +528,43 @@ public class RobotHardware_TT {
          */
     }
 
-    public void initAprilTag() {
-
-            // Create the AprilTag processor the easy way.
-            aprilTag = AprilTagProcessor.easyCreateWithDefaults();
-
-            // Create the vision portal the easy way.
-
-
-        }
+//    public void initAprilTag() {
+//
+//            // Create the AprilTag processor the easy way.
+//            aprilTag = AprilTagProcessor.easyCreateWithDefaults();
+//
+//            // Create the vision portal the easy way.
+//
+//
+//        }
 
         /**
          * Add telemetry about AprilTag detections.
          */
-        public void telemetryAprilTag() {
-
-            List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-            myOpMode.telemetry.addData("# AprilTags Detected", currentDetections.size());
-
-            // Step through the list of detections and display info for each one.
-            for (AprilTagDetection detection : currentDetections) {
-                if (detection.metadata != null) {
-                    myOpMode.telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
-                    myOpMode.telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
-                    myOpMode.telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
-                    myOpMode.telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
-                } else {
-                    myOpMode.telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
-                    myOpMode.telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
-                }
-            }   // end for() loop
-
-            // Add "key" information to telemetry
-            myOpMode.telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
-            myOpMode.telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
-            myOpMode.telemetry.addLine("RBE = Range, Bearing & Elevation");
-
-        }
+////        public void telemetryAprilTag() {
+////
+////            List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+////            myOpMode.telemetry.addData("# AprilTags Detected", currentDetections.size());
+////
+////            // Step through the list of detections and display info for each one.
+////            for (AprilTagDetection detection : currentDetections) {
+////                if (detection.metadata != null) {
+////                    myOpMode.telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+////                    myOpMode.telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
+////                    myOpMode.telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
+////                    myOpMode.telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
+////                } else {
+////                    myOpMode.telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+////                    myOpMode.telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+////                }
+////            }   // end for() loop
+//
+//            // Add "key" information to telemetry
+//            myOpMode.telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+//            myOpMode.telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
+//            myOpMode.telemetry.addLine("RBE = Range, Bearing & Elevation");
+//
+//        }
 
         public long eleapsedTime () {
             return System.currentTimeMillis() - time;
