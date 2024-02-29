@@ -37,10 +37,7 @@ public class RedFrontAuto extends LinearOpMode {
 
 
         robot.init();
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        telemetry.addData(">", cameraMonitorViewId);
-        telemetry.update();
-        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
         pipeline = new CenterstageDeterminationPipelineRed();
         camera.setPipeline(pipeline);
@@ -64,11 +61,11 @@ public class RedFrontAuto extends LinearOpMode {
         startEncoderValue = encoderList.get(0);
         long timer;
         waitForStart();
-        telemetry.addData("Y Region 1", pipeline.avgYRegion1);
-        telemetry.addData("Y Region 2", pipeline.avgYRegion2);
-        telemetry.addData("The Region", pipeline.WhichRegion());
-        telemetry.update();
-        sleep(10000);
+        sleep(1000);
+            telemetry.addData("Y Region 1", pipeline.getAvgYRegion1());
+            telemetry.addData("Y Region 2", pipeline.getAvgYRegion2());
+            telemetry.addData("The Region", pipeline.WhichRegion());
+            telemetry.update();
         robot.autoDrive(100, 0.2);
         if (pipeline.WhichRegion() == 1) {
             telemetry.addLine("Left");
@@ -91,16 +88,17 @@ public class RedFrontAuto extends LinearOpMode {
         if (pipeline.WhichRegion() == 2) {
             telemetry.addLine("Center");
             telemetry.update();
-            robot.autoDrive(725, 0.2);
-            robot.autoStrafe(50, 0.2);
-            robot.setIntake(-0.2);
+            robot.autoDrive(850, 0.2);
+            robot.setIntake(-0.4);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer + 2000) {
             }
             robot.setIntake(0);
-            robot.autoStrafe(-200, -0.4);
-            robot.autoDrive(-600, -0.2);
-            robot.autoStrafe(-1200, -0.4);
+            robot.autoDrive(-975, -0.2);
+            robot.autoStrafe(-1375, -0.4);
+            robot.setIntake(-0.4);
+            sleep(500);
+            robot.setIntake(0);
             while (opModeIsActive() && robot.eleapsedTime() < timer + 20000) {
             }
         } else {
@@ -192,8 +190,9 @@ public class RedFrontAuto extends LinearOpMode {
         Mat Cr = new Mat();
 
         Mat Y = new Mat();
-        double avgYRegion1;
-        double avgYRegion2;
+        volatile double avgYRegion1;
+        volatile double avgYRegion2;
+        volatile Scalar avgRegion1;
 
 
         int avgY;
@@ -207,7 +206,7 @@ public class RedFrontAuto extends LinearOpMode {
             return position;
         }
 
-        public double WhichRegion() {
+         public double WhichRegion() {
             double ThisRegion = 0;
             if (avgYRegion1 > avgYRegion2 && avgYRegion1 > 45) {
                 ThisRegion = 1;
@@ -217,6 +216,14 @@ public class RedFrontAuto extends LinearOpMode {
                 ThisRegion = 3;
             }
             return ThisRegion;
+        }
+
+        public double getAvgYRegion1() {
+            return avgYRegion1;
+        }
+
+        public double getAvgYRegion2() {
+            return avgYRegion2;
         }
 
         /*
@@ -252,106 +259,21 @@ public class RedFrontAuto extends LinearOpMode {
 
         @Override
         public Mat processFrame(Mat input) {
-            /*
-             * Overview of what we're doing:
-             *
-             * We first convert to YCrCb color space, from RGB color space.
-             * Why do we do this? Well, in the RGB color space, chroma and
-             * luma are intertwined. In YCrCb, chroma and luma are separated.
-             * YCrCb is a 3-channel color space, just like RGB. YCrCb's 3 channels
-             * are Y, the luma channel (which essentially just a B&W image), the
-             * Cr channel, which records the difference from red, and the Cb channel,
-             * which records the difference from blue. Because chroma and luma are
-             * not related in YCrCb, vision code written to look for certain values
-             * in the Cr/Cb channels will not be severely affected by differing
-             * light intensity, since that difference would most likely just be
-             * reflected in the Y channel.
 
-            /*
-             * Get the Cb channel of the input frame after conversion to YCrCb
-             */
             inputToYCrCb(input);
             Core.inRange(imgYCrCb, new Scalar(50, 140, 55), new Scalar(175, 250, 150), maskedYCrCb);
             region1 = maskedYCrCb.submat(new Rect(region1_pointA, region1_pointB));
             region2 = maskedYCrCb.submat(new Rect(region2_pointA, region2_pointB));
-            /*
-             * Compute the average pixel value of each submat region. We're
-             * taking the average of a single channel buffer, so the value
-             * we need is at index 0. We could have also taken the average
-             * pixel value of the 3-channel image, and referenced the value
-             * at index 2 here.
-             */
-            /*
-             * Draw a rectangle showing sample region 1 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
 
-            /*
-             * Draw a rectangle showing sample region 3 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
-
-
-            /*
-             * Find the max of the 3 averages
-             */
             avgYRegion1 = Core.mean(region1).val[0];
             avgYRegion2 = Core.mean(region2).val[0];
+            avgRegion1 = Core.mean(region1);
+
             double max = Math.max(avgYRegion1, avgYRegion2);
 
-
-            /*
-             * Now that we found the max, we actually need to go and
-             * figure out which sample region that value was from
-             */
-            if (max == avgYRegion1) // Was it from region 1?
-            {
-                position = PropPosition.LEFT; // Record our analysis
-
-
-                /*
-                 * Draw a solid rectangle on top of the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(
-                        maskedYCrCb, // Buffer to draw on
-                        region1_pointA, // First point which defines the rectangle
-                        region1_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
-                        -1); // Negative thickness means solid fill
-
-
-            } else if (max == avgYRegion2) // Was it from region 2?
-            {
-                position = PropPosition.CENTER; // Record our analysis
-
-                /*
-                 * Draw a solid rectangle on top of the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(
-                        maskedYCrCb, // Buffer to draw on
-                        region2_pointA, // First point which defines the rectangle
-                        region2_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
-                        -1); // Negative thickness means solid fill
-            }
-
-
-            /*
-             * Render the 'input' buffer to the viewport. But note this is not
-             * simply rendering the raw camera feed, because we called functions
-             * to add some annotations to this buffer earlier up.
-             */
             return maskedYCrCb;
         }
 
-        /*
-         * Call this from the OpMode thread to obtain the latest analysis
-         */
-        public PropPosition getAnalysis() {
-            return position;
-        }
 
         public Scalar getColorRegion1() {
             return new Scalar(avgY, avgCr, avgYRegion1);
