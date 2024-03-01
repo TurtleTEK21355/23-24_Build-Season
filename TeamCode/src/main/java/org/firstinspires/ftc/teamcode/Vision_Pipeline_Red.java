@@ -212,7 +212,7 @@ public class Vision_Pipeline_Red extends LinearOpMode{
              * Get the Cb channel of the input frame after conversion to YCrCb
              */
             inputToYCrCb(input);
-            Core.inRange(imgYCrCb, new Scalar(50, 140, 55), new Scalar(175, 250, 150), maskedYCrCb);
+            Core.inRange(imgYCrCb, new Scalar(30, 100, 55), new Scalar(100, 210, 150), maskedYCrCb);
             region1 = maskedYCrCb.submat(new Rect(region1_pointA, region1_pointB));
             region2 = maskedYCrCb.submat(new Rect(region2_pointA, region2_pointB));
             /*
