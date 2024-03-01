@@ -68,7 +68,6 @@ public class BlueBackVision extends LinearOpMode {
         telemetry.addData("The Region", pipeline.WhichRegion());
         telemetry.update();
         robot.autoDrive(20, 0.2);
-        robot.autoStrafe(150,-0.2);
         if (pipeline.WhichRegion() == 1) {
             telemetry.addLine("Left");
             telemetry.update();
@@ -82,7 +81,7 @@ public class BlueBackVision extends LinearOpMode {
             robot.resetImu();
             robot.autoTurn(-90, 0.2);
             robot.autoDrive(-150, -0.2);
-            robot.autoStrafe(750, -0.3);
+            robot.autoStrafe(800, -0.3);
             robot.autoDrive(1100,0.3);
             robot.autoStrafe(-3800,0.5);
             robot.autoDrive(200,-0.5);

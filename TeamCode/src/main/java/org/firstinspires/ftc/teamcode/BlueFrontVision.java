@@ -63,12 +63,10 @@ public class BlueFrontVision extends LinearOpMode {
         long timer;
         waitForStart();
         sleep(1000);
-        while (opModeIsActive()) {
             telemetry.addData("Y Region 1", pipeline.getAvgYRegion1());
             telemetry.addData("Y Region 2", pipeline.getAvgYRegion2());
             telemetry.addData("The Region", pipeline.WhichRegion());
             telemetry.update();
-        }
         robot.autoDrive(20, 0.2);
         robot.autoStrafe(150,0.2);
         if (pipeline.WhichRegion() == 1) {
