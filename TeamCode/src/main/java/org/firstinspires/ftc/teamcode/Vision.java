@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.opencv.core.Core;
@@ -14,6 +15,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 
 @Autonomous
+@Disabled
 
 public class Vision extends LinearOpMode{
 

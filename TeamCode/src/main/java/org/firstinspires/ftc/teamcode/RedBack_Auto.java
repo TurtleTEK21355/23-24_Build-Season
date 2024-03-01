@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.List;
 
 @Autonomous(name="RedBackAuto", group="Red Team")
+@Disabled
+
 public class RedBack_Auto extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
 

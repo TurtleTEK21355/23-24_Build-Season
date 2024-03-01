@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.List;
@@ -8,7 +9,6 @@ import java.util.List;
 @Autonomous(name="BlueFrontAuto", group="Blue Team")
 public class BlueFront_Auto extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
-
     //19.2 * 28 = 96πmm <-- Replace these numbers.
     //537.6 ticks = 301.6mm
     // 1 tick = 0.561mm

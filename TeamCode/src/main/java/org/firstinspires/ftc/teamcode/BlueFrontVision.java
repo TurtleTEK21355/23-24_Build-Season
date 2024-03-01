@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
@@ -18,8 +19,8 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.List;
 
-@Autonomous(name="RedFrontAuto_Vision", group="Red Vision Team")
-public class RedFrontAuto extends LinearOpMode {
+@Autonomous(name="BlueFrontAuto_Vision", group="Red Vision Team")
+public class BlueFrontVision extends LinearOpMode {
     RobotHardware_TT robot = new RobotHardware_TT(this);
 
     //19.2 * 28 = 96πmm <-- Replace these numbers.
@@ -62,26 +63,28 @@ public class RedFrontAuto extends LinearOpMode {
         long timer;
         waitForStart();
         sleep(1000);
+        while (opModeIsActive()) {
             telemetry.addData("Y Region 1", pipeline.getAvgYRegion1());
             telemetry.addData("Y Region 2", pipeline.getAvgYRegion2());
             telemetry.addData("The Region", pipeline.WhichRegion());
             telemetry.update();
-        robot.autoDrive(100, 0.2);
+        }
+        robot.autoDrive(20, 0.2);
+        robot.autoStrafe(150,0.2);
         if (pipeline.WhichRegion() == 1) {
             telemetry.addLine("Left");
             telemetry.update();
-            robot.autoDrive(725, 0.2); //don't know true numbers
+            robot.autoDrive(780, 0.2); //don't know true numbers
             robot.autoTurn(90, 0.2);
-            robot.autoDrive(150, 0.2);
-            robot.setIntake(-0.2);
+            robot.setIntake(0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer + 2000) {
             }
             robot.setIntake(0);
-            robot.autoDrive(-150, -0.2);
+            robot.autoDrive(-100, -0.2);
             robot.autoTurn(-90, 0.2);
-            robot.autoDrive(-600, -0.2);
-            robot.autoStrafe(-1200, -0.4); //don't know true numbers
+            robot.autoDrive(-650, -0.2);
+            robot.autoStrafe(1200, 0.4); //don't know true numbers
             while (opModeIsActive() && robot.eleapsedTime() < timer + 20000) {
             }
         }
@@ -89,13 +92,13 @@ public class RedFrontAuto extends LinearOpMode {
             telemetry.addLine("Center");
             telemetry.update();
             robot.autoDrive(850, 0.2);
-            robot.setIntake(-0.4);
+            robot.setIntake(0.2);
             timer = robot.eleapsedTime();
-            while (opModeIsActive() && robot.eleapsedTime() < timer + 2000) {
+            while (opModeIsActive() && robot.eleapsedTime() < timer + 1700) {
             }
             robot.setIntake(0);
-            robot.autoDrive(-975, -0.2);
-            robot.autoStrafe(-1375, -0.4);
+            robot.autoDrive(-800, -0.2);
+            robot.autoStrafe(-1400, -0.4);
             robot.setIntake(-0.4);
             sleep(500);
             robot.setIntake(0);
@@ -106,17 +109,18 @@ public class RedFrontAuto extends LinearOpMode {
             telemetry.update();
             robot.autoDrive(725, 0.2); //don't know true numbers
             robot.autoTurn(-90, 0.2);
-            robot.autoDrive(150, 0.2);
-            robot.setIntake(-0.2);
+            robot.setIntake(0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer + 1000) {
             }
             robot.setIntake(0);
-            robot.autoDrive(-170, -0.2);
+            robot.resetImu();
             robot.autoTurn(90, 0.2);
-            robot.autoStrafe(100, 0.2);
-            robot.autoDrive(-675, -0.2);
-            robot.autoStrafe(-1200, -0.4); //don't know true numbers
+            robot.autoDrive(-750, -0.2);
+            robot.autoStrafe(-1300, -0.4); //don't know true numbers
+            robot.setIntake(-0.4);
+            sleep(500);
+            robot.setIntake(0);
             while (opModeIsActive() && robot.eleapsedTime() < timer + 20000) {
             }
         }
@@ -206,9 +210,9 @@ public class RedFrontAuto extends LinearOpMode {
             return position;
         }
 
-         public double WhichRegion() {
+        public double WhichRegion() {
             double ThisRegion = 0;
-            if (avgYRegion1 > avgYRegion2 && avgYRegion1 > 45) {
+            if (avgYRegion1 > avgYRegion2 && avgYRegion1 > 65) {
                 ThisRegion = 1;
             } else if (avgYRegion2 > avgYRegion1 && avgYRegion2 > 45) {
                 ThisRegion = 2;
@@ -261,7 +265,7 @@ public class RedFrontAuto extends LinearOpMode {
         public Mat processFrame(Mat input) {
 
             inputToYCrCb(input);
-            Core.inRange(imgYCrCb, new Scalar(50, 140, 55), new Scalar(175, 250, 150), maskedYCrCb);
+            Core.inRange(imgYCrCb, new Scalar(45,55,130), new Scalar(165,150,210), maskedYCrCb);
             region1 = maskedYCrCb.submat(new Rect(region1_pointA, region1_pointB));
             region2 = maskedYCrCb.submat(new Rect(region2_pointA, region2_pointB));
 
