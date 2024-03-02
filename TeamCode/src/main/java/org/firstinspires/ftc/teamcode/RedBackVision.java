@@ -84,7 +84,7 @@ public class RedBackVision extends LinearOpMode {
             robot.autoDrive(-150, -0.2);
             robot.autoStrafe(750, 0.3);
             robot.autoDrive(1100,0.3);
-            robot.autoStrafe(-3800,-0.5);
+            robot.autoStrafe(-4000,-0.5);
             robot.autoDrive(200,-0.5);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
@@ -92,7 +92,7 @@ public class RedBackVision extends LinearOpMode {
         if (pipeline.WhichRegion() == 2) {
             telemetry.addLine("Center");
             telemetry.update();
-            robot.autoDrive(875, 0.2);
+            robot.autoDrive(920, 0.2);
             robot.setIntake(0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer + 2000) {
@@ -123,7 +123,7 @@ public class RedBackVision extends LinearOpMode {
             robot.autoDrive(-150, -0.2);
             robot.autoStrafe(450, 0.2);
             robot.autoDrive(1050,0.3);
-            robot.autoStrafe(-3650,-0.5);
+            robot.autoStrafe(-3800,-0.6);
             robot.autoDrive(200,-0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}

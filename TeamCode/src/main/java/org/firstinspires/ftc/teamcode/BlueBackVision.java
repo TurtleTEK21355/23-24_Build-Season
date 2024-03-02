@@ -31,25 +31,23 @@ public class BlueBackVision extends LinearOpMode {
 
     String Tag = "Unseen";
 
-    CenterstageDeterminationPipeline pipeline;
+    BlueBackVision.CenterstageDeterminationPipelineBlue pipeline;
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-
         robot.init();
-        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
-
-        pipeline = new CenterstageDeterminationPipeline();
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        telemetry.addData(">", cameraMonitorViewId);
+        telemetry.update();
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        pipeline = new BlueBackVision.CenterstageDeterminationPipelineBlue();
         camera.setPipeline(pipeline);
-
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
                 camera.startStreaming(640, 480, OpenCvCameraRotation.UPSIDE_DOWN);
                 // Usually this is where you'll want to start streaming from the camera (see section 4)
             }
-
             @Override
             public void onError(int errorCode) {
                 /*
@@ -63,16 +61,19 @@ public class BlueBackVision extends LinearOpMode {
         long timer;
         waitForStart();
         sleep(1000);
-        telemetry.addData("Y Region 1", pipeline.getAvgYRegion1());
-        telemetry.addData("Y Region 2", pipeline.getAvgYRegion2());
-        telemetry.addData("The Region", pipeline.WhichRegion());
-        telemetry.update();
+        while(opModeIsActive()) {
+            telemetry.addData("Y Region 1", pipeline.getAvgYRegion1());
+            telemetry.addData("Y Region 2", pipeline.getAvgYRegion2());
+            telemetry.addData("The Region", pipeline.WhichRegion());
+            telemetry.update();
+        }
         robot.autoDrive(20, 0.2);
         if (pipeline.WhichRegion() == 1) {
             telemetry.addLine("Left");
             telemetry.update();
             robot.autoDrive(775, 0.2); //don't know true numbers
             robot.autoTurn(90, 0.2);
+            robot.autoDrive(50,0.2);
             robot.setIntake(0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +2000){}
@@ -81,7 +82,7 @@ public class BlueBackVision extends LinearOpMode {
             robot.resetImu();
             robot.autoTurn(-90, 0.2);
             robot.autoDrive(-150, -0.2);
-            robot.autoStrafe(800, -0.3);
+            robot.autoStrafe(750, -0.3);
             robot.autoDrive(1100,0.3);
             robot.autoStrafe(-3800,0.5);
             robot.autoDrive(200,-0.5);
@@ -91,7 +92,7 @@ public class BlueBackVision extends LinearOpMode {
         if (pipeline.WhichRegion() == 2) {
             telemetry.addLine("Center");
             telemetry.update();
-            robot.autoDrive(890, 0.2);
+            robot.autoDrive(920, 0.2);
             robot.setIntake(0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer + 2000) {
@@ -122,13 +123,13 @@ public class BlueBackVision extends LinearOpMode {
             robot.autoDrive(-150, -0.2);
             robot.autoStrafe(450, -0.2);
             robot.autoDrive(1050,0.3);
-            robot.autoStrafe(-3650,0.5);
+            robot.autoStrafe(-3800,0.6);
             robot.autoDrive(200,-0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer +20000) {}
         }
     }
-    public static class CenterstageDeterminationPipeline extends OpenCvPipeline {
+    public static class CenterstageDeterminationPipelineBlue extends OpenCvPipeline {
         /*
          * An enum to define the Centerstage position
          */
@@ -207,17 +208,17 @@ public class BlueBackVision extends LinearOpMode {
         int avgCr;
 
         // Volatile since accessed by OpMode thread w/o synchronization
-        private volatile PropPosition position = PropPosition.LEFT;
+        private volatile BlueBackVision.CenterstageDeterminationPipelineBlue.PropPosition position = BlueBackVision.CenterstageDeterminationPipelineBlue.PropPosition.LEFT;
 
-        public PropPosition getPropPosition() {
+        public BlueBackVision.CenterstageDeterminationPipelineBlue.PropPosition getPropPosition() {
             return position;
         }
 
         public double WhichRegion() {
             double ThisRegion = 0;
-            if (avgYRegion1 > avgYRegion2) {
+            if (avgYRegion1 > avgYRegion2 && avgYRegion1 > 45) {
                 ThisRegion = 1;
-            } else if (avgYRegion2 > avgYRegion1) {
+            } else if (avgYRegion2 > avgYRegion1 && avgYRegion2 > 45) {
                 ThisRegion = 2;
             } else {
                 ThisRegion = 3;
@@ -268,9 +269,22 @@ public class BlueBackVision extends LinearOpMode {
         public Mat processFrame(Mat input) {
 
             inputToYCrCb(input);
-            Core.inRange(imgYCrCb, new Scalar(45,55,130), new Scalar(165,150,210), maskedYCrCb);
-            region1 = maskedYCrCb.submat(new Rect(region1_pointA, region1_pointB));
-            region2 = maskedYCrCb.submat(new Rect(region2_pointA, region2_pointB));
+            Core.inRange(imgYCrCb, new Scalar(0,55,65), new Scalar(170,110,190), maskedYCrCb);
+            region1 = maskedYCrCb.submat(new Rect(region1_pointA, region1_pointB)); //change imput to maskedYCrCb
+            region2 = maskedYCrCb.submat(new Rect(region2_pointA, region2_pointB)); //change imput to maskedYCrCb
+            Imgproc.rectangle(
+                    input, // Buffer to draw on
+                    region1_pointA, // First point which defines the rectangle
+                    region1_pointB, // Second point which defines the rectangle
+                    BLUE, // The color the rectangle is drawn in
+                    2); // Thickness of the rectangle lines
+
+            Imgproc.rectangle(
+                    input, // Buffer to draw on
+                    region2_pointA, // First point which defines the rectangle
+                    region2_pointB, // Second point which defines the rectangle
+                    BLUE, // The color the rectangle is drawn in
+                    2); // Thickness of the rectangle lines
 
             avgYRegion1 = Core.mean(region1).val[0];
             avgYRegion2 = Core.mean(region2).val[0];

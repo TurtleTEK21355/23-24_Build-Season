@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
@@ -31,7 +30,7 @@ public class BlueFrontVision extends LinearOpMode {
 
     String Tag = "Unseen";
 
-    CenterstageDeterminationPipelineRed pipeline;
+    CenterstageDeterminationPipelineBlue pipeline;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -40,7 +39,7 @@ public class BlueFrontVision extends LinearOpMode {
         robot.init();
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-        pipeline = new CenterstageDeterminationPipelineRed();
+        pipeline = new CenterstageDeterminationPipelineBlue();
         camera.setPipeline(pipeline);
 
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -123,7 +122,7 @@ public class BlueFrontVision extends LinearOpMode {
             }
         }
     }
-    public static class CenterstageDeterminationPipelineRed extends OpenCvPipeline {
+    public static class CenterstageDeterminationPipelineBlue extends OpenCvPipeline {
         /*
          * An enum to define the Centerstage position
          */
@@ -263,7 +262,7 @@ public class BlueFrontVision extends LinearOpMode {
         public Mat processFrame(Mat input) {
 
             inputToYCrCb(input);
-            Core.inRange(imgYCrCb, new Scalar(45,55,130), new Scalar(165,150,210), maskedYCrCb);
+            Core.inRange(imgYCrCb, new Scalar(0,55,80), new Scalar(170,110,210), maskedYCrCb);
             region1 = maskedYCrCb.submat(new Rect(region1_pointA, region1_pointB));
             region2 = maskedYCrCb.submat(new Rect(region2_pointA, region2_pointB));
 
