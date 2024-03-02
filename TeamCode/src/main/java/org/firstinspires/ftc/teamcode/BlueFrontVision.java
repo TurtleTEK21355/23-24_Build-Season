@@ -37,11 +37,13 @@ public class BlueFrontVision extends LinearOpMode {
 
 
         robot.init();
-        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-        pipeline = new CenterstageDeterminationPipelineBlue();
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        telemetry.addData(">", cameraMonitorViewId);
+        telemetry.update();
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        pipeline = new BlueFrontVision.CenterstageDeterminationPipelineBlue();
         camera.setPipeline(pipeline);
-
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
@@ -67,12 +69,12 @@ public class BlueFrontVision extends LinearOpMode {
             telemetry.addData("The Region", pipeline.WhichRegion());
             telemetry.update();
         robot.autoDrive(20, 0.2);
-        robot.autoStrafe(150,0.2);
+        robot.autoStrafe(50,0.2);
         if (pipeline.WhichRegion() == 1) {
             telemetry.addLine("Left");
             telemetry.update();
             robot.autoDrive(780, 0.2); //don't know true numbers
-            robot.autoTurn(90, 0.2);
+            robot.autoTurn(-90, 0.2);
             robot.setIntake(0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer + 2000) {
@@ -88,14 +90,14 @@ public class BlueFrontVision extends LinearOpMode {
         if (pipeline.WhichRegion() == 2) {
             telemetry.addLine("Center");
             telemetry.update();
-            robot.autoDrive(850, 0.2);
+            robot.autoDrive(800, 0.2);
             robot.setIntake(0.2);
             timer = robot.eleapsedTime();
             while (opModeIsActive() && robot.eleapsedTime() < timer + 1700) {
             }
             robot.setIntake(0);
-            robot.autoDrive(-800, -0.2);
-            robot.autoStrafe(-1400, -0.4);
+            robot.autoDrive(800, -0.2);
+            robot.autoStrafe(1400, 0.4);
             robot.setIntake(-0.4);
             sleep(500);
             robot.setIntake(0);
@@ -114,7 +116,7 @@ public class BlueFrontVision extends LinearOpMode {
             robot.resetImu();
             robot.autoTurn(90, 0.2);
             robot.autoDrive(-750, -0.2);
-            robot.autoStrafe(-1300, -0.4); //don't know true numbers
+            robot.autoStrafe(1400, 0.4); //don't know true numbers
             robot.setIntake(-0.4);
             sleep(500);
             robot.setIntake(0);
@@ -143,8 +145,8 @@ public class BlueFrontVision extends LinearOpMode {
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(140, 200);
-        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(470, 170);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(140, 160);
+        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(440, 150);
         static final int REGION_WIDTH = 125;
         static final int REGION_HEIGHT = 125;
 
@@ -209,9 +211,9 @@ public class BlueFrontVision extends LinearOpMode {
 
         public double WhichRegion() {
             double ThisRegion = 0;
-            if (avgYRegion1 > avgYRegion2 && avgYRegion1 > 65) {
+            if (avgYRegion1 > avgYRegion2 && avgYRegion1 > 30) {
                 ThisRegion = 1;
-            } else if (avgYRegion2 > avgYRegion1 && avgYRegion2 > 45) {
+            } else if (avgYRegion2 > avgYRegion1 && avgYRegion2 > 30) {
                 ThisRegion = 2;
             } else {
                 ThisRegion = 3;
@@ -261,10 +263,26 @@ public class BlueFrontVision extends LinearOpMode {
         @Override
         public Mat processFrame(Mat input) {
 
+
+
             inputToYCrCb(input);
             Core.inRange(imgYCrCb, new Scalar(0,55,80), new Scalar(170,110,210), maskedYCrCb);
             region1 = maskedYCrCb.submat(new Rect(region1_pointA, region1_pointB));
             region2 = maskedYCrCb.submat(new Rect(region2_pointA, region2_pointB));
+
+            Imgproc.rectangle(
+                    maskedYCrCb, // Buffer to draw on
+                    region1_pointA, // First point which defines the rectangle
+                    region1_pointB, // Second point which defines the rectangle
+                    BLUE, // The color the rectangle is drawn in
+                    2); // Thickness of the rectangle lines
+
+            Imgproc.rectangle(
+                    maskedYCrCb, // Buffer to draw on
+                    region2_pointA, // First point which defines the rectangle
+                    region2_pointB, // Second point which defines the rectangle
+                    BLUE, // The color the rectangle is drawn in
+                    2); // Thickness of the rectangle lines
 
             avgYRegion1 = Core.mean(region1).val[0];
             avgYRegion2 = Core.mean(region2).val[0];

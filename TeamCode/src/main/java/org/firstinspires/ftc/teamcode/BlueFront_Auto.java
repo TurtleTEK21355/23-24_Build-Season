@@ -29,5 +29,8 @@ public class BlueFront_Auto extends LinearOpMode {
 
         robot.autoDrive(100,0.2);
         robot.autoStrafe(1300,0.4);
+        robot.setIntake(0.3);
+        sleep(400);
+        robot.setIntake(0);
     }
 }
