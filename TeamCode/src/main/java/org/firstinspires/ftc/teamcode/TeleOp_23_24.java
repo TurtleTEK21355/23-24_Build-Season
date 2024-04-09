@@ -41,9 +41,9 @@ public class TeleOp_23_24 extends LinearOpMode {
 
             if (gamepad1.right_trigger > 0.2 && gamepad1.left_trigger > 0.2) {
             } else if (gamepad1.right_trigger > 0.2) {
-                robot.setIntake(0.45);
+                robot.setIntake(-0.45);
             } else if (gamepad1.left_trigger > 0.2) {
-                robot.setIntake(-0.25);
+                robot.setIntake(0.25);
             } else {
                 robot.setIntake(0);
             }
@@ -106,14 +106,7 @@ public class TeleOp_23_24 extends LinearOpMode {
                 robot.mecanumDrive(Strafe * 0.5,Drive * -0.5, Turn);
 
             }
-
-
-
-
             telemetry.update();
-
-
-
         }
     }
 }

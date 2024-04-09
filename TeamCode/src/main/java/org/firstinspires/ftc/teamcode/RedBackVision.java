@@ -37,11 +37,13 @@ public class RedBackVision extends LinearOpMode {
 
 
         robot.init();
-        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 
-        pipeline = new CenterstageDeterminationPipelineRed();
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        telemetry.addData(">", cameraMonitorViewId);
+        telemetry.update();
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        pipeline = new RedBackVision.CenterstageDeterminationPipelineRed();
         camera.setPipeline(pipeline);
-
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
@@ -152,8 +154,8 @@ public class RedBackVision extends LinearOpMode {
          */
         static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(140, 200);
         static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(470, 170);
-        static final int REGION_WIDTH = 125;
-        static final int REGION_HEIGHT = 125;
+        static final int REGION_WIDTH = 135;
+        static final int REGION_HEIGHT = 135;
 
         /*
          * Points which actually define the sample region rectangles, derived from above values
@@ -216,9 +218,9 @@ public class RedBackVision extends LinearOpMode {
 
          public double WhichRegion() {
             double ThisRegion = 0;
-            if (avgYRegion1 > avgYRegion2 && avgYRegion1 > 45) {
+            if (avgYRegion1 > avgYRegion2 && avgYRegion1 > 35) {
                 ThisRegion = 1;
-            } else if (avgYRegion2 > avgYRegion1 && avgYRegion2 > 45) {
+            } else if (avgYRegion2 > avgYRegion1 && avgYRegion2 > 35) {
                 ThisRegion = 2;
             } else {
                 ThisRegion = 3;
@@ -272,14 +274,26 @@ public class RedBackVision extends LinearOpMode {
             Core.inRange(imgYCrCb, new Scalar(50, 140, 55), new Scalar(175, 250, 150), maskedYCrCb);
             region1 = maskedYCrCb.submat(new Rect(region1_pointA, region1_pointB));
             region2 = maskedYCrCb.submat(new Rect(region2_pointA, region2_pointB));
+            Imgproc.rectangle(
+                    input, // Buffer to draw on
+                    region1_pointA, // First point which defines the rectangle
+                    region1_pointB, // Second point which defines the rectangle
+                    BLUE, // The color the rectangle is drawn in
+                    2); // Thickness of the rectangle lines
 
+            Imgproc.rectangle(
+                    input, // Buffer to draw on
+                    region2_pointA, // First point which defines the rectangle
+                    region2_pointB, // Second point which defines the rectangle
+                    BLUE, // The color the rectangle is drawn in
+                    2); // Thickness of the rectangle lines
             avgYRegion1 = Core.mean(region1).val[0];
             avgYRegion2 = Core.mean(region2).val[0];
             avgRegion1 = Core.mean(region1);
 
             double max = Math.max(avgYRegion1, avgYRegion2);
 
-            return maskedYCrCb;
+            return input;
         }
 
 
